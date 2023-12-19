@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "RepXcelApp",
-    "slug": "RepXcelApp",
+    "name": "repxcel",
+    "slug": "repxcel",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

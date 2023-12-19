@@ -1,4 +1,10 @@
-To Run the app:
+# RepXcel Mobile Application
+## Install dependencies
+`npm i`
+
+## Running the application
 `npx expo start`
 
-To see the app, download Expo Go on your mobile device and scan the generated QR code, the device and the computer needs to be on the same network.
+## Documentation
+- [Expo Go Documentation](https://expo.dev/client)
+- [React Native Documentation](https://reactnative.dev/docs/getting-started)
