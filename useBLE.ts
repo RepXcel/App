@@ -35,16 +35,16 @@ function useBLE(): BluetoothLowEnergyApi {
     const bluetoothScanPermission = await PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.BLUETOOTH_SCAN,
       {
-        title: "Location Permission",
-        message: "Bluetooth Low Energy requires Location",
+        title: "Bluetooth Scan Permission",
+        message: "Bluetooth Low Energy requires Bluetooth Scan",
         buttonPositive: "OK",
       }
     );
     const bluetoothConnectPermission = await PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.BLUETOOTH_CONNECT,
       {
-        title: "Location Permission",
-        message: "Bluetooth Low Energy requires Location",
+        title: "Bluetooth Connect Permission",
+        message: "Bluetooth Low Energy requires Bluetooth Connect",
         buttonPositive: "OK",
       }
     );
@@ -95,7 +95,7 @@ function useBLE(): BluetoothLowEnergyApi {
       if (error) {
         console.log(error);
       }
-      if (device && device.name?.includes("CorSense")) {
+      if (device && device.name) {
         setAllDevices((prevState: Device[]) => {
           if (!isDuplicteDevice(prevState, device)) {
             return [...prevState, device];
