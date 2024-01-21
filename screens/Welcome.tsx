@@ -55,10 +55,14 @@ const Register: FunctionComponent<Props> = ({ navigation }) => {
           <TopImage source={backgroundWaves}></TopImage>
         </TopSection>
         <BottomSection>
-          <BigText textStyles={{ width: "70%", marginBottom: 25 }}>
+          <BigText
+            textStyles={{ color: colors.white, width: "70%", marginBottom: 25 }}
+          >
             RepXcel
           </BigText>
-          <SmallText textStyles={{ width: "70%", marginBottom: 25 }}>
+          <SmallText
+            textStyles={{ color: colors.white, width: "70%", marginBottom: 25 }}
+          >
             The buddy to your barbell. Track your exercises now.
           </SmallText>
         </BottomSection>

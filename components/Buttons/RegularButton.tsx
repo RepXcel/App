@@ -30,7 +30,9 @@ interface ButtonProps {
 const RegularButton: FunctionComponent<ButtonProps> = (props) => {
   return (
     <ButtonView onPress={props.onPress} style={props.btnStyles}>
-      <RegularText textStyles={props.textStyles}>{props.children}</RegularText>
+      <RegularText textStyles={(props.textStyles, { color: colors.white })}>
+        {props.children}
+      </RegularText>
     </ButtonView>
   );
 };
