@@ -3,7 +3,8 @@ import styled from "styled-components/native";
 import { colors } from "../colors";
 
 const StyledText = styled.Text`
-  font-size: 37px;
+  font-size: 36px;
+  min-height: 45px;
   color: ${colors.secondary};
   text-align: left;
   font-family: Lato-Bold;

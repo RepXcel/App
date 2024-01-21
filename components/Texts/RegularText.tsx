@@ -4,9 +4,10 @@ import { colors } from "../colors";
 
 const StyledText = styled.Text`
   font-size: 18px;
+  min-height: 32px;
   color: ${colors.secondary};
   text-align: left;
-  font-family: Lato-Bold;
+  font-family: Lato-Regular;
 `;
 
 import { TextProps } from "./types";
