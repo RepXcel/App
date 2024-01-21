@@ -15,7 +15,7 @@ const ButtonView = styled.TouchableOpacity`
   align-items: center;
   background-color: ${colors.primary};
   width: 100%;
-  padding: 20px;
+  padding: 13px;
   border-radius: 20px;
 `;
 
@@ -30,7 +30,9 @@ interface ButtonProps {
 const RegularButton: FunctionComponent<ButtonProps> = (props) => {
   return (
     <ButtonView onPress={props.onPress} style={props.btnStyles}>
-      <RegularText textStyles={(props.textStyles, { color: colors.white })}>
+      <RegularText
+        textStyles={(props.textStyles, { color: colors.white, height: 25 })}
+      >
         {props.children}
       </RegularText>
     </ButtonView>
