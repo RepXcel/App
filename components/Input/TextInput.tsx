@@ -6,18 +6,14 @@ import { StyleProp, TextStyle } from "react-native";
 import IonIcon from "@expo/vector-icons/Ionicons";
 
 const InputContainer = styled.View`
-  align-items: left;
   background-color: ${colors.white};
   border: ${colors.darkgray};
-  text-decoration: none;
-  width: 80%;
-  height: 50;
-  justify-content: left;
-  padding: 8px;
-  margin: 10px;
-  display: flex;
-  flex-direction: row;
   border-radius: 20px;
+  width: 80%;
+  height: 50px;
+  padding: 10px;
+  margin: 10px;
+  flex-direction: row;
 `;
 
 const IconContainer = styled.View`
@@ -27,20 +23,15 @@ const IconContainer = styled.View`
 `;
 
 const StyledTextInput = styled.TextInput`
-  justify-content: center;
   font-size: 18px;
-  padding: 0px;
   color: ${colors.secondary};
-  text-decoration-line: none;
-  text-align: left;
   font-family: Lato-Bold;
 `;
-
-const StyledPlaceholderText = styled.TextInput``;
 
 interface TextInputProps {
   textStyles?: StyleProp<TextStyle>;
   placeholderTextStyles?: StyleProp<TextStyle>;
+  placeholderColor?: string;
   children: string;
   iconName?: React.ComponentProps<typeof IonIcon>["name"];
   secureTextEntry?: boolean;
@@ -59,6 +50,11 @@ const TextInput: FunctionComponent<TextInputProps> = (props) => {
       </IconContainer>
       <StyledTextInput
         placeholder={props.children}
+        placeholderTextColor={
+          props.placeholderColor === undefined
+            ? colors.darkgray
+            : props.placeholderColor
+        }
         style={props.textStyles}
         secureTextEntry={props.secureTextEntry}
       ></StyledTextInput>
