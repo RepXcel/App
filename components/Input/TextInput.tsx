@@ -26,6 +26,8 @@ const StyledTextInput = styled.TextInput`
   font-size: 18px;
   color: ${colors.secondary};
   font-family: Lato-Bold;
+  width: 90%;
+  border-radius: 8px;
 `;
 
 interface TextInputProps {
