@@ -4,7 +4,7 @@ import styled from "styled-components/native";
 
 //custom components
 import { colors } from "../components/colors";
-import { Container, BottomButtonContainer } from "../components/shared";
+import { Container } from "../components/shared";
 import BigText from "../components/Texts/BigText";
 import RegularText from "../components/Texts/RegularText";
 import SmallText from "../components/Texts/SmallText";
@@ -25,10 +25,13 @@ const TopSection = styled.View`
 `;
 const BottomSection = styled.View`
   width: 100%;
-  max-height: 45%;
-  padding: 40px;
+  max-height: 40%;
+  top: -25%;
+  padding: 50px;
   flex: 1;
-  justify-content: flex-end;
+  justify-content: center;
+  text-align: center;
+  margin: 0 auto;
 `;
 
 const TopImage = styled.Image`
@@ -56,25 +59,31 @@ const Register: FunctionComponent<Props> = ({ navigation }) => {
         </TopSection>
         <BottomSection>
           <BigText
-            textStyles={{ color: colors.white, width: "70%", marginBottom: 25 }}
+            textStyles={{
+              textAlign: "center",
+              color: colors.white,
+              marginBottom: 25,
+            }}
           >
             RepXcel
           </BigText>
           <SmallText
-            textStyles={{ color: colors.white, width: "70%", marginBottom: 25 }}
+            textStyles={{
+              textAlign: "center",
+              color: colors.white,
+              marginBottom: 25,
+            }}
           >
             The buddy to your barbell. Track your exercises now.
           </SmallText>
-        </BottomSection>
-        <BottomButtonContainer>
           <RegularButton
             onPress={() => {
-              navigation.navigate("Register");
+              navigation.navigate("Login");
             }}
           >
             Get Started
           </RegularButton>
-        </BottomButtonContainer>
+        </BottomSection>
       </RegisterContainer>
     </>
   );
