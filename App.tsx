@@ -5,7 +5,7 @@ import AppLoading from "expo-app-loading";
 import { useFonts } from "expo-font";
 
 // navigation
-import RootStack from "./navigators/AppStack";
+import RootStack from "./navigation/AppStack";
 
 // screens
 import Register from "./screens/Welcome";

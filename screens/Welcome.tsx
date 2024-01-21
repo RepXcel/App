@@ -9,7 +9,7 @@ import BigText from "../components/Texts/BigText";
 import RegularText from "../components/Texts/RegularText";
 import SmallText from "../components/Texts/SmallText";
 import RegularButton from "../components/Buttons/RegularButton";
-import TabNavigator from "../navigators/TabNavigator";
+import TabNavigator from "../navigation/TabNavigator";
 
 const RegisterContainer = styled(Container)`
   background-color: ${colors.secondary};
@@ -41,7 +41,7 @@ const TopImage = styled.Image`
 import backgroundWaves from "../assets/backgrounds/backgroundWaves.png";
 
 // types
-import { RootStackParamList } from "../navigators/AppStack";
+import { RootStackParamList } from "../navigation/AppStack";
 import { StackScreenProps } from "@react-navigation/stack";
 
 type Props = StackScreenProps<RootStackParamList, "Welcome">;

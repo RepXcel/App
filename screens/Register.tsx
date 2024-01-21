@@ -8,7 +8,7 @@ import { Container, BottomButtonContainer } from "../components/shared";
 import RegularButton from "../components/Buttons/RegularButton";
 
 // navigate to Display
-import TabNavigator from "../navigators/TabNavigator";
+import TabNavigator from "../navigation/TabNavigator";
 
 const RegisterContainer = styled(Container)`
   background-color: ${colors.lightgray};
@@ -18,7 +18,7 @@ const RegisterContainer = styled(Container)`
 `;
 
 // types
-import { RootStackParamList } from "../navigators/AppStack";
+import { RootStackParamList } from "../navigation/AppStack";
 import { StackScreenProps } from "@react-navigation/stack";
 
 type Props = StackScreenProps<RootStackParamList, "Register">;
