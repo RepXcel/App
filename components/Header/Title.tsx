@@ -28,6 +28,7 @@ const Greeting: FunctionComponent<GreetingProps> = (props) => {
           {
             color: colors.secondary,
             fontSize: 22,
+            fontFamily: "Lato-Bold",
           },
           props.mainTextStyles,
         ]}

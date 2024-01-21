@@ -12,19 +12,18 @@ import Settings from "../screens/Settings";
 
 // custom components
 import { colors } from "../components/colors";
-import Greeting from "../components/Header/Title";
+import Title from "../components/Header/Title";
 import Logo from "../components/Header/Logo";
 
 //images
 import LogoIcon from "../assets/icons/Logo.png";
-
-// import FeatherIcon from "react-native-vector-icons/Feather";
 
 export type TabParamList = {
   Display: undefined;
   Bluetooth: undefined;
   History: undefined;
   Settings: undefined;
+  Instructions: undefined;
 };
 
 const Tab = createBottomTabNavigator<TabParamList>();
@@ -32,14 +31,21 @@ const Tab = createBottomTabNavigator<TabParamList>();
 const TabNavigator: React.FC = () => {
   return (
     <Tab.Navigator
-      screenOptions={{
-        // headerShown: false,
-        // tabBarShowLabel: false,
-        // tabBarStyle: { backgroundColor: colors.primary },
+      screenOptions={({ navigation }) => ({
+        // BOTTOM NAVBAR ------------------------
+        // attempt to show labels on focused --> doesn't work since tabBarShowLabel cannot be dynamically set
+        // tabBarShowLabel: navigation.isFocused(),
+        tabBarShowLabel: false,
+        tabBarStyle: {
+          //backgroundColor: colors.primary,
+          height: 60,
+        },
         tabBarInactiveTintColor: colors.darkgray,
         tabBarActiveTintColor: colors.primary,
+
+        // HEADER ------------------------
+        // headerShown: false,
         headerTintColor: colors.secondary,
-        // header tint
         headerStyle: {
           backgroundColor: colors.lightgray,
           borderBottomWidth: 0,
@@ -55,8 +61,16 @@ const TabNavigator: React.FC = () => {
             img={LogoIcon}
             imgContainerStyle={{ backgroundColor: colors.tertiary }}
           />
+          // <IconButton
+          //   iconName='settings-outline'
+          //   color={colors.darkgray}
+          //   size={30}
+          //   onPress={() => {
+          //     navigation.navigate("Settings");
+          //   }}
+          // />
         ),
-      }}
+      })}
     >
       <Tab.Screen
         name='Display'
@@ -66,7 +80,7 @@ const TabNavigator: React.FC = () => {
             <IonIcon name='home-outline' color={color} size={size} />
           ),
           headerTitle: (props) => (
-            <Greeting
+            <Title
               mainText='Amanda Nguyen'
               subText='Welcome back!'
               {...props}
