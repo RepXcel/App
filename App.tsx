@@ -1,20 +1,24 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+
+// custom font
+import AppLoading from "expo-app-loading";
+import { useFonts } from "expo-font";
+
+// navigation
+import RootStack from "./navigators/AppStack";
+
+// screens
+import Register from "./screens/Welcome";
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>RepXcel App baseline</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+  let [fontsLoaded] = useFonts({
+    "Lato-Bold": require("./assets/fonts/Lato-Bold.ttf"),
+    "Lato-Regular": require("./assets/fonts/Lato-Regular.ttf"),
+  });
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
+
+  return <RootStack />;
+}
