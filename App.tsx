@@ -16,7 +16,7 @@ const App = () => {
     allDevices,
     connectToDevice,
     connectedDevice,
-    heartRate,
+    data,
     disconnectFromDevice,
   } = useBLE();
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
@@ -45,7 +45,7 @@ const App = () => {
             <Text style={styles.heartRateTitleText}>
               {connectedDevice.name}
             </Text>
-            <Text style={styles.heartRateText}>{heartRate} BPM</Text>
+            <Text style={styles.heartRateText}>{data} BPM</Text>
           </>
         ) : (
           <Text style={styles.heartRateTitleText}>
