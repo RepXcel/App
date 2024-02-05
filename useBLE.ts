@@ -10,7 +10,7 @@ import {
 
 import * as ExpoDevice from "expo-device";
 
-import base64Decode from "./base64decode";
+import base64Decode from "./base64Decode";
 
 //CHANGE THESE TO CORRECT UUIDS
 const SERVICE_UUID = "f3641400-00b0-4240-ba50-05ca45bf8abc";
