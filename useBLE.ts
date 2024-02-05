@@ -10,11 +10,11 @@ import {
 
 import * as ExpoDevice from "expo-device";
 
-import base64 from "react-native-base64";
+import base64Decode from "./base64decode";
 
 //CHANGE THESE TO CORRECT UUIDS
-const SERVICE_UUID = "";
-const CHARACTERISTIC_UUID = "";
+const SERVICE_UUID = "f3641400-00b0-4240-ba50-05ca45bf8abc";
+const CHARACTERISTIC_UUID = "f3641401-00b0-4240-ba50-05ca45bf8abc";
 
 interface BluetoothLowEnergyApi {
 	requestPermissions(): Promise<boolean>;
@@ -140,11 +140,12 @@ function useBLE(): BluetoothLowEnergyApi {
 			return -1;
 		}
 
-		const rawData = base64.decode(characteristic.value);
-		console.log(rawData);
+		const rawData = characteristic.value;
+		const data = base64Decode(rawData);
+		console.log(data);
 
-		//Parse the Data into proper velocity values
-		setData(parseInt(rawData, 10));
+		// Parse the Data into proper velocity values
+		setData(data);
 	};
 
 	const startStreamingData = async (device: Device) => {

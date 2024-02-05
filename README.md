@@ -15,4 +15,4 @@
 `npx expo prebuild`
 
 for emulator: `npx expo run:android`
-for running on phone: `eas build --profile preview --platform android` then `npx expo start --dev-client` 
+for running on phone: `eas build --profile development --platform android` then `npx expo start --dev-client` 
