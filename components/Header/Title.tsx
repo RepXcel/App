@@ -28,6 +28,7 @@ const Greeting: FunctionComponent<GreetingProps> = (props) => {
           {
             color: colors.secondary,
             fontSize: 22,
+            minHeight: 30,
             fontFamily: "Lato-Bold",
           },
           props.mainTextStyles,
@@ -39,7 +40,8 @@ const Greeting: FunctionComponent<GreetingProps> = (props) => {
         textStyles={[
           {
             color: colors.darkgray,
-            fontSize: 18,
+            fontSize: 17,
+            minHeight: 25,
           },
           props.subTextStyles,
         ]}
