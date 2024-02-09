@@ -6,8 +6,8 @@ export const colors = {
   secondary: "#1F152D",
   // tertiary: "#85c6d8",
   tertiary: "#97C5FA",
-  gray: "#C5C5C5",
-  lightgray: "#BAABAB",
-  darkgray: "#77797B",
+  gray: "#B4B4B4",
+  lightgray: "#F7F7F7",
+  darkgray: "#848484",
   accent: "#fbcd77",
 };
