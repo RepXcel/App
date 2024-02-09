@@ -8,11 +8,5 @@ export const Container = styled.View`
   background-color: ${colors.white};
 `;
 
-export const BottomButtonContainer = styled.View`
-  width: 100%;
-  padding: 40px;
-  justify-content: flex-end;
-`;
-
 export const ScreenWidth = Dimensions.get("screen").width;
 export const ScreenHeight = Dimensions.get("screen").height;
