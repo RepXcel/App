@@ -1,10 +1,16 @@
 import React, { FunctionComponent } from "react";
-import { StatusBar } from "expo-status-bar";
 import styled from "styled-components/native";
 
-// custom components
+// color components
 import { colors } from "../components/colors";
 import { Container } from "../components/shared";
+
+// custom components
+import HistoryEntryCard from "../components/Cards/DataCards/HistoryEntryCard";
+import VerticalCardList from "../components/Cards/VerticalCardList";
+
+// data structure
+import { Session } from "../data/dataStructure";
 
 const HistoryContainer = styled(Container)`
   background-color: ${colors.lightgray};
@@ -12,8 +18,25 @@ const HistoryContainer = styled(Container)`
   flex: 1;
 `;
 
+// Sample data
+import { sessionData } from "../assets/tempdata/tempData";
+
 const History: FunctionComponent = () => {
-  return <HistoryContainer></HistoryContainer>;
+  return (
+    <HistoryContainer>
+      <VerticalCardList
+        title='Entries'
+        subtitle='Newest'
+        renderItemComponent={({ item }: { item: Session }) => (
+          <HistoryEntryCard data={item}>
+            <></>
+          </HistoryEntryCard>
+        )}
+        keyExtractor={(item) => item.id.toString()}
+        data={sessionData}
+      />
+    </HistoryContainer>
+  );
 };
 
 export default History;
