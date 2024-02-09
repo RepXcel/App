@@ -1,6 +1,8 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
+import { useIsFocused, useFocusEffect } from "@react-navigation/native";
+
 // vector icon packages
 import IonIcon from "@expo/vector-icons/Ionicons";
 
@@ -17,6 +19,7 @@ import Logo from "../components/Header/Logo";
 
 //images
 import LogoIcon from "../assets/icons/Logo.png";
+import BigText from "../components/Texts/BigText";
 
 export type TabParamList = {
   Display: undefined;
@@ -29,12 +32,15 @@ export type TabParamList = {
 const Tab = createBottomTabNavigator<TabParamList>();
 
 const TabNavigator: React.FC = () => {
+  const isFocused = useIsFocused();
+  // Use useFocusEffect to update isFocused when the focus changes
+
   return (
     <Tab.Navigator
-      screenOptions={({ navigation }) => ({
+      screenOptions={({ route, navigation }) => ({
         // BOTTOM NAVBAR ------------------------
         // attempt to show labels on focused --> doesn't work since tabBarShowLabel cannot be dynamically set
-        // tabBarShowLabel: navigation.isFocused(),
+        // tabBarShowLabel: navigation.isFocused  (),
         tabBarShowLabel: false,
         tabBarStyle: {
           //backgroundColor: colors.primary,
@@ -42,12 +48,33 @@ const TabNavigator: React.FC = () => {
         },
         tabBarInactiveTintColor: colors.darkgray,
         tabBarActiveTintColor: colors.primary,
+        // Use non-outline icon when focused
+        tabBarIcon: ({ color, size }) => {
+          let iconName = "home-outline";
+          switch (route.name) {
+            case "Display":
+              iconName = isFocused ? "home" : "home-outline";
+              break;
+            case "History":
+              iconName = isFocused ? "time" : "time-outline";
+              break;
+            case "Bluetooth":
+              iconName = isFocused ? "bluetooth" : "bluetooth-outline";
+              break;
+            case "Settings":
+              iconName = isFocused ? "settings" : "settings-outline";
+              break;
+            default:
+              iconName = "home-outline";
+          }
+          return <IonIcon name={iconName as any} color={color} size={size} />;
+        },
 
         // HEADER ------------------------
         // headerShown: false,
         headerTintColor: colors.secondary,
         headerStyle: {
-          backgroundColor: colors.lightgray,
+          backgroundColor: colors.white,
           borderBottomWidth: 0,
           shadowColor: "transparent",
           shadowOpacity: 0,
@@ -76,13 +103,13 @@ const TabNavigator: React.FC = () => {
         name='Display'
         component={Display}
         options={{
-          tabBarIcon: ({ color, size }) => (
-            <IonIcon name='home-outline' color={color} size={size} />
-          ),
+          // tabBarIcon: ({ color, size }) => (
+          //   <IonIcon name='home-outline' color={color} size={size} />
+          // ),
           headerTitle: (props) => (
             <Title
-              mainText='Amanda Nguyen'
-              subText='Welcome back!'
+              mainText={props.children}
+              subText='Amanda Nguyen'
               {...props}
             />
           ),
@@ -90,30 +117,54 @@ const TabNavigator: React.FC = () => {
         }}
       />
       <Tab.Screen
-        name='Bluetooth'
-        component={Bluetooth}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <IonIcon name='bluetooth-outline' color={color} size={size} />
-          ),
-        }}
-      />
-      <Tab.Screen
         name='History'
         component={History}
         options={{
-          tabBarIcon: ({ color, size }) => (
-            <IonIcon name='calendar-outline' color={color} size={size} />
+          headerTitleStyle: {
+            color: "red",
+          },
+          headerTitle: (props) => (
+            <Title
+              mainText={props.children}
+              subText='Amanda Nguyen'
+              {...props}
+            />
           ),
+          // tabBarIcon: ({ color, size }) => (
+          //   <IonIcon name='time-outline' color={color} size={size} />
+          // ),
+        }}
+      />
+      <Tab.Screen
+        name='Bluetooth'
+        component={Bluetooth}
+        options={{
+          headerTitle: (props) => (
+            <Title
+              mainText={props.children}
+              subText='Amanda Nguyen'
+              {...props}
+            />
+          ),
+          //   tabBarIcon: ({ color, size }) => (
+          //     <IonIcon name='bluetooth-outline' color={color} size={size} />
+          //   ),
         }}
       />
       <Tab.Screen
         name='Settings'
         component={Settings}
         options={{
-          tabBarIcon: ({ color, size }) => (
-            <IonIcon name='settings-outline' color={color} size={size} />
+          headerTitle: (props) => (
+            <Title
+              mainText={props.children}
+              subText='Amanda Nguyen'
+              {...props}
+            />
           ),
+          //   tabBarIcon: ({ color, size }) => (
+          //     <IonIcon name='settings-outline' color={color} size={size} />
+          //   ),
         }}
       />
     </Tab.Navigator>
