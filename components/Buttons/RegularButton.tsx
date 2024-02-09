@@ -27,6 +27,12 @@ interface ButtonProps {
   children: React.ReactNode;
 }
 
+export const BottomButtonContainer = styled.View`
+  width: 100%;
+  padding: 40px;
+  padding-bottom: 20px;
+`;
+
 const RegularButton: FunctionComponent<ButtonProps> = (props) => {
   return (
     <ButtonView onPress={props.onPress} style={props.btnStyles}>
