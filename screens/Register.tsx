@@ -6,15 +6,11 @@ import { colors } from "../components/colors";
 import { Container } from "../components/shared";
 import BigText from "../components/Texts/BigText";
 import SmallText from "../components/Texts/SmallText";
-import RegularButton from "../components/Buttons/RegularButton";
+import RegularButton, {
+  BottomButtonContainer,
+} from "../components/Buttons/RegularButton";
 import LinkText from "../components/Buttons/LinkText";
 import TextInput from "../components/Input/TextInput";
-
-const BottomButtonContainer = styled.View`
-  width: 100%;
-  padding: 40px;
-  padding-bottom: 20px;
-`;
 
 // background-color: ${colors.white};
 const RegisterContainer = styled(Container)`
@@ -75,7 +71,7 @@ const Register: FunctionComponent<Props> = ({ navigation }) => {
             navigation.navigate("Login");
           }}
         >
-          Log In
+          Sign In
         </LinkText>
       </LoginContainer>
     </RegisterContainer>
