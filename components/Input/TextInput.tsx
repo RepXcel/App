@@ -17,13 +17,14 @@ const InputContainer = styled.View`
 `;
 
 const IconContainer = styled.View`
+  padding-left: 15px;
   padding-right: 8px;
   justify-content: center;
   top: -1px;
 `;
 
 const StyledTextInput = styled.TextInput`
-  font-size: 18px;
+  font-size: 17px;
   color: ${colors.secondary};
   font-family: Lato-Bold;
   width: 90%;
