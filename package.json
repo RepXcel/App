@@ -9,7 +9,13 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@aws-amplify/datastore-storage-adapter": "^2.1.15",
+    "@aws-amplify/react-native": "^1.0.15",
+    "@azure/core-asynciterator-polyfill": "^1.0.2",
     "@config-plugins/react-native-ble-plx": "^7.0.0",
+    "@react-native-async-storage/async-storage": "1.18.2",
+    "@react-native-community/netinfo": "9.3.10",
+    "aws-amplify": "^6.0.15",
     "eas-cli": "^5.9.3",
     "expo": "~49.0.15",
     "expo-dev-client": "~2.4.12",
@@ -19,7 +25,9 @@
     "react": "18.2.0",
     "react-native": "0.72.6",
     "react-native-base64": "^0.2.1",
-    "react-native-ble-plx": "^3.1.2"
+    "react-native-ble-plx": "^3.1.2",
+    "react-native-get-random-values": "~1.9.0",
+    "react-native-sqlite-storage": "^6.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

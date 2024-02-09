@@ -14,5 +14,8 @@
 ## Running for Android
 `npx expo prebuild`
 
+## Installing AWS Amplify CLI
+`npm install -g @aws-amplify/cli`
+
 for emulator: `npx expo run:android`
 for running on phone: `eas build --profile development --platform android` then `npx expo start --dev-client` 
