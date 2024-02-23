@@ -6,67 +6,41 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import DeviceModal from "./DeviceConnectionModal";
-import useBLE from "./useBLE";
+import '@azure/core-asynciterator-polyfill';
+import { DataStore } from 'aws-amplify/datastore';
+import { User } from "./src/models";
 
-const App = () => {
-  const {
-    requestPermissions,
-    scanForPeripherals,
-    allDevices,
-    connectToDevice,
-    connectedDevice,
-    data,
-    disconnectFromDevice,
-  } = useBLE();
-  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-
-  const scanForDevices = async () => {
-    const isPermissionsEnabled = await requestPermissions();
-    if (isPermissionsEnabled) {
-      scanForPeripherals();
+const App = async () => {
+  const testDatastore = async () => {
+    try {
+      const post = await DataStore.save(
+        new User({
+          username: 'test',
+        })
+      );
+      console.log('Username saved successfully!', post);
+    } catch (error) {
+      console.log('Error saving username', error);
     }
-  };
 
-  const hideModal = () => {
-    setIsModalVisible(false);
-  };
-
-  const openModal = async () => {
-    scanForDevices();
-    setIsModalVisible(true);
+    try {
+      const users = await DataStore.query(User);
+      console.log('Users retrieved successfully!', JSON.stringify(users, null, 2));
+    } catch (error) {
+      console.log('Error retrieving Users', error);
+    }
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.heartRateTitleWrapper}>
-        {connectedDevice ? (
-          <>
-            <Text style={styles.heartRateTitleText}>
-              {connectedDevice.name}
-            </Text>
-            <Text style={styles.heartRateText}>{data}</Text>
-          </>
-        ) : (
-          <Text style={styles.heartRateTitleText}>
-            Please Connect to a Heart Rate Monitor
-          </Text>
-        )}
-      </View>
       <TouchableOpacity
-        onPress={connectedDevice ? disconnectFromDevice : openModal}
+        onPress={testDatastore}
         style={styles.ctaButton}
       >
         <Text style={styles.ctaButtonText}>
-          {connectedDevice ? "Disconnect" : "Connect"}
+          {"Test Datastore"}
         </Text>
       </TouchableOpacity>
-      <DeviceModal
-        closeModal={hideModal}
-        visible={isModalVisible}
-        connectToPeripheral={connectToDevice}
-        devices={allDevices}
-      />
     </SafeAreaView>
   );
 };

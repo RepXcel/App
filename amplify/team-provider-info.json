@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-repxcel-dev-110645-authRole",
+      "UnauthRoleArn": "arn:aws:iam::533267304081:role/amplify-repxcel-dev-110645-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::533267304081:role/amplify-repxcel-dev-110645-authRole",
+      "Region": "ca-central-1",
+      "DeploymentBucketName": "amplify-repxcel-dev-110645-deployment",
+      "UnauthRoleName": "amplify-repxcel-dev-110645-unauthRole",
+      "StackName": "amplify-repxcel-dev-110645",
+      "StackId": "arn:aws:cloudformation:ca-central-1:533267304081:stack/amplify-repxcel-dev-110645/7c8ac0c0-c9d1-11ee-a0cb-02579be3f966",
+      "AmplifyAppId": "d1wvy3tatkjhdj"
+    }
+  }
+}
