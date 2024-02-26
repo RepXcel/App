@@ -7,9 +7,9 @@
           "additionalAuthenticationProviders": [],
           "defaultAuthentication": {
             "apiKeyConfig": {
-              "apiKeyExpirationDate": "2024-07-16T00:03:28.988Z",
+              "apiKeyExpirationDate": "2024-07-25T19:52:03.561Z",
               "apiKeyExpirationDays": 150,
-              "description": "RepxcelAppApi"
+              "description": "devKey"
             },
             "authenticationType": "API_KEY"
           }
