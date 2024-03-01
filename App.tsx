@@ -7,50 +7,19 @@ import {
   View,
 } from "react-native";
 import '@azure/core-asynciterator-polyfill';
-import { DataStore } from 'aws-amplify/datastore';
-import { User } from "./src/models";
+
+import localStorage from "./localStorage";
 
 const App = () => {
-  const [num, setNum] = useState(0);
+  const { saveData, retrieveData, clearData } = localStorage();
 
-  const testSavingDatastore = async () => {
-    try {
-      const post = await DataStore.save(
-        new User({
-          username: `user${num}`,
-        })
-      );
-      setNum(num + 1);
-      console.log('Username saved successfully!', post);
-    } catch (error) {
-      console.log('Error saving username', error);
-    }
-  };
-
-  const testRetrievingDatastore = async () => {
-    try {
-      const users = await DataStore.query(User);
-      console.log('Users retrieved successfully!', JSON.stringify(users, null, 2));
-    } catch (error) {
-      console.log('Error retrieving Users', error);
-    }
-  };
-
-  const testDeletingDatastore = async () => {
-    try {
-      await DataStore.clear();
-      console.log('User cleared successfully!');
-    } catch (error) {
-      console.log('Error deleting User', error);
-    }
-  }
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.heartRateTitleWrapper}>
       </View>
       <TouchableOpacity
-        onPress={testSavingDatastore}
+        onPress={() => saveData("test data")}
         style={styles.ctaButton}
       >
         <Text style={styles.ctaButtonText}>
@@ -59,7 +28,7 @@ const App = () => {
       </TouchableOpacity>
 
       <TouchableOpacity
-        onPress={testRetrievingDatastore}
+        onPress={retrieveData}
         style={styles.ctaButton}
       >
         <Text style={styles.ctaButtonText}>
@@ -67,7 +36,7 @@ const App = () => {
         </Text>
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={testDeletingDatastore}
+        onPress={clearData}
         style={styles.ctaButton}
       >
         <Text style={styles.ctaButtonText}>

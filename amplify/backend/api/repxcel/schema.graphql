@@ -21,6 +21,6 @@ type Session @model {
 type Velocity @model {
   id: ID!
   session: Session @belongsTo
-  velocity: Float!
-  timestamp: String!
+  maxVelocity: Float!
+  rep: Int!
 }

@@ -186,17 +186,17 @@ export const schema = {
                         ]
                     }
                 },
-                "velocity": {
-                    "name": "velocity",
+                "maxVelocity": {
+                    "name": "maxVelocity",
                     "isArray": false,
                     "type": "Float",
                     "isRequired": true,
                     "attributes": []
                 },
-                "timestamp": {
-                    "name": "timestamp",
+                "rep": {
+                    "name": "rep",
                     "isArray": false,
-                    "type": "String",
+                    "type": "Int",
                     "isRequired": true,
                     "attributes": []
                 },
@@ -237,5 +237,5 @@ export const schema = {
     "enums": {},
     "nonModels": {},
     "codegenVersion": "3.4.4",
-    "version": "ce87a3c1ea7b24463c2ced4890b1a2dd"
+    "version": "9410ce6739f4bade60b3865efd108e93"
 };

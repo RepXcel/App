@@ -83,8 +83,8 @@ type EagerVelocity = {
   };
   readonly id: string;
   readonly session?: Session | null;
-  readonly velocity: number;
-  readonly timestamp: string;
+  readonly maxVelocity: number;
+  readonly rep: number;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly sessionVelocitiesId?: string | null;
@@ -97,8 +97,8 @@ type LazyVelocity = {
   };
   readonly id: string;
   readonly session: AsyncItem<Session | undefined>;
-  readonly velocity: number;
-  readonly timestamp: string;
+  readonly maxVelocity: number;
+  readonly rep: number;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly sessionVelocitiesId?: string | null;
