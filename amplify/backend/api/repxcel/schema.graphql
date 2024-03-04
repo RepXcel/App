@@ -3,24 +3,15 @@
 input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!
 
 type User @model {
-  id: ID!
   username: String!
   rpe10Velocity: Float
-  rpe0velocity: Float
+  rpe0Velocity: Float
   sessions: [Session] @hasMany
 }
 
 type Session @model {
-  id: ID!
   user: User @belongsTo
   date: String!
   rpe: Int!
-  velocities: [Velocity] @hasMany
-}
-
-type Velocity @model {
-  id: ID!
-  session: Session @belongsTo
-  maxVelocity: Float!
-  rep: Int!
+  velocities: [Int]
 }

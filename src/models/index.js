@@ -4,10 +4,9 @@ import { schema } from './schema';
 
 
 
-const { User, Session, Velocity } = initSchema(schema);
+const { User, Session } = initSchema(schema);
 
 export {
   User,
-  Session,
-  Velocity
+  Session
 };

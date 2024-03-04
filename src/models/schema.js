@@ -24,8 +24,8 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "rpe0velocity": {
-                    "name": "rpe0velocity",
+                "rpe0Velocity": {
+                    "name": "rpe0Velocity",
                     "isArray": false,
                     "type": "Float",
                     "isRequired": false,
@@ -115,18 +115,10 @@ export const schema = {
                 "velocities": {
                     "name": "velocities",
                     "isArray": true,
-                    "type": {
-                        "model": "Velocity"
-                    },
+                    "type": "Int",
                     "isRequired": false,
                     "attributes": [],
-                    "isArrayNullable": true,
-                    "association": {
-                        "connectionType": "HAS_MANY",
-                        "associatedWith": [
-                            "sessionVelocitiesId"
-                        ]
-                    }
+                    "isArrayNullable": true
                 },
                 "createdAt": {
                     "name": "createdAt",
@@ -160,82 +152,10 @@ export const schema = {
                     "properties": {}
                 }
             ]
-        },
-        "Velocity": {
-            "name": "Velocity",
-            "fields": {
-                "id": {
-                    "name": "id",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "session": {
-                    "name": "session",
-                    "isArray": false,
-                    "type": {
-                        "model": "Session"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "association": {
-                        "connectionType": "BELONGS_TO",
-                        "targetNames": [
-                            "sessionVelocitiesId"
-                        ]
-                    }
-                },
-                "maxVelocity": {
-                    "name": "maxVelocity",
-                    "isArray": false,
-                    "type": "Float",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "rep": {
-                    "name": "rep",
-                    "isArray": false,
-                    "type": "Int",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "createdAt": {
-                    "name": "createdAt",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": [],
-                    "isReadOnly": true
-                },
-                "updatedAt": {
-                    "name": "updatedAt",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": [],
-                    "isReadOnly": true
-                },
-                "sessionVelocitiesId": {
-                    "name": "sessionVelocitiesId",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": false,
-                    "attributes": []
-                }
-            },
-            "syncable": true,
-            "pluralName": "Velocities",
-            "attributes": [
-                {
-                    "type": "model",
-                    "properties": {}
-                }
-            ]
         }
     },
     "enums": {},
     "nonModels": {},
     "codegenVersion": "3.4.4",
-    "version": "9410ce6739f4bade60b3865efd108e93"
+    "version": "3d3934afca70f7f292bd7c4c3b5b3b0f"
 };

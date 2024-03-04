@@ -14,7 +14,7 @@ type EagerUser = {
   readonly id: string;
   readonly username: string;
   readonly rpe10Velocity?: number | null;
-  readonly rpe0velocity?: number | null;
+  readonly rpe0Velocity?: number | null;
   readonly sessions?: (Session | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
@@ -28,7 +28,7 @@ type LazyUser = {
   readonly id: string;
   readonly username: string;
   readonly rpe10Velocity?: number | null;
-  readonly rpe0velocity?: number | null;
+  readonly rpe0Velocity?: number | null;
   readonly sessions: AsyncCollection<Session>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
@@ -49,7 +49,7 @@ type EagerSession = {
   readonly user?: User | null;
   readonly date: string;
   readonly rpe: number;
-  readonly velocities?: (Velocity | null)[] | null;
+  readonly velocities?: (number | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly userSessionsId?: string | null;
@@ -64,7 +64,7 @@ type LazySession = {
   readonly user: AsyncItem<User | undefined>;
   readonly date: string;
   readonly rpe: number;
-  readonly velocities: AsyncCollection<Velocity>;
+  readonly velocities?: (number | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly userSessionsId?: string | null;
@@ -74,38 +74,4 @@ export declare type Session = LazyLoading extends LazyLoadingDisabled ? EagerSes
 
 export declare const Session: (new (init: ModelInit<Session>) => Session) & {
   copyOf(source: Session, mutator: (draft: MutableModel<Session>) => MutableModel<Session> | void): Session;
-}
-
-type EagerVelocity = {
-  readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<Velocity, 'id'>;
-    readOnlyFields: 'createdAt' | 'updatedAt';
-  };
-  readonly id: string;
-  readonly session?: Session | null;
-  readonly maxVelocity: number;
-  readonly rep: number;
-  readonly createdAt?: string | null;
-  readonly updatedAt?: string | null;
-  readonly sessionVelocitiesId?: string | null;
-}
-
-type LazyVelocity = {
-  readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<Velocity, 'id'>;
-    readOnlyFields: 'createdAt' | 'updatedAt';
-  };
-  readonly id: string;
-  readonly session: AsyncItem<Session | undefined>;
-  readonly maxVelocity: number;
-  readonly rep: number;
-  readonly createdAt?: string | null;
-  readonly updatedAt?: string | null;
-  readonly sessionVelocitiesId?: string | null;
-}
-
-export declare type Velocity = LazyLoading extends LazyLoadingDisabled ? EagerVelocity : LazyVelocity
-
-export declare const Velocity: (new (init: ModelInit<Velocity>) => Velocity) & {
-  copyOf(source: Velocity, mutator: (draft: MutableModel<Velocity>) => MutableModel<Velocity> | void): Velocity;
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   SafeAreaView,
   StyleSheet,
@@ -8,31 +8,31 @@ import {
 } from "react-native";
 import '@azure/core-asynciterator-polyfill';
 
-import localStorage from "./localStorage";
+import localStorage from "./src/backend/localStorage";
 
 const App = () => {
-  const { saveData, retrieveData, clearData } = localStorage();
-
+  const { createUser, calibrateRPE: setRPE, clearData, retrieveData } = localStorage();
+  useEffect(() => {
+    createUser("User1");
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.heartRateTitleWrapper}>
-      </View>
+      <View style={styles.heartRateTitleWrapper}></View>
       <TouchableOpacity
-        onPress={() => saveData("test data")}
+        onPress={() => { setRPE("User1", 10, 0) }}
         style={styles.ctaButton}
       >
         <Text style={styles.ctaButtonText}>
-          {"Test Saving"}
+          {"Test Changing RPE"}
         </Text>
       </TouchableOpacity>
-
       <TouchableOpacity
         onPress={retrieveData}
         style={styles.ctaButton}
       >
         <Text style={styles.ctaButtonText}>
-          {"Test Retrieving"}
+          {"Test Getting Data"}
         </Text>
       </TouchableOpacity>
       <TouchableOpacity
