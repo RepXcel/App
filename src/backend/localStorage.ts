@@ -1,10 +1,10 @@
 import { DataStore } from 'aws-amplify/datastore';
-import { Session, User } from "../models";
+import { LazyUser, Session, User } from "../models";
 
 interface LocalStorageApi {
     createUser(name: string): void;
     calibrateRPE(name: string, rpe10: number, rpe0: number): void;
-    retrieveData(): Promise<string | undefined>;
+    retrieveData(name: string): Promise<LazyUser | undefined>;
     addNewSession(name: string, velocities: number[], rpe: number): void;
     clearData(): void;
 }
@@ -23,7 +23,7 @@ function localStorage(): LocalStorageApi {
         }
     }
 
-    const setRPE = async (name: string, rpe10: number, rpe0: number) => {
+    const calibrateRPE = async (name: string, rpe10: number, rpe0: number) => {
         const users = await DataStore.query(User, (c) => c.username.eq(name));
         try {
             const post = await DataStore.save(
@@ -56,12 +56,12 @@ function localStorage(): LocalStorageApi {
         }
     }
 
-    const retrieveData = async () => {
+    const retrieveData = async (name: string) => {
         try {
-            const users = await DataStore.query(User);
+            const users = await DataStore.query(User, (c) => c.username.eq(name));
             console.log('Users retrieved successfully!');
             console.log(JSON.stringify(users, null, 2));
-            return JSON.stringify(users, null, 2);
+            return users[0];
         } catch (error) {
             console.log('Error retrieving Users', error);
         }
@@ -78,7 +78,7 @@ function localStorage(): LocalStorageApi {
 
     return {
         createUser,
-        calibrateRPE: setRPE,
+        calibrateRPE,
         addNewSession,
         retrieveData,
         clearData
