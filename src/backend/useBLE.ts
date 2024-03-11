@@ -151,9 +151,7 @@ function useBLE(): BluetoothLowEnergyApi {
 
 		// Parse the Data into proper velocity values
 		setData(data);
-		console.log(velocityData)
-		if (velocityData.length == 0) {
-			//console.log("First data point", data);
+		if (velocityData.length == 0 && data != 0) {
 			velocityData.push(data);
 		}
 		else if (data != velocityData[velocityData.length - 1]) {
@@ -165,7 +163,10 @@ function useBLE(): BluetoothLowEnergyApi {
 
 	const startStreamingData = async () => {
 		if (connectedDevice && subscription === undefined) {
+			//Clear the data array
+			velocityData.splice(0, velocityData.length);
 			setVelocityData([]);
+			//Start Streaming Data
 			setSubscription(
 				connectedDevice.monitorCharacteristicForService(
 					SERVICE_UUID,

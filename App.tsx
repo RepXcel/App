@@ -15,11 +15,8 @@ import DeviceModal from "./src/backend/DeviceConnectionModal";
 import rpeCalculation from "./src/backend/rpeCalculation";
 
 const App = () => {
-  const { createUser, calibrateRPE, clearData, retrieveData } = localStorage();
+  const { createUser, clearData, retrieveData, retrieveSessionData } = localStorage();
   const { calibrate, calculateRPE } = rpeCalculation("User1");
-  useEffect(() => {
-    createUser("User1");
-  }, []);
   const {
     requestPermissions,
     scanForPeripherals,
@@ -35,6 +32,17 @@ const App = () => {
 
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
+
+  const createUserIfNotExists = async () => {
+    const user = await retrieveData("User1");
+    if (!user) {
+      await createUser("User1");
+    }
+  };
+
+  useEffect(() => {
+    createUserIfNotExists();
+  }, []);
 
   const scanForDevices = async () => {
     const isPermissionsEnabled = await requestPermissions();
@@ -104,6 +112,36 @@ const App = () => {
       >
         <Text style={styles.ctaButtonText}>
           {"Stop Session"}
+        </Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={async () => {
+          await retrieveData("User1");
+        }}
+        style={styles.ctaButton}
+      >
+        <Text style={styles.ctaButtonText}>
+          {"Retrieve Data"}
+        </Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={async () => {
+          await retrieveSessionData("User1");
+        }}
+        style={styles.ctaButton}
+      >
+        <Text style={styles.ctaButtonText}>
+          {"Retrieve Session Data"}
+        </Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={async () => {
+          clearData();
+        }}
+        style={styles.ctaButton}
+      >
+        <Text style={styles.ctaButtonText}>
+          {"Clear Data"}
         </Text>
       </TouchableOpacity>
       <TouchableOpacity
