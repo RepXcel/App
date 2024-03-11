@@ -26,10 +26,40 @@ type Props = StackScreenProps<RootStackParamList, "TabNavigator">;
 const Settings: FunctionComponent<Props> = (props: Props) => {
   return (
     <SettingsContainer>
-      <RegularText>Recalibrate</RegularText>
-      <RegularText>Manual</RegularText>
-      <RegularText>Theme</RegularText>
-      <RegularText>About Us</RegularText>
+      <RegularButton
+          onPress={() => {
+            props.navigation.navigate("Instructions");
+          }}
+          btnStyles={{
+            marginTop: 20,
+            marginBottom: 20,
+            backgroundColor: colors.primary,
+          }}
+        >
+          Manual
+        </RegularButton>
+      <RegularButton
+          onPress={() => {
+            props.navigation.navigate("Login");
+          }}
+          btnStyles={{
+            marginBottom: 20,
+            backgroundColor: colors.primary,
+          }}
+        >
+          Recalibrate
+        </RegularButton>
+      <RegularButton
+          onPress={() => {
+            props.navigation.navigate("About");
+          }}
+          btnStyles={{
+            marginBottom: 20,
+            backgroundColor: colors.primary,
+          }}
+        >
+          About Us
+        </RegularButton>
       <BottomButtonContainer>
         <RegularButton
           onPress={() => {
