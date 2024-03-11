@@ -17,6 +17,7 @@ import base64Decode from "./base64Decode";
 const SERVICE_UUID = "f3641400-00b0-4240-ba50-05ca45bf8abc";
 const CHARACTERISTIC_UUID = "f3641401-00b0-4240-ba50-05ca45bf8abc";
 
+
 interface BluetoothLowEnergyApi {
 	requestPermissions(): Promise<boolean>;
 	scanForPeripherals(): void;
@@ -27,6 +28,7 @@ interface BluetoothLowEnergyApi {
 	connectedDevice: Device | null;
 	allDevices: Device[];
 	data: number;
+	velocityData: number[];
 }
 
 function useBLE(): BluetoothLowEnergyApi {
@@ -35,6 +37,7 @@ function useBLE(): BluetoothLowEnergyApi {
 	const [connectedDevice, setConnectedDevice] = useState<Device | null>(null);
 	const [data, setData] = useState<number>(0);
 	const [subscription, setSubscription] = useState<Subscription>();
+	const [velocityData, setVelocityData] = useState<number[]>([]);
 
 	// BLE Permission Requests for Android 31
 	const requestAndroid31Permissions = async () => {
@@ -116,6 +119,7 @@ function useBLE(): BluetoothLowEnergyApi {
 			const deviceConnection = await bleManager.connectToDevice(device.id);
 			setConnectedDevice(deviceConnection);
 			await deviceConnection.discoverAllServicesAndCharacteristics();
+			console.log("Connected to Device", deviceConnection.name);
 			bleManager.stopDeviceScan();
 		} catch (e) {
 			console.log("FAILED TO CONNECT", e);
@@ -144,14 +148,24 @@ function useBLE(): BluetoothLowEnergyApi {
 
 		const rawData = characteristic.value;
 		const data = base64Decode(rawData);
-		console.log(data);
 
 		// Parse the Data into proper velocity values
 		setData(data);
+		console.log(velocityData)
+		if (velocityData.length == 0) {
+			//console.log("First data point", data);
+			velocityData.push(data);
+		}
+		else if (data != velocityData[velocityData.length - 1]) {
+			console.log("Data point", data);
+			velocityData.push(data);
+		}
+		setVelocityData(velocityData);
 	};
 
 	const startStreamingData = async () => {
-		if (connectedDevice) {
+		if (connectedDevice && subscription === undefined) {
+			setVelocityData([]);
 			setSubscription(
 				connectedDevice.monitorCharacteristicForService(
 					SERVICE_UUID,
@@ -159,14 +173,19 @@ function useBLE(): BluetoothLowEnergyApi {
 					listener
 				)
 			);
-		} else {
+		} else if (!connectedDevice) {
 			console.log("No Device Connected");
+		} else {
+			console.log("Already Streaming Data");
 		}
 	};
 
-	const stopStreamingData = () => {
+	const stopStreamingData = async () => {
 		if (subscription) {
 			subscription.remove();
+			setSubscription(undefined);
+			//Wait another second for all data to go through
+			await new Promise((resolve) => setTimeout(resolve, 1000));
 		}
 	};
 
@@ -180,6 +199,7 @@ function useBLE(): BluetoothLowEnergyApi {
 		connectedDevice,
 		disconnectFromDevice,
 		data,
+		velocityData,
 	};
 }
 

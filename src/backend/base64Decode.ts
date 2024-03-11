@@ -90,7 +90,7 @@ function base64Decode(base64: string): number {
         let mantissaBinary = binary.slice(9);
         let mantissa = n + parseInt(mantissaBinary, 2) / Math.pow(2, 23);
         let result = sign * mantissa * Math.pow(2, exponent);
-        console.log(result)
+        //console.log(result)
         return result;
     }
 

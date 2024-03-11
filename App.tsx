@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { startTransition, useEffect, useState } from "react";
 import {
   SafeAreaView,
   StyleSheet,
@@ -8,42 +8,119 @@ import {
 } from "react-native";
 import '@azure/core-asynciterator-polyfill';
 
+
 import localStorage from "./src/backend/localStorage";
+import useBLE from "./src/backend/useBLE";
+import DeviceModal from "./src/backend/DeviceConnectionModal";
+import rpeCalculation from "./src/backend/rpeCalculation";
 
 const App = () => {
-  const { createUser, calibrateRPE: setRPE, clearData, retrieveData } = localStorage();
+  const { createUser, calibrateRPE, clearData, retrieveData } = localStorage();
+  const { calibrate, calculateRPE } = rpeCalculation("User1");
   useEffect(() => {
     createUser("User1");
   }, []);
+  const {
+    requestPermissions,
+    scanForPeripherals,
+    allDevices,
+    connectToDevice,
+    connectedDevice,
+    data,
+    disconnectFromDevice,
+    startStreamingData,
+    stopStreamingData,
+    velocityData
+  } = useBLE();
+
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+
+
+  const scanForDevices = async () => {
+    const isPermissionsEnabled = await requestPermissions();
+    if (isPermissionsEnabled) {
+      scanForPeripherals();
+    }
+  };
+
+  const hideModal = () => {
+    setIsModalVisible(false);
+  };
+
+  const openModal = async () => {
+    scanForDevices();
+    setIsModalVisible(true);
+  };
+
+  const finishCalibration = async () => {
+    await stopStreamingData()
+    await calibrate(velocityData);
+  };
+
+  const finishSession = async () => {
+    await stopStreamingData()
+    await calculateRPE(velocityData);
+  };
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.heartRateTitleWrapper}></View>
+      <View style={styles.heartRateTitleWrapper}>
+        {connectedDevice ? (
+          <>
+            <Text style={styles.heartRateTitleText}>
+              {connectedDevice.name}
+            </Text>
+            <Text style={styles.heartRateText}>{data}</Text>
+          </>
+        ) : (
+          <Text style={styles.heartRateTitleText}>
+            Please Connect to a Device
+          </Text>
+        )}
+      </View>
       <TouchableOpacity
-        onPress={() => { setRPE("User1", 10, 0) }}
+        onPress={() => { startStreamingData() }}
         style={styles.ctaButton}
       >
         <Text style={styles.ctaButtonText}>
-          {"Test Changing RPE"}
+          {"Start Reading Data"}
         </Text>
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={retrieveData}
+        onPress={async () => {
+          finishCalibration();
+        }}
         style={styles.ctaButton}
       >
         <Text style={styles.ctaButtonText}>
-          {"Test Getting Data"}
+          {"Stop Calibration"}
         </Text>
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={clearData}
+        onPress={async () => {
+          finishSession();
+        }}
         style={styles.ctaButton}
       >
         <Text style={styles.ctaButtonText}>
-          {"Test Deleting"}
+          {"Stop Session"}
         </Text>
       </TouchableOpacity>
-    </SafeAreaView>
+      <TouchableOpacity
+        onPress={connectedDevice ? disconnectFromDevice : openModal}
+        style={styles.ctaButton}
+      >
+        <Text style={styles.ctaButtonText}>
+          {connectedDevice ? "Disconnect" : "Connect"}
+        </Text>
+      </TouchableOpacity>
+      <DeviceModal
+        closeModal={hideModal}
+        visible={isModalVisible}
+        connectToPeripheral={connectToDevice}
+        devices={allDevices}
+      />
+    </SafeAreaView >
   );
 };
 
