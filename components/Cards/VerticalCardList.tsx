@@ -39,10 +39,8 @@ const VerticalCardList = <T extends unknown>({
   return (
     <CardItemSectionBackground>
       <CardItemRow>
-        <RegularText textStyles={{ fontSize: 19, color: colors.secondary }}>
-          {title}
-        </RegularText>
-        <SmallText textStyles={{ color: colors.secondary }}>
+        <RegularText textStyles={{ fontSize: 19 }}>{title}</RegularText>
+        <SmallText>
           {subtitle}
           <IonIcon name='caret-down' size={13} color={colors.darkgray} />
         </SmallText>
