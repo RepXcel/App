@@ -9,7 +9,7 @@ const Card = styled.TouchableOpacity`
   background-color: ${colors.white};
   padding: 20px;
   border-radius: 20px;
-  border: 1px red;
+  border: 1px ${colors.gray} solid;
 `;
 
 // Use a generic type parameter T for the CardProps
@@ -18,7 +18,11 @@ import { CardProps } from "./types";
 // Use the generic type parameter T for the FunctionComponent
 const ScreenCard: FunctionComponent<CardProps<any>> = (props) => {
   return (
-    <Card style={props.viewStyles} onPress={props.onPress}>
+    <Card
+      style={props.viewStyles}
+      onPress={props.onPress}
+      activeOpacity={props.activeOpacity}
+    >
       {props.children}
     </Card>
   );

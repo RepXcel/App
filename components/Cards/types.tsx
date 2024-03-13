@@ -7,6 +7,7 @@ export interface CardProps<T> {
   onPress?: ((event: GestureResponderEvent) => void) | undefined;
   children: ReactNode;
   data: T;
+  activeOpacity?: number;
 }
 
 export interface CardListProps<T extends unknown> {
