@@ -22,6 +22,9 @@ const HistoryContainer = styled(Container)`
 import { sessionData } from "../assets/tempdata/tempData";
 
 const History: FunctionComponent = () => {
+  const sortedSessionData = sessionData.slice().sort((a, b) => {
+    return new Date(b.startDate).getTime() - new Date(a.startDate).getTime();
+  });
   return (
     <HistoryContainer>
       <VerticalCardList
@@ -33,7 +36,7 @@ const History: FunctionComponent = () => {
           </HistoryEntryCard>
         )}
         keyExtractor={(item) => item.id.toString()}
-        data={sessionData}
+        data={sortedSessionData}
       />
     </HistoryContainer>
   );

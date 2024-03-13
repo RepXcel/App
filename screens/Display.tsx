@@ -28,6 +28,9 @@ const DisplayContainer = styled(Container)`
 type Props = StackScreenProps<TabParamList, "Display">;
 
 const Display: FunctionComponent<Props> = ({ navigation }) => {
+  const sortedSessionData = sessionData.slice().sort((a, b) => {
+    return new Date(b.startDate).getTime() - new Date(a.startDate).getTime();
+  });
   return (
     <DisplayContainer>
       <StatusBar style='dark' />
@@ -40,7 +43,7 @@ const Display: FunctionComponent<Props> = ({ navigation }) => {
           </DisplayCard>
         )}
         keyExtractor={(item) => item.id.toString()}
-        data={sessionData}
+        data={sortedSessionData}
       />
       <BottomButtonContainer>
         <RegularButton
