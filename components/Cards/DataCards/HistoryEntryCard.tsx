@@ -37,12 +37,21 @@ const HistoryEntryCard: FunctionComponent<CardProps<Session>> = (props) => {
         <View>
           <RegularText
             textStyles={{
-              color: colors.secondary,
               textAlign: "left",
               marginBottom: 5,
             }}
           >
-            {props.data.startDate.toDateString()}
+            {props.data.startDate.toLocaleDateString("en-US", {
+              month: "short",
+              day: "numeric",
+              year: "numeric",
+            }) +
+              " | " +
+              props.data.startDate.toLocaleTimeString("en-US", {
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+              })}
           </RegularText>
           <SmallText
             textStyles={{
@@ -50,7 +59,12 @@ const HistoryEntryCard: FunctionComponent<CardProps<Session>> = (props) => {
               color: colors.darkgray,
             }}
           >
-            {"average velocity: " + props.data.velocities[0].velocity}
+            {"Average Velocity: " +
+              props.data.velocities.reduce(
+                (acc, velocity) => acc + velocity.velocity,
+                0
+              ) /
+                Math.max(1, props.data.velocities.length)}
           </SmallText>
         </View>
       </LeftView>
@@ -64,7 +78,12 @@ const HistoryEntryCard: FunctionComponent<CardProps<Session>> = (props) => {
           }}
         >
           {/*get RPE*/}
-          {"RPE: " + props.data.velocities[0].velocity}
+          {"RPE: " +
+            props.data.velocities.reduce(
+              (acc, velocity) => acc + velocity.velocity,
+              0
+            ) /
+              Math.max(1, props.data.velocities.length)}
         </RegularText>
         <SmallText
           textStyles={{
