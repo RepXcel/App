@@ -12,17 +12,7 @@ const CardItemSectionBackground = styled.View`
   padding-bottom: 15px;
   padding-top: 23px;
   flex: 2;
-  border: 1px blue;
   align-items: center;
-`;
-
-const CardItemRow = styled.View`
-  border: 1px green;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  width: 87%;
-  margin-bottom: 15px;
 `;
 
 const CardItemList = styled.FlatList`
@@ -30,7 +20,6 @@ const CardItemList = styled.FlatList`
   flex: 1;
   padding-left: 25px;
   padding-bottom: 15px;
-  border: 1px yellow;
 `;
 
 // types
@@ -45,15 +34,6 @@ const HorizontalCardList = <T extends unknown>({
 }: CardListProps<T>) => {
   return (
     <CardItemSectionBackground>
-      <CardItemRow>
-        <RegularText textStyles={{ fontSize: 19, color: colors.secondary }}>
-          {title}
-        </RegularText>
-        <SmallText textStyles={{ color: colors.secondary }}>
-          {subtitle}
-          <IonIcon name='caret-down' size={13} color={colors.darkgray} />
-        </SmallText>
-      </CardItemRow>
       <CardItemList
         data={data}
         horizontal={true}

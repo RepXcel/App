@@ -12,18 +12,18 @@ const TopView = styled.View`
   justify-content: flex-start;
   height: 100%;
   align-items: top;
-  flex: 2;
-  border: 1px red;
+  flex: 3;
 `;
 
 const BottomView = styled.View`
-  border: 1px red;
   flex: 1;
 `;
 
 //types
 import { Session } from "../../../data/dataStructure";
 import ScreenCard from "../ScreenCard";
+import BarChart from "../../Charts/BarChart";
+import BigText from "../../Texts/BigText";
 
 interface CardProps<T> {
   onPress?: ((event: GestureResponderEvent) => void) | undefined;
@@ -33,49 +33,68 @@ interface CardProps<T> {
 
 const HistoryEntryCard: FunctionComponent<CardProps<Session>> = (props) => {
   return (
-    <ScreenCard onPress={props.onPress} data={props.data}>
+    <ScreenCard onPress={props.onPress} data={props.data} activeOpacity={1}>
       <TopView>
         <View>
           <RegularText
             textStyles={{
-              color: colors.secondary,
               textAlign: "left",
               marginBottom: 5,
-              borderColor: "red",
-              borderWidth: 1,
             }}
           >
-            {props.data.startDate.toDateString()}
+            {props.data.startDate.toLocaleDateString("en-US", {
+              month: "short",
+              day: "numeric",
+              year: "numeric",
+            }) +
+              " | " +
+              props.data.startDate.toLocaleTimeString("en-US", {
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+              })}
           </RegularText>
-          <SmallText
-            textStyles={{
-              textAlign: "left",
-              color: colors.darkgray,
-            }}
-          >
-            {props.data.id}
-          </SmallText>
+
+          <BarChart velocities={props.data.velocities}></BarChart>
         </View>
       </TopView>
       <BottomView>
-        <RegularText
+        <BigText
           textStyles={{
             color: colors.secondary,
-            textAlign: "right",
+            textAlign: "center",
             marginBottom: 5,
           }}
         >
           {/*get RPE*/}
-          {"RPE: " + props.data.velocities[0].velocity}
-        </RegularText>
+          {"RPE: " +
+            props.data.velocities.reduce(
+              (acc, velocity) => acc + velocity.velocity,
+              0
+            ) /
+              Math.max(1, props.data.velocities.length)}
+        </BigText>
         <SmallText
           textStyles={{
-            textAlign: "right",
+            textAlign: "center",
             color: colors.darkgray,
           }}
         >
           {/*get average*/}
-          {"avaerge: " + props.data.velocities[0].velocity}
+          {"average velocity: " +
+            props.data.velocities.reduce(
+              (acc, velocity) => acc + velocity.velocity,
+              0
+            ) /
+              Math.max(1, props.data.velocities.length)}
+        </SmallText>
+        <SmallText
+          textStyles={{
+            textAlign: "center",
+            color: colors.darkgray,
+          }}
+        >
+          {"no. reps: " + props.data.velocities.length}
         </SmallText>
       </BottomView>
     </ScreenCard>
