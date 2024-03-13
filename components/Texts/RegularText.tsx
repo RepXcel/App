@@ -5,7 +5,7 @@ import { colors } from "../colors";
 const StyledText = styled.Text`
   font-size: 18px;
   min-height: 32px;
-  color: ${colors.secondary};
+  color: ${colors.black};
   text-align: left;
   font-family: Lato-Regular;
 `;

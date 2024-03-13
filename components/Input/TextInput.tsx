@@ -25,7 +25,6 @@ const IconContainer = styled.View`
 
 const StyledTextInput = styled.TextInput`
   font-size: 17px;
-  color: ${colors.secondary};
   font-family: Lato-Bold;
   width: 90%;
   border-radius: 8px;

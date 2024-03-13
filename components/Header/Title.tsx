@@ -26,7 +26,6 @@ const Greeting: FunctionComponent<GreetingProps> = (props) => {
       <RegularText
         textStyles={[
           {
-            color: colors.secondary,
             fontSize: 22,
             minHeight: 30,
             fontFamily: "Lato-Bold",

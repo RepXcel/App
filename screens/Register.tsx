@@ -58,9 +58,7 @@ const Register: FunctionComponent<Props> = ({ navigation }) => {
         </RegularButton>
       </BottomButtonContainer>
       <LoginContainer>
-        <SmallText textStyles={{ color: colors.secondary }}>
-          Already have an account?
-        </SmallText>
+        <SmallText>Already have an account?</SmallText>
         <LinkText
           textStyles={{
             color: colors.primary,

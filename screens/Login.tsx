@@ -72,9 +72,7 @@ const Login: FunctionComponent<Props> = ({ navigation }) => {
           </RegularButton>
         </BottomButtonContainer>
         <RegisterContainer>
-          <SmallText textStyles={{ color: colors.secondary }}>
-            Don't have an account yet?
-          </SmallText>
+          <SmallText>Don't have an account yet?</SmallText>
           <LinkText
             textStyles={{
               color: colors.primary,

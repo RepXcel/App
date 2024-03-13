@@ -72,7 +72,6 @@ const TabNavigator: React.FC = () => {
 
         // HEADER ------------------------
         // headerShown: false,
-        headerTintColor: colors.secondary,
         headerStyle: {
           backgroundColor: colors.white,
           borderBottomWidth: 0,

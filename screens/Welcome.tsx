@@ -77,6 +77,7 @@ const Register: FunctionComponent<Props> = ({ navigation }) => {
             The buddy to your barbell. Track your exercises now.
           </SmallText>
           <RegularButton
+            btnStyles={{ backgroundColor: colors.primary }}
             onPress={() => {
               navigation.navigate("Login");
             }}
