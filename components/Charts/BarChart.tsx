@@ -1,4 +1,6 @@
 import React, { FunctionComponent, useEffect } from "react";
+import { useFocusEffect } from "@react-navigation/native";
+
 import styled from "styled-components/native";
 import { colors } from "../colors";
 import { useWindowDimensions } from "react-native";
@@ -48,9 +50,15 @@ const BarChart: FunctionComponent<BarChartProps> = (props) => {
 
   const y = d3.scaleLinear().domain(yDomain).range(yRange);
 
-  useEffect(() => {
-    progress.value = withTiming(1, { duration: 1000 });
-  }, [progress]);
+  useFocusEffect(() => {
+    const animation = withTiming(1, { duration: 1000 });
+    progress.value = animation;
+
+    return () => {
+      // Cleanup function if needed
+      progress.value = 0; // Reset animation progress when component unmounts or loses focus
+    };
+  });
 
   return (
     <StyledView activeOpacity={1}>
