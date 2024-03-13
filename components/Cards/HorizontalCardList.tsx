@@ -1,11 +1,6 @@
-import React, { FunctionComponent } from "react";
+import React, { useRef } from "react";
 import styled from "styled-components/native";
-import IonIcon from "@expo/vector-icons/Ionicons";
-
-// custom components
-import { colors } from "../colors";
-import RegularText from "../Texts/RegularText";
-import SmallText from "../Texts/SmallText";
+import { FlatList, useWindowDimensions } from "react-native";
 
 const CardItemSectionBackground = styled.View`
   width: 100%;
@@ -26,12 +21,14 @@ const CardItemList = styled.FlatList`
 import { CardListProps } from "./types";
 
 const HorizontalCardList = <T extends unknown>({
-  title,
-  subtitle,
   renderItemComponent: RenderItemComponent,
   keyExtractor,
   data,
 }: CardListProps<T>) => {
+  const { width } = useWindowDimensions();
+
+  const flatListRef = useRef<FlatList<unknown>>(null);
+
   return (
     <CardItemSectionBackground>
       <CardItemList
@@ -45,6 +42,8 @@ const HorizontalCardList = <T extends unknown>({
         keyExtractor={keyExtractor as ((item: unknown) => string) | undefined}
         // keyExtractor={({ id }: any) => id.toString()}
         renderItem={({ item }) => <RenderItemComponent item={item as T} />}
+        snapToInterval={width - 25} // Adjust this value
+        decelerationRate={"fast"} // Adjust the deceleration rate if needed
       />
     </CardItemSectionBackground>
   );
