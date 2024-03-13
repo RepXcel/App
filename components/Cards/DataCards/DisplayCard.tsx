@@ -12,11 +12,11 @@ const TopView = styled.View`
   justify-content: flex-start;
   height: 100%;
   align-items: top;
-  flex: 3;
+  flex: 8;
 `;
 
 const BottomView = styled.View`
-  flex: 1;
+  flex: 3;
 `;
 
 //types
@@ -39,7 +39,7 @@ const HistoryEntryCard: FunctionComponent<CardProps<Session>> = (props) => {
           <RegularText
             textStyles={{
               textAlign: "left",
-              marginBottom: 5,
+              marginBottom: 25,
             }}
           >
             {props.data.startDate.toLocaleDateString("en-US", {
@@ -63,7 +63,7 @@ const HistoryEntryCard: FunctionComponent<CardProps<Session>> = (props) => {
           textStyles={{
             color: colors.secondary,
             textAlign: "center",
-            marginBottom: 5,
+            marginBottom: 10,
           }}
         >
           {/*get RPE*/}
