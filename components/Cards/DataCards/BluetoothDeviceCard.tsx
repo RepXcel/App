@@ -30,20 +30,32 @@ const DeviceCard: FunctionComponent<CardProps<BluetoothDevice>> = (props) => {
     <WideCard
       onPress={props.onPress}
       data={props.data}
-      viewStyles={{
-        borderColor: props.data.connected ? colors.primary : colors.gray,
-        backgroundColor: props.data.connected ? colors.lightgray : colors.white,
-      }}
+      viewStyles={
+        props.data.connected
+          ? {
+              borderWidth: 2,
+              borderColor: colors.primary,
+            }
+          : {
+              borderWidth: 1,
+              borderColor: colors.gray,
+            }
+      }
     >
       <LeftView>
         <View>
           <RegularText
-            textStyles={{
-              color: props.data.connected ? colors.primary : colors.secondary,
-              fontWeight: props.data.connected ? "bold" : "normal",
-              textAlign: "left",
-              // marginBottom: 5,
-            }}
+            textStyles={
+              props.data.connected
+                ? {
+                    color: colors.primary,
+                    fontWeight: "bold",
+                  }
+                : {
+                    color: colors.black,
+                    fontWeight: "normal",
+                  }
+            }
           >
             {props.data.name}
           </RegularText>
