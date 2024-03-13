@@ -1,5 +1,5 @@
-interface Velocity {
-  datetime: Date;
+export interface Velocity {
+  rep: number;
   velocity: number;
 }
 
