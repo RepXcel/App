@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from "react";
 import styled from "styled-components/native";
-import { colors } from "../colors";
 
 import IonIcon from "@expo/vector-icons/Ionicons";
 

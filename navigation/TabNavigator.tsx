@@ -1,7 +1,7 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import { useIsFocused, useFocusEffect } from "@react-navigation/native";
+import { useIsFocused } from "@react-navigation/native";
 
 // vector icon packages
 import IonIcon from "@expo/vector-icons/Ionicons";

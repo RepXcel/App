@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React from "react";
 import styled from "styled-components/native";
 import IonIcon from "@expo/vector-icons/Ionicons";
 

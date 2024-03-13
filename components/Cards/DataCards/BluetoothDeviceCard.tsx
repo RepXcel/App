@@ -1,10 +1,9 @@
 import React, { FunctionComponent } from "react";
-import { GestureResponderEvent, View } from "react-native";
+import { View } from "react-native";
 import styled from "styled-components/native";
 
 // custom components
 import WideCard from "../WideCard";
-import VerticalCardList from "../VerticalCardList";
 import RegularText from "../../Texts/RegularText";
 import { colors } from "../../colors";
 import SmallText from "../../Texts/SmallText";

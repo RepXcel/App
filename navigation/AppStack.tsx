@@ -7,9 +7,6 @@ import Login from "../screens/Login";
 
 import TabNavigator from "./TabNavigator";
 
-// custom components
-import { colors } from "../components/colors";
-
 // React Navigation
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";

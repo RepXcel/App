@@ -1,4 +1,3 @@
-import { View, Text } from "react-native";
 import React from "react";
 import { Path, Skia } from "@shopify/react-native-skia";
 import { SharedValue, useDerivedValue } from "react-native-reanimated";
