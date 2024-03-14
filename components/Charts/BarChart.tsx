@@ -51,13 +51,9 @@ const BarChart: FunctionComponent<BarChartProps> = (props) => {
   const y = d3.scaleLinear().domain(yDomain).range(yRange);
 
   useFocusEffect(() => {
+    progress.value = 0; // Reset animation progress when component unmounts or loses focus
     const animation = withTiming(1, { duration: 1000 });
     progress.value = animation;
-
-    return () => {
-      // Cleanup function if needed
-      progress.value = 0; // Reset animation progress when component unmounts or loses focus
-    };
   });
 
   return (
