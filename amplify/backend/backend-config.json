@@ -1,0 +1,22 @@
+{
+  "api": {
+    "repxcel": {
+      "dependsOn": [],
+      "output": {
+        "authConfig": {
+          "additionalAuthenticationProviders": [],
+          "defaultAuthentication": {
+            "apiKeyConfig": {
+              "apiKeyExpirationDate": "2024-07-25T19:52:03.561Z",
+              "apiKeyExpirationDays": 150,
+              "description": "devKey"
+            },
+            "authenticationType": "API_KEY"
+          }
+        }
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "AppSync"
+    }
+  }
+}
