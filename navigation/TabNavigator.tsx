@@ -13,6 +13,8 @@ import History from "../screens/History";
 import Settings from "../screens/Settings";
 import About from "../screens/About";
 import Instructions from "../screens/Instructions";
+import Calibration from "../screens/Calibration";
+import Session from "../screens/Session";
 
 // custom components
 import { colors } from "../components/colors";
@@ -30,6 +32,8 @@ export type TabParamList = {
   Settings: undefined;
   About: undefined;
   Instructions: undefined;
+  Calibration: undefined;
+  Session: undefined;
 };
 
 const Tab = createBottomTabNavigator<TabParamList>();
@@ -189,6 +193,25 @@ const TabNavigator: React.FC = () => {
         }}
       />
       <Tab.Screen
+        name='Calibration'
+        component={Calibration}
+        options={{
+          headerTitle: (props) => (
+            <Title
+              mainText={props.children}
+              subText='Amanda Nguyen'
+              {...props}
+            />
+          ),
+          //remove the tab bar icons
+          tabBarButton: () => null,
+          tabBarVisible: false,
+          //   tabBarIcon: ({ color, size }) => (
+          //     <IonIcon name='settings-outline' color={color} size={size} />
+          //   ),
+        }}
+      />
+      <Tab.Screen
         name='Instructions'
         component={Instructions}
         options={{
@@ -207,7 +230,25 @@ const TabNavigator: React.FC = () => {
           //   ),
         }}
       />
-      
+      <Tab.Screen
+        name='Session'
+        component={Session}
+        options={{
+          headerTitle: (props) => (
+            <Title
+              mainText={props.children}
+              subText='Amanda Nguyen'
+              {...props}
+            />
+          ),
+          //remove the tab bar icons
+          tabBarButton: () => null,
+          tabBarVisible: false,
+          //   tabBarIcon: ({ color, size }) => (
+          //     <IonIcon name='settings-outline' color={color} size={size} />
+          //   ),
+        }}
+      />
     </Tab.Navigator>
   );
 };

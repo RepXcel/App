@@ -9,7 +9,7 @@ import RegularButton, {
   BottomButtonContainer,
 } from "../components/Buttons/RegularButton";
 import { StackScreenProps } from "@react-navigation/stack";
-import { TabParamList } from "../navigation/TabNavigator";
+import { CombinedProps } from "../navigation/TabNavigator";
 import { sessionData } from "../assets/tempdata/tempData";
 import ScreenCard from "../components/Cards/ScreenCard";
 import HorizontalCardList from "../components/Cards/HorizontalCardList";
@@ -25,7 +25,7 @@ const DisplayContainer = styled(Container)`
   justify-content: flex-end;
 `;
 
-type Props = StackScreenProps<TabParamList, "Display">;
+type Props = StackScreenProps<CombinedProps, "Display">;
 
 const Display: FunctionComponent<Props> = ({ navigation }) => {
   const sortedSessionData = sessionData.slice().sort((a, b) => {
@@ -47,20 +47,14 @@ const Display: FunctionComponent<Props> = ({ navigation }) => {
       />
       <BottomButtonContainer>
         <RegularButton
-          onPress={() => {}}
+          onPress={() => {
+            navigation.navigate("Session");
+          }}
           btnStyles={{
             marginBottom: 20,
           }}
         >
           Start Session
-        </RegularButton>
-        <RegularButton
-          onPress={() => {}}
-          btnStyles={{
-            marginBottom: 20,
-          }}
-        >
-          End Session
         </RegularButton>
       </BottomButtonContainer>
     </DisplayContainer>

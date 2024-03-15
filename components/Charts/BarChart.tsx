@@ -54,6 +54,7 @@ const BarChart: FunctionComponent<BarChartProps> = (props) => {
     progress.value = 0; // Reset animation progress when component unmounts or loses focus
     const animation = withTiming(1, { duration: 1000 });
     progress.value = animation;
+    // progress.value = 1; // Reset animation progress when component unmounts or loses focus
   });
 
   return (

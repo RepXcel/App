@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from "react";
-import { ScrollView } from "react-native";
+import { ScrollView, Image, Dimensions } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import styled from "styled-components/native";
 
@@ -26,9 +26,11 @@ type Props = StackScreenProps<RootStackParamList, "TabNavigator"> &
   StackScreenProps<TabParamList, "Display">;
 
 //THIS BLURB IS A WORK IN PROGRESS
-const blurb = "These are the instructions:";
+const blurb = "CALIBRATION TIME WOOO";
 
-const Instructions: FunctionComponent<Props> = ({ navigation }) => {
+const Calibration: FunctionComponent<Props> = ({ navigation }) => {
+  const { width } = Dimensions.get("window");
+
   return (
     <InstructionsContainer>
       <ScrollView>
@@ -42,6 +44,10 @@ const Instructions: FunctionComponent<Props> = ({ navigation }) => {
         >
           {blurb}
         </RegularText>
+        <Image
+          source={require("../assets/loading.gif")}
+          style={{ width: width - 90, height: width - 90 }}
+        />
       </ScrollView>
       <BottomButtonContainer>
         <RegularButton
@@ -60,4 +66,4 @@ const Instructions: FunctionComponent<Props> = ({ navigation }) => {
   );
 };
 
-export default Instructions;
+export default Calibration;

@@ -13,6 +13,7 @@ import RegularButton, {
   BottomButtonContainer,
 } from "../components/Buttons/RegularButton";
 import RegularText from "../components/Texts/RegularText";
+import { TabParamList } from "../navigation/TabNavigator";
 
 const SettingsContainer = styled(Container)`
   background-color: ${colors.lightgray};
@@ -21,51 +22,53 @@ const SettingsContainer = styled(Container)`
   justify-content: flex-start;
 `;
 
-type Props = StackScreenProps<RootStackParamList, "TabNavigator">;
+type Props = StackScreenProps<RootStackParamList, "TabNavigator"> &
+  StackScreenProps<TabParamList, "Display">;
 
 const Settings: FunctionComponent<Props> = (props: Props) => {
   return (
     <SettingsContainer>
-      <RegularButton
+      <BottomButtonContainer>
+        <RegularButton
           onPress={() => {
             props.navigation.navigate("Instructions");
           }}
           btnStyles={{
             marginTop: 20,
             marginBottom: 20,
-            backgroundColor: colors.primary,
+            backgroundColor: colors.tertiary,
           }}
         >
           Manual
         </RegularButton>
-      <RegularButton
+        <RegularButton
           onPress={() => {
-            props.navigation.navigate("Login");
+            props.navigation.navigate("Calibration");
           }}
           btnStyles={{
             marginBottom: 20,
-            backgroundColor: colors.primary,
+            backgroundColor: colors.tertiary,
           }}
         >
           Recalibrate
         </RegularButton>
-      <RegularButton
+        <RegularButton
           onPress={() => {
             props.navigation.navigate("About");
           }}
           btnStyles={{
             marginBottom: 20,
-            backgroundColor: colors.primary,
+            backgroundColor: colors.tertiary,
           }}
         >
           About Us
         </RegularButton>
-      <BottomButtonContainer>
         <RegularButton
           onPress={() => {
             props.navigation.navigate("Login");
           }}
           btnStyles={{
+            marginTop: 60,
             marginBottom: 20,
             backgroundColor: colors.darkgray,
           }}

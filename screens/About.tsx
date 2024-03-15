@@ -16,6 +16,7 @@ import RegularButton, {
 import DeviceCard from "../components/Cards/DataCards/BluetoothDeviceCard";
 import VerticalCardList from "../components/Cards/VerticalCardList";
 import RegularText from "../components/Texts/RegularText";
+import { TabParamList } from "../navigation/TabNavigator";
 
 const AboutContainer = styled(Container)`
   background-color: ${colors.lightgray};
@@ -24,22 +25,31 @@ const AboutContainer = styled(Container)`
   justify-content: flex-start;
 `;
 
-type Props = StackScreenProps<RootStackParamList, "TabNavigator">;
+type Props = StackScreenProps<RootStackParamList, "TabNavigator"> &
+  StackScreenProps<TabParamList, "Display">;
+
 //THIS BLURB IS A WORK IN PROGRESS
-const blurb = "Hello we are the RepXcel team. It's nice to meet you :)"
+const blurb = "Hello we are the RepXcel team. It's nice to meet you :)";
 
-const About: FunctionComponent<Props> = (props: Props) => {
-
-  return <AboutContainer>
-    <ScrollView>
-      <RegularText textStyles={{ fontSize: 19, color: colors.secondary, marginTop: 20, marginHorizontal: 15,}}>
+const About: FunctionComponent<Props> = ({ navigation }) => {
+  return (
+    <AboutContainer>
+      <ScrollView>
+        <RegularText
+          textStyles={{
+            fontSize: 19,
+            color: colors.secondary,
+            marginTop: 20,
+            marginHorizontal: 15,
+          }}
+        >
           {blurb}
         </RegularText>
       </ScrollView>
-    <BottomButtonContainer>
+      <BottomButtonContainer>
         <RegularButton
           onPress={() => {
-            props.navigation.navigate("Settings");
+            navigation.navigate("Settings");
           }}
           btnStyles={{
             marginBottom: 20,
@@ -49,7 +59,8 @@ const About: FunctionComponent<Props> = (props: Props) => {
           Back
         </RegularButton>
       </BottomButtonContainer>
-  </AboutContainer>;
+    </AboutContainer>
+  );
 };
 
 export default About;
