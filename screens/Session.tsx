@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from "react";
-import { ScrollView } from "react-native";
+import { ScrollView, Image, Dimensions } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import styled from "styled-components/native";
 
@@ -17,7 +17,7 @@ import RegularText from "../components/Texts/RegularText";
 import { TabParamList } from "../navigation/TabNavigator";
 
 const InstructionsContainer = styled(Container)`
-  background-color: ${colors.lightgray};
+  background-color: ${colors.primary};
   width: 100%;
   flex: 1;
 `;
@@ -25,10 +25,9 @@ const InstructionsContainer = styled(Container)`
 type Props = StackScreenProps<RootStackParamList, "TabNavigator"> &
   StackScreenProps<TabParamList, "Display">;
 
-//THIS BLURB IS A WORK IN PROGRESS
-const blurb = "These are the instructions:";
+const Session: FunctionComponent<Props> = ({ navigation }) => {
+  const { width } = Dimensions.get("window");
 
-const Instructions: FunctionComponent<Props> = ({ navigation }) => {
   return (
     <InstructionsContainer>
       <ScrollView>
@@ -40,24 +39,27 @@ const Instructions: FunctionComponent<Props> = ({ navigation }) => {
             marginHorizontal: 15,
           }}
         >
-          {blurb}
+          {"Session in progress. Please wait for the session to end."}
         </RegularText>
       </ScrollView>
+      <Image
+        source={require("../assets/loading.gif")}
+        style={{ width: width - 90, height: width - 90 }}
+      />
       <BottomButtonContainer>
         <RegularButton
           onPress={() => {
-            navigation.navigate("Settings");
+            navigation.navigate("Display");
           }}
           btnStyles={{
             marginBottom: 20,
-            backgroundColor: colors.darkgray,
           }}
         >
-          Back
+          End Session
         </RegularButton>
       </BottomButtonContainer>
     </InstructionsContainer>
   );
 };
 
-export default Instructions;
+export default Session;
