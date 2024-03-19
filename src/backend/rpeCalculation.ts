@@ -12,6 +12,7 @@ function rpeCalculation(username: string): rpeCalculationApi {
         const rpe10 = Math.max(...velocityData);
         const rpe0 = Math.min(...velocityData);
         //TODO: Fetch/pass user name here
+        console.log(username, rpe10, rpe0);
         await calibrateRPE(username, rpe10, rpe0);
     }
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { createContext, useContext, useEffect } from "react";
 
 // custom font
 import { useCallback } from "react";
@@ -12,14 +12,48 @@ import RootStack from "./navigation/AppStack";
 import Register from "./screens/Welcome";
 import { View } from "react-native";
 
+import { BleContext } from "./src/Contexts";
+
+import useBLE from "./src/backend/useBLE";
+import localStorage from "./src/backend/localStorage";
+
 SplashScreen.preventAutoHideAsync();
 
+
+
 export default function App() {
+
+  const { createUser, retrieveData } = localStorage();
+
+  const {
+    requestPermissions,
+    scanForPeripherals,
+    allDevices,
+    connectToDevice,
+    connectedDevice,
+    data,
+    disconnectFromDevice,
+    startStreamingData,
+    stopStreamingData,
+    velocityData
+  } = useBLE();
+
   let [fontsLoaded] = useFonts({
     "Lato-Bold": require("./assets/fonts/Lato-Bold.ttf"),
     "Lato-Regular": require("./assets/fonts/Lato-Regular.ttf"),
   });
 
+  //Test User
+  const createUserIfNotExists = async () => {
+    const user = await retrieveData("Amanda Nguyen");
+    if (!user) {
+      await createUser("Amanda Nguyen");
+    }
+  };
+
+  useEffect(() => {
+    createUserIfNotExists();
+  }, []);
 
   const onLayoutRootView = useCallback(async () => {
     if (fontsLoaded) {
@@ -36,12 +70,29 @@ export default function App() {
     return null;
   }
 
+
+
+
+
   return (
     <View
       style={{ flex: 1 }}
       onLayout={onLayoutRootView}
     >
-      <RootStack />
+      <BleContext.Provider value={{
+        requestPermissions,
+        scanForPeripherals,
+        allDevices,
+        connectToDevice,
+        connectedDevice,
+        data,
+        disconnectFromDevice,
+        startStreamingData,
+        stopStreamingData,
+        velocityData
+      }}>
+        <RootStack />
+      </BleContext.Provider>
     </View>
   );
 }

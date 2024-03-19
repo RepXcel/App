@@ -15,6 +15,8 @@ import RegularButton, {
 import RegularText from "../components/Texts/RegularText";
 import { TabParamList } from "../navigation/TabNavigator";
 
+import { useBleContext } from "../src/Contexts";
+
 const SettingsContainer = styled(Container)`
   background-color: ${colors.lightgray};
   width: 100%;
@@ -26,6 +28,7 @@ type Props = StackScreenProps<RootStackParamList, "TabNavigator"> &
   StackScreenProps<TabParamList, "Display">;
 
 const Settings: FunctionComponent<Props> = (props: Props) => {
+  const { startStreamingData } = useBleContext();
   return (
     <SettingsContainer>
       <BottomButtonContainer>
@@ -43,6 +46,7 @@ const Settings: FunctionComponent<Props> = (props: Props) => {
         </RegularButton>
         <RegularButton
           onPress={() => {
+            startStreamingData();
             props.navigation.navigate("Calibration");
           }}
           btnStyles={{

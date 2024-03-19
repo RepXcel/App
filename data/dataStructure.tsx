@@ -1,3 +1,5 @@
+import { Device } from "react-native-ble-plx";
+
 export interface Velocity {
   rep: number;
   velocity: number;
@@ -22,8 +24,5 @@ export interface BluetoothDevice {
   id: number;
   name: string;
   connected: boolean;
-  art: {
-    icon: string;
-    background: string;
-  };
+  device: Device;
 }

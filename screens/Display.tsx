@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import styled from "styled-components/native";
 
@@ -18,6 +18,9 @@ import VerticalCardList from "../components/Cards/VerticalCardList";
 import HistoryEntryCard from "../components/Cards/DataCards/HistoryEntryCard";
 import DisplayCard from "../components/Cards/DataCards/DisplayCard";
 
+import { useBleContext } from "../src/Contexts";
+import { useIsFocused } from "@react-navigation/native";
+
 const DisplayContainer = styled(Container)`
   background-color: ${colors.lightgray};
   width: 100%;
@@ -28,9 +31,14 @@ const DisplayContainer = styled(Container)`
 type Props = StackScreenProps<CombinedProps, "Display">;
 
 const Display: FunctionComponent<Props> = ({ navigation }) => {
+  const { startStreamingData } = useBleContext();
+  const isFocused = useIsFocused();
+
   const sortedSessionData = sessionData.slice().sort((a, b) => {
     return new Date(b.startDate).getTime() - new Date(a.startDate).getTime();
   });
+
+
   return (
     <DisplayContainer>
       <StatusBar style='dark' />
@@ -48,6 +56,7 @@ const Display: FunctionComponent<Props> = ({ navigation }) => {
       <BottomButtonContainer>
         <RegularButton
           onPress={() => {
+            startStreamingData();
             navigation.navigate("Session");
           }}
           btnStyles={{

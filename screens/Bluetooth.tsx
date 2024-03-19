@@ -1,4 +1,5 @@
 import React, { FunctionComponent } from "react";
+import { useIsFocused } from "@react-navigation/native";
 import styled from "styled-components/native";
 
 // color components
@@ -11,7 +12,9 @@ import VerticalCardList from "../components/Cards/VerticalCardList";
 
 // data structure
 import { BluetoothDevice } from "../data/dataStructure";
-import { deviceData } from "../assets/tempdata/tempData";
+
+import { useBleContext } from "../src/Contexts";
+import { Device } from "react-native-ble-plx";
 
 const BluetoothContainer = styled(Container)`
   background-color: ${colors.lightgray};
@@ -22,18 +25,41 @@ const BluetoothContainer = styled(Container)`
 // Sample data
 
 const Bluetooth: FunctionComponent = () => {
+  const [devices, setDevices] = React.useState<BluetoothDevice[]>([]);
+  const isFocused = useIsFocused();
+  const {
+    requestPermissions,
+    scanForPeripherals,
+    allDevices,
+  } = useBleContext();
+
+  const scanForDevices = async () => {
+    const isPermissionsEnabled = await requestPermissions();
+    if (isPermissionsEnabled) {
+      scanForPeripherals();
+    }
+  };
+
+  React.useEffect(() => {
+    scanForDevices();
+  }, []);
+
+  React.useEffect(() => {
+    console.log(allDevices);
+  }, [allDevices]);
+
   return (
     <BluetoothContainer>
       <VerticalCardList
         title='Devices'
         subtitle=''
-        renderItemComponent={({ item }: { item: BluetoothDevice }) => (
+        renderItemComponent={({ item }: { item: Device }) => (
           <DeviceCard data={item}>
             <></>
           </DeviceCard>
         )}
         keyExtractor={(item) => item.id.toString()}
-        data={deviceData}
+        data={allDevices}
       ></VerticalCardList>
     </BluetoothContainer>
   );

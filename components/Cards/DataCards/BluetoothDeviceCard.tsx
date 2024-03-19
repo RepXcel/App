@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useEffect } from "react";
 import { View } from "react-native";
 import styled from "styled-components/native";
 
@@ -10,7 +10,9 @@ import SmallText from "../../Texts/SmallText";
 
 // data structures
 import { CardProps } from "../types";
-import { BluetoothDevice } from "../../../data/dataStructure";
+import { Device } from "react-native-ble-plx";
+
+import { useBleContext } from "../../../src/Contexts";
 
 const LeftView = styled.View`
   flex-direction: row;
@@ -24,36 +26,42 @@ const RightView = styled.View`
   flex: 1;
 `;
 
-const DeviceCard: FunctionComponent<CardProps<BluetoothDevice>> = (props) => {
+const DeviceCard: FunctionComponent<CardProps<Device>> = (props) => {
+  const { connectToDevice, connectedDevice } = useBleContext();
+
   return (
     <WideCard
-      onPress={props.onPress}
+      onPress={() => {
+        if (props.data !== connectedDevice) {
+          connectToDevice(props.data);
+        }
+      }}
       data={props.data}
       viewStyles={
-        props.data.connected
+        props.data.id == connectedDevice?.id
           ? {
-              borderWidth: 2,
-              borderColor: colors.primary,
-            }
+            borderWidth: 2,
+            borderColor: colors.primary,
+          }
           : {
-              borderWidth: 1,
-              borderColor: colors.gray,
-            }
+            borderWidth: 1,
+            borderColor: colors.gray,
+          }
       }
     >
       <LeftView>
         <View>
           <RegularText
             textStyles={
-              props.data.connected
+              props.data.id == connectedDevice?.id
                 ? {
-                    color: colors.primary,
-                    fontWeight: "bold",
-                  }
+                  color: colors.primary,
+                  fontWeight: "bold",
+                }
                 : {
-                    color: colors.black,
-                    fontWeight: "normal",
-                  }
+                  color: colors.black,
+                  fontWeight: "normal",
+                }
             }
           >
             {props.data.name}
@@ -72,12 +80,12 @@ const DeviceCard: FunctionComponent<CardProps<BluetoothDevice>> = (props) => {
         <SmallText
           textStyles={{
             textAlign: "right",
-            color: props.data.connected ? colors.primary : colors.darkgray,
-            fontWeight: props.data.connected ? "bold" : "normal",
+            color: props.data.id == connectedDevice?.id ? colors.primary : colors.darkgray,
+            fontWeight: props.data.id == connectedDevice?.id ? "bold" : "normal",
           }}
         >
           {/*get average*/}
-          {props.data.connected ? "connected" : "paired"}
+          {props.data === connectedDevice ? "connected" : "paired"}
         </SmallText>
         <SmallText
           textStyles={{
