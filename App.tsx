@@ -17,7 +17,6 @@ import { BleContext, UserContext } from "./src/Contexts";
 import useBLE from "./src/backend/useBLE";
 
 import { Amplify } from "aws-amplify";
-import * as Auth from "aws-amplify/auth";
 import amplifyconfig from './src/amplifyconfiguration.json';
 
 Amplify.configure(amplifyconfig);
