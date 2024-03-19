@@ -16,7 +16,7 @@ import RegularButton, {
 import RegularText from "../components/Texts/RegularText";
 import { TabParamList } from "../navigation/TabNavigator";
 
-import { useBleContext } from "../src/Contexts";
+import { useBleContext, useUserContext } from "../src/Contexts";
 import rpeCalculation from "../src/backend/rpeCalculation";
 
 const InstructionsContainer = styled(Container)`
@@ -32,7 +32,8 @@ const blurb = "Squat until you can't squat no more";
 
 const Calibration: FunctionComponent<Props> = ({ navigation }) => {
   const { width } = Dimensions.get("window");
-  const { calibrate } = rpeCalculation("Amanda Nguyen");
+  const { username } = useUserContext();
+  const { calibrate } = rpeCalculation(username);
   const { stopStreamingData, velocityData } = useBleContext();
 
   return (

@@ -47,9 +47,28 @@ import backgroundWaves from "../assets/backgrounds/backgroundWaves.png";
 import { RootStackParamList } from "../navigation/AppStack";
 import { StackScreenProps } from "@react-navigation/stack";
 
+import { getCurrentUser } from "aws-amplify/auth";
+
+import { useUserContext } from "../src/Contexts";
+
 type Props = StackScreenProps<RootStackParamList, "Welcome">;
 
 const Register: FunctionComponent<Props> = ({ navigation }) => {
+
+  const { setUsername } = useUserContext();
+
+  async function currentAuthenticatedUser() {
+    try {
+      const { username, userId, signInDetails } = await getCurrentUser();
+      if (username && userId) {
+        setUsername(username);
+        navigation.navigate("TabNavigator");
+      }
+    } catch (err) {
+      navigation.navigate("Login");
+    }
+  }
+
   return (
     <>
       <StatusBar style='light' />
@@ -78,8 +97,8 @@ const Register: FunctionComponent<Props> = ({ navigation }) => {
           </SmallText>
           <RegularButton
             btnStyles={{ backgroundColor: colors.primary }}
-            onPress={() => {
-              navigation.navigate("Login");
+            onPress={async () => {
+              await currentAuthenticatedUser();
             }}
           >
             Get Started

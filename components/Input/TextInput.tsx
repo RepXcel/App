@@ -37,6 +37,7 @@ interface TextInputProps {
   children: string;
   iconName?: React.ComponentProps<typeof IonIcon>["name"];
   secureTextEntry?: boolean;
+  onTextInput?: (text: string) => void;
 }
 
 const TextInput: FunctionComponent<TextInputProps> = (props) => {
@@ -52,6 +53,7 @@ const TextInput: FunctionComponent<TextInputProps> = (props) => {
       </IconContainer>
       <StyledTextInput
         placeholder={props.children}
+        onChangeText={props.onTextInput}
         placeholderTextColor={
           props.placeholderColor === undefined
             ? colors.darkgray

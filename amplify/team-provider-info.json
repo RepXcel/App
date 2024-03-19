@@ -10,6 +10,14 @@
       "StackName": "amplify-repxcel-dev-124955",
       "StackId": "arn:aws:cloudformation:ca-central-1:533267304081:stack/amplify-repxcel-dev-124955/36b88810-d4e0-11ee-9fe9-0a2d4800b404",
       "AmplifyAppId": "dm1a9xig6hs2"
+    },
+    "categories": {
+      "auth": {
+        "repxcela9db4be0": {}
+      },
+      "api": {
+        "repxcel": {}
+      }
     }
   }
 }

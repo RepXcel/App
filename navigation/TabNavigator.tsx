@@ -25,6 +25,8 @@ import Logo from "../components/Header/Logo";
 import LogoIcon from "../assets/icons/Logo.png";
 import BigText from "../components/Texts/BigText";
 
+import { useUserContext } from "../src/Contexts";
+
 export type TabParamList = {
   Display: undefined;
   Bluetooth: undefined;
@@ -39,6 +41,7 @@ export type TabParamList = {
 const Tab = createBottomTabNavigator<TabParamList>();
 
 const TabNavigator: React.FC = () => {
+  const { username } = useUserContext();
   const isFocused = useIsFocused();
   // Use useFocusEffect to update isFocused when the focus changes
 
@@ -115,7 +118,7 @@ const TabNavigator: React.FC = () => {
           headerTitle: (props) => (
             <Title
               mainText={props.children}
-              subText='Amanda Nguyen'
+              subText={username}
               {...props}
             />
           ),
@@ -132,7 +135,7 @@ const TabNavigator: React.FC = () => {
           headerTitle: (props) => (
             <Title
               mainText={props.children}
-              subText='Amanda Nguyen'
+              subText={username}
               {...props}
             />
           ),
@@ -148,7 +151,7 @@ const TabNavigator: React.FC = () => {
           headerTitle: (props) => (
             <Title
               mainText={props.children}
-              subText='Amanda Nguyen'
+              subText={username}
               {...props}
             />
           ),
@@ -164,7 +167,7 @@ const TabNavigator: React.FC = () => {
           headerTitle: (props) => (
             <Title
               mainText={props.children}
-              subText='Amanda Nguyen'
+              subText={username}
               {...props}
             />
           ),
@@ -180,7 +183,7 @@ const TabNavigator: React.FC = () => {
           headerTitle: (props) => (
             <Title
               mainText={props.children}
-              subText='Amanda Nguyen'
+              subText={username}
               {...props}
             />
           ),
@@ -199,7 +202,7 @@ const TabNavigator: React.FC = () => {
           headerTitle: (props) => (
             <Title
               mainText={props.children}
-              subText='Amanda Nguyen'
+              subText={username}
               {...props}
             />
           ),
@@ -218,7 +221,7 @@ const TabNavigator: React.FC = () => {
           headerTitle: (props) => (
             <Title
               mainText={props.children}
-              subText='Amanda Nguyen'
+              subText={username}
               {...props}
             />
           ),
@@ -237,7 +240,7 @@ const TabNavigator: React.FC = () => {
           headerTitle: (props) => (
             <Title
               mainText={props.children}
-              subText='Amanda Nguyen'
+              subText={username}
               {...props}
             />
           ),

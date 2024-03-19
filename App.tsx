@@ -12,18 +12,20 @@ import RootStack from "./navigation/AppStack";
 import Register from "./screens/Welcome";
 import { View } from "react-native";
 
-import { BleContext } from "./src/Contexts";
+import { BleContext, UserContext } from "./src/Contexts";
 
 import useBLE from "./src/backend/useBLE";
-import localStorage from "./src/backend/localStorage";
+
+import { Amplify } from "aws-amplify";
+import * as Auth from "aws-amplify/auth";
+import amplifyconfig from './src/amplifyconfiguration.json';
+
+Amplify.configure(amplifyconfig);
 
 SplashScreen.preventAutoHideAsync();
 
-
-
 export default function App() {
-
-  const { createUser, retrieveData } = localStorage();
+  const [username, setUsername] = React.useState("");
 
   const {
     requestPermissions,
@@ -43,18 +45,6 @@ export default function App() {
     "Lato-Regular": require("./assets/fonts/Lato-Regular.ttf"),
   });
 
-  //Test User
-  const createUserIfNotExists = async () => {
-    const user = await retrieveData("Amanda Nguyen");
-    if (!user) {
-      await createUser("Amanda Nguyen");
-    }
-  };
-
-  useEffect(() => {
-    createUserIfNotExists();
-  }, []);
-
   const onLayoutRootView = useCallback(async () => {
     if (fontsLoaded) {
       // This tells the splash screen to hide immediately! If we call this after
@@ -70,29 +60,30 @@ export default function App() {
     return null;
   }
 
-
-
-
-
   return (
     <View
       style={{ flex: 1 }}
       onLayout={onLayoutRootView}
     >
-      <BleContext.Provider value={{
-        requestPermissions,
-        scanForPeripherals,
-        allDevices,
-        connectToDevice,
-        connectedDevice,
-        data,
-        disconnectFromDevice,
-        startStreamingData,
-        stopStreamingData,
-        velocityData
+      <UserContext.Provider value={{
+        username,
+        setUsername
       }}>
-        <RootStack />
-      </BleContext.Provider>
+        <BleContext.Provider value={{
+          requestPermissions,
+          scanForPeripherals,
+          allDevices,
+          connectToDevice,
+          connectedDevice,
+          data,
+          disconnectFromDevice,
+          startStreamingData,
+          stopStreamingData,
+          velocityData
+        }}>
+          <RootStack />
+        </BleContext.Provider>
+      </UserContext.Provider>
     </View>
   );
 }

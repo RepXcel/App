@@ -18,7 +18,7 @@ import VerticalCardList from "../components/Cards/VerticalCardList";
 import HistoryEntryCard from "../components/Cards/DataCards/HistoryEntryCard";
 import DisplayCard from "../components/Cards/DataCards/DisplayCard";
 
-import { useBleContext } from "../src/Contexts";
+import { useBleContext, useUserContext } from "../src/Contexts";
 import { useIsFocused } from "@react-navigation/native";
 
 const DisplayContainer = styled(Container)`
@@ -37,7 +37,6 @@ const Display: FunctionComponent<Props> = ({ navigation }) => {
   const sortedSessionData = sessionData.slice().sort((a, b) => {
     return new Date(b.startDate).getTime() - new Date(a.startDate).getTime();
   });
-
 
   return (
     <DisplayContainer>
