@@ -11,8 +11,6 @@ function rpeCalculation(username: string): rpeCalculationApi {
     const calibration = async (velocityData: number[]) => {
         const rpe10 = Math.max(...velocityData);
         const rpe0 = Math.min(...velocityData);
-        //TODO: Fetch/pass user name here
-        console.log(username, rpe10, rpe0);
         await calibrateRPE(username, rpe10, rpe0);
     }
 
@@ -29,7 +27,7 @@ function rpeCalculation(username: string): rpeCalculationApi {
             if (rpe10 && rpe0) {
                 const rpeRange = 10;
                 const velocityRange = rpe10 - rpe0;
-                rpe = 0 + (rpeRange / velocityRange) * (slowestVelocity - rpe0);
+                rpe = rpeRange - (rpeRange / velocityRange) * (slowestVelocity - rpe0);
                 rpe = Math.round(rpe);
                 if (rpe > 10) {
                     rpe = 10;
