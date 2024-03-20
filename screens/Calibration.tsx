@@ -60,7 +60,7 @@ const Calibration: FunctionComponent<Props> = ({ navigation }) => {
             stopStreamingData();
             console.log(velocityData);
             calibrate(velocityData);
-            navigation.navigate("Settings");
+            navigation.goBack();
           }}
           btnStyles={{
             marginBottom: 20,

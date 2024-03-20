@@ -62,7 +62,7 @@ const Register: FunctionComponent<Props> = ({ navigation }) => {
         }
       });
       console.log(userId);
-      createUser(username);
+      createUser(username.toLowerCase());
       navigation.navigate("Login");
     } catch (error) {
       console.log('error signing up:', error);

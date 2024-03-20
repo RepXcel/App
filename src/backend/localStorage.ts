@@ -86,9 +86,9 @@ function localStorage(): LocalStorageApi {
     const clearData = async () => {
         try {
             await DataStore.clear();
-            console.log('User cleared successfully!');
+            console.log('Local storage cleared successfully!');
         } catch (error) {
-            console.log('Error deleting User', error);
+            console.log('Error clearing data', error);
         }
     }
 

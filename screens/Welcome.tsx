@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import styled from "styled-components/native";
 
@@ -51,11 +51,35 @@ import { getCurrentUser } from "aws-amplify/auth";
 
 import { useUserContext } from "../src/Contexts";
 
+// Storage import for testing purposes
+import { DataStore } from 'aws-amplify/datastore';
+import localStorage from "../src/backend/localStorage";
+
 type Props = StackScreenProps<RootStackParamList, "Welcome">;
 
 const Register: FunctionComponent<Props> = ({ navigation }) => {
 
   const { setUsername } = useUserContext();
+
+  // Local storage for testing purposes
+  const {
+    createUser,
+    calibrateRPE,
+    addNewSession,
+    retrieveData,
+    clearData,
+    retrieveSessionData
+  } = localStorage();
+
+
+  // Things that needs to run once on start up
+  // useEffect(() => {
+  //   startUp();
+  // }, []);
+
+  // async function startUp() {
+  //   await retrieveData("test");
+  // }
 
   async function currentAuthenticatedUser() {
     try {

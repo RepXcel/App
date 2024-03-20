@@ -50,7 +50,8 @@ const Login: FunctionComponent<Props> = ({ navigation }) => {
   async function handleSignIn({ username, password }: SignInInput) {
     try {
       const { isSignedIn, nextStep } = await signIn({ username, password });
-      setUsername(username);
+
+      setUsername(username.toLowerCase());
       navigation.navigate("TabNavigator");
     } catch (error) {
       console.log('error signing in', error);
