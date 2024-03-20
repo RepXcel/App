@@ -68,11 +68,8 @@ const HistoryEntryCard: FunctionComponent<CardProps<Session>> = (props) => {
         >
           {/*get RPE*/}
           {"RPE: " +
-            props.data.velocities.reduce(
-              (acc, velocity) => acc + velocity.velocity,
-              0
-            ) /
-              Math.max(1, props.data.velocities.length)}
+            props.data.rpe
+          }
         </BigText>
         <SmallText
           textStyles={{
@@ -82,11 +79,11 @@ const HistoryEntryCard: FunctionComponent<CardProps<Session>> = (props) => {
         >
           {/*get average*/}
           {"average velocity: " +
-            props.data.velocities.reduce(
-              (acc, velocity) => acc + velocity.velocity,
+            (props.data.velocities.reduce(
+              (acc, velocity) => acc + velocity,
               0
             ) /
-              Math.max(1, props.data.velocities.length)}
+              Math.max(1, props.data.velocities.length)).toFixed(2)}
         </SmallText>
         <SmallText
           textStyles={{

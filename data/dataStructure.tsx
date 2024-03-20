@@ -1,14 +1,11 @@
 import { Device } from "react-native-ble-plx";
 
-export interface Velocity {
-  rep: number;
-  velocity: number;
-}
 
 export interface Session {
   startDate: Date;
-  id: number;
-  velocities: Velocity[];
+  id: string;
+  rpe: number;
+  velocities: number[];
 }
 
 export interface User {

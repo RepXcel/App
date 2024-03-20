@@ -52,9 +52,9 @@ import { getCurrentUser } from "aws-amplify/auth";
 import { useUserContext } from "../src/Contexts";
 
 // Storage import for testing purposes
-// import { DataStore } from 'aws-amplify/datastore';
-// import localStorage from "../src/backend/localStorage";
-// import rpeCalculation from "../src/backend/rpeCalculation";
+import { DataStore } from 'aws-amplify/datastore';
+import localStorage from "../src/backend/localStorage";
+import rpeCalculation from "../src/backend/rpeCalculation";
 
 type Props = StackScreenProps<RootStackParamList, "Welcome">;
 
@@ -63,14 +63,14 @@ const Register: FunctionComponent<Props> = ({ navigation }) => {
   const { setUsername } = useUserContext();
 
   // Local storage for testing purposes
-  // const {
-  //   createUser,
-  //   calibrateRPE,
-  //   addNewSession,
-  //   retrieveData,
-  //   clearData,
-  //   retrieveSessionData
-  // } = localStorage();
+  const {
+    createUser,
+    calibrateRPE,
+    addNewSession,
+    retrieveData,
+    clearData,
+    retrieveSessionData
+  } = localStorage();
 
   // const { calculateRPE } = rpeCalculation("test");
 
@@ -81,10 +81,7 @@ const Register: FunctionComponent<Props> = ({ navigation }) => {
   // }, []);
 
   // async function startUp() {
-  //   const velocityData1 = [20, 21, 17, 18, 19, 15, 10];
-  //   const velocityData2 = [15, 15, 17, 12, 10, 8, 5];
-  //   await calculateRPE(velocityData1);
-  //   await calculateRPE(velocityData2);
+  //   await clearData();
   // }
 
   async function currentAuthenticatedUser() {

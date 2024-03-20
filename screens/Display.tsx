@@ -10,13 +10,12 @@ import RegularButton, {
 } from "../components/Buttons/RegularButton";
 import { StackScreenProps } from "@react-navigation/stack";
 import { CombinedProps } from "../navigation/TabNavigator";
-import { sessionData } from "../assets/tempdata/tempData";
 import ScreenCard from "../components/Cards/ScreenCard";
 import HorizontalCardList from "../components/Cards/HorizontalCardList";
-import { Session } from "../data/dataStructure";
 import VerticalCardList from "../components/Cards/VerticalCardList";
 import HistoryEntryCard from "../components/Cards/DataCards/HistoryEntryCard";
 import DisplayCard from "../components/Cards/DataCards/DisplayCard";
+import { Session } from "../data/dataStructure";
 
 import { useBleContext, useUserContext } from "../src/Contexts";
 import localStorage from "../src/backend/localStorage";
@@ -33,11 +32,12 @@ type Props = StackScreenProps<CombinedProps, "Display">;
 
 const Display: FunctionComponent<Props> = ({ navigation }) => {
   const { startStreamingData } = useBleContext();
-  const { retrieveData } = localStorage();
+  const { retrieveData, retrieveSessionData } = localStorage();
   const { username } = useUserContext();
   const isFocused = useIsFocused();
 
   const [calibrated, setCalibrated] = React.useState(false);
+  const [sessionData, setSessionData] = React.useState<Session[]>([]);
 
   useEffect(() => {
     if (isFocused) {
@@ -47,11 +47,37 @@ const Display: FunctionComponent<Props> = ({ navigation }) => {
           setCalibrated(true);
         }
       })();
+
+      (async () => {
+        let data = await retrieveSessionData(username);
+        const sessions: Session[] = [];
+        for (let i = 0; i < data.length; i++) {
+          let session = data[i];
+          if (session.velocities) {
+            let iVelocities = session.velocities.map((v) => {
+              if (v != undefined || v != null) {
+                return v;
+              } else {
+                return 0;
+              }
+            });
+
+            let sessionData: Session = {
+              id: session.id,
+              startDate: new Date(session.date),
+              velocities: iVelocities,
+              rpe: session.rpe,
+            };
+            sessions.push(sessionData);
+          }
+        }
+        setSessionData(sessions);
+      })();
     }
   }, [isFocused]);
 
 
-  const sortedSessionData = sessionData.slice().sort((a, b) => {
+  const sortedSession = sessionData.slice().sort((a, b) => {
     return new Date(b.startDate).getTime() - new Date(a.startDate).getTime();
   });
 
@@ -67,7 +93,7 @@ const Display: FunctionComponent<Props> = ({ navigation }) => {
           </DisplayCard>
         )}
         keyExtractor={(item) => item.id.toString()}
-        data={sortedSessionData}
+        data={sortedSession}
       />
       <BottomButtonContainer>
         <RegularButton

@@ -44,9 +44,10 @@ const Bluetooth: FunctionComponent = () => {
     scanForDevices();
   }, []);
 
-  React.useEffect(() => {
-    console.log(allDevices);
-  }, [allDevices]);
+  // Displaying all devices
+  // React.useEffect(() => {
+  //   console.log(allDevices);
+  // }, [allDevices]);
 
   return (
     <BluetoothContainer>
