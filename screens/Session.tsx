@@ -54,8 +54,8 @@ const Session: FunctionComponent<Props> = ({ navigation }) => {
       />
       <BottomButtonContainer>
         <RegularButton
-          onPress={() => {
-            stopStreamingData();
+          onPress={async () => {
+            await stopStreamingData();
             console.log(velocityData);
             calculateRPE(velocityData);
             navigation.navigate("Display");

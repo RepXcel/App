@@ -18,12 +18,12 @@ const SERVICE_UUID = "f3641400-00b0-4240-ba50-05ca45bf8abc";
 const CHARACTERISTIC_UUID = "f3641401-00b0-4240-ba50-05ca45bf8abc";
 
 
-interface BluetoothLowEnergyApi {
+export interface BluetoothLowEnergyApi {
 	requestPermissions(): Promise<boolean>;
 	scanForPeripherals(): void;
 	connectToDevice: (deviceId: Device) => Promise<void>;
-	startStreamingData: () => void;
-	stopStreamingData: () => void;
+	startStreamingData: () => Promise<void>;
+	stopStreamingData: () => Promise<void>;
 	disconnectFromDevice: () => void;
 	connectedDevice: Device | null;
 	allDevices: Device[];
@@ -38,6 +38,7 @@ function useBLE(): BluetoothLowEnergyApi {
 	const [data, setData] = useState<number>(0);
 	const [subscription, setSubscription] = useState<Subscription>();
 	const [velocityData, setVelocityData] = useState<number[]>([]);
+	let localTimestamp = 0;
 
 	// BLE Permission Requests for Android 31
 	const requestAndroid31Permissions = async () => {
@@ -147,25 +148,33 @@ function useBLE(): BluetoothLowEnergyApi {
 		}
 
 		const rawData = characteristic.value;
-		const data = base64Decode(rawData);
+		console.log("Raw Data", rawData);
+		const { velocity, timestamp } = base64Decode(rawData);
+		console.log("Velocity", velocity, "Timestamp", timestamp, "Local Timestamp", localTimestamp);
+
 
 		// Parse the Data into proper velocity values
-		setData(data);
-		if (velocityData.length == 0 && data != 0) {
-			velocityData.push(data);
+		// setData(velocity);
+		if ((timestamp !== 0 || velocity !== 0) && velocityData.length === 0) {
+			console.log("First Data point", velocity);
+			velocityData.push(velocity);
+			localTimestamp = timestamp;
 		}
-		else if (data != velocityData[velocityData.length - 1]) {
-			console.log("Data point", data);
-			velocityData.push(data);
+		else if (timestamp != localTimestamp && velocity !== velocityData[velocityData.length - 1]) {
+			console.log("Data point", velocity);
+			velocityData.push(velocity);
+			localTimestamp = timestamp;
 		}
 		setVelocityData(velocityData);
+		console.log(velocityData);
 	};
 
 	const startStreamingData = async () => {
 		if (connectedDevice && subscription === undefined) {
 			//Clear the data array
-			velocityData.splice(0, velocityData.length);
-			setVelocityData([]);
+			velocityData.length = 0;
+			setVelocityData(velocityData);
+			localTimestamp = 0;
 			//Start Streaming Data
 			setSubscription(
 				connectedDevice.monitorCharacteristicForService(

@@ -65,9 +65,16 @@ const base64Map = new Map<string, number>([
     ["/", 63],
 ]);
 
-function base64Decode(base64: string): number {
-    //Convert base64 to binary
-    let binary = base64.slice(0, -2).split("").map((char) => {
+// Data Format
+// Timestamp   - Velocity
+// XX-XX-XX-XX - XX-XX-XX-XX
+
+
+
+function base64Decode(base64: string): { velocity: number, timestamp: number } {
+    const timeStamp64 = base64.slice(0, 5);
+    const velocity64 = base64.slice(5, 12);
+    let timeStampBinary = timeStamp64.split("").map((char) => {
         return base64Map.get(char)?.toString(2).padStart(6, "0");
     }).reduce((acc, val) => {
         if (acc && val) {
@@ -76,26 +83,41 @@ function base64Decode(base64: string): number {
         return "";
     });
 
-    if (binary) {
+    //Convert base64 to binary
+    let velocityBinary = velocity64.slice(0, -1).split("").map((char) => {
+        return base64Map.get(char)?.toString(2).padStart(6, "0");
+    }).reduce((acc, val) => {
+        if (acc && val) {
+            return acc + val;
+        }
+        return "";
+    });
+
+
+    if (velocityBinary && timeStampBinary) {
         //Convert binary to float
-        binary = binary.slice(0, 32);
-        let sign = binary[0] === "1" ? -1 : 1;
-        let exponent = parseInt(binary.slice(1, 9), 2) - 127;
+        // console.log(velocityBinary);
+        velocityBinary = velocityBinary.slice(0, 32);
+        let sign = velocityBinary[0] === "1" ? -1 : 1;
+        let exponent = parseInt(velocityBinary.slice(1, 9), 2) - 127;
 
         let n = 1;
         if (exponent < -126) {
             exponent = -126;
             n = 0;
         }
-        let mantissaBinary = binary.slice(9);
+        let mantissaBinary = velocityBinary.slice(9);
         let mantissa = n + parseInt(mantissaBinary, 2) / Math.pow(2, 23);
         let result = sign * mantissa * Math.pow(2, exponent);
-        //console.log(result)
-        return result;
+
+        let timestampNum = parseInt(timeStampBinary, 2);
+
+        // console.log(timestampNum, result)
+        return { velocity: result, timestamp: timestampNum };
     }
 
 
-    return 0;
+    return { velocity: 0, timestamp: 0 };
 }
 
 export default base64Decode;

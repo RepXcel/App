@@ -1,10 +1,10 @@
 import { createContext, useContext } from "react";
 import useBLE from "./backend/useBLE";
+import { BluetoothLowEnergyApi } from "./backend/useBLE";
 
-export type BleContextType = ReturnType<typeof useBLE>;
 
-export const BleContext = createContext<BleContextType>(
-    {} as BleContextType
+export const BleContext = createContext<BluetoothLowEnergyApi>(
+    {} as BluetoothLowEnergyApi
 );
 
 type user = {

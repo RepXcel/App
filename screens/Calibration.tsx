@@ -56,8 +56,8 @@ const Calibration: FunctionComponent<Props> = ({ navigation }) => {
       </ScrollView>
       <BottomButtonContainer>
         <RegularButton
-          onPress={() => {
-            stopStreamingData();
+          onPress={async () => {
+            await stopStreamingData();
             console.log(velocityData);
             calibrate(velocityData);
             navigation.goBack();
