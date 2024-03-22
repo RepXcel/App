@@ -76,7 +76,7 @@ const BarChart: FunctionComponent<BarChartProps> = (props) => {
             <XAxisText
               x={x((index + 1).toString())!}
               y={canvasHeight}
-              text={dataPoint.toString()}
+              text={dataPoint === Math.max(...props.velocities) || dataPoint === Math.min(...props.velocities) ? dataPoint.toFixed(2).toString() : ""}
             />
           </Group>
         ))}

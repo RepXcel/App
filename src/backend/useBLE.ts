@@ -148,9 +148,9 @@ function useBLE(): BluetoothLowEnergyApi {
 		}
 
 		const rawData = characteristic.value;
-		console.log("Raw Data", rawData);
+		// console.log("Raw Data", rawData);
 		const { velocity, timestamp } = base64Decode(rawData);
-		console.log("Velocity", velocity, "Timestamp", timestamp, "Local Timestamp", localTimestamp);
+		// console.log("Velocity", velocity, "Timestamp", timestamp, "Local Timestamp", localTimestamp);
 
 
 		// Parse the Data into proper velocity values
@@ -160,7 +160,7 @@ function useBLE(): BluetoothLowEnergyApi {
 			velocityData.push(velocity);
 			localTimestamp = timestamp;
 		}
-		else if (timestamp != localTimestamp && velocity !== velocityData[velocityData.length - 1]) {
+		else if (timestamp != localTimestamp) {
 			console.log("Data point", velocity);
 			velocityData.push(velocity);
 			localTimestamp = timestamp;

@@ -140,7 +140,7 @@ export type CreateSessionInput = {
 export type ModelSessionConditionInput = {
   date?: ModelStringInput | null,
   rpe?: ModelIntInput | null,
-  velocities?: ModelIntInput | null,
+  velocities?: ModelFloatInput | null,
   and?: Array< ModelSessionConditionInput | null > | null,
   or?: Array< ModelSessionConditionInput | null > | null,
   not?: ModelSessionConditionInput | null,
@@ -210,7 +210,7 @@ export type ModelUserConnection = {
 export type ModelSessionFilterInput = {
   date?: ModelStringInput | null,
   rpe?: ModelIntInput | null,
-  velocities?: ModelIntInput | null,
+  velocities?: ModelFloatInput | null,
   and?: Array< ModelSessionFilterInput | null > | null,
   or?: Array< ModelSessionFilterInput | null > | null,
   not?: ModelSessionFilterInput | null,
@@ -257,7 +257,7 @@ export type ModelSubscriptionFloatInput = {
 export type ModelSubscriptionSessionFilterInput = {
   date?: ModelSubscriptionStringInput | null,
   rpe?: ModelSubscriptionIntInput | null,
-  velocities?: ModelSubscriptionIntInput | null,
+  velocities?: ModelSubscriptionFloatInput | null,
   and?: Array< ModelSubscriptionSessionFilterInput | null > | null,
   or?: Array< ModelSubscriptionSessionFilterInput | null > | null,
   _deleted?: ModelBooleanInput | null,

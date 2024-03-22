@@ -56,8 +56,8 @@ const Session: FunctionComponent<Props> = ({ navigation }) => {
         <RegularButton
           onPress={async () => {
             await stopStreamingData();
-            console.log(velocityData);
-            calculateRPE(velocityData);
+            // console.log(velocityData);
+            await calculateRPE(velocityData);
             navigation.navigate("Display");
           }}
           btnStyles={{

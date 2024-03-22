@@ -13,5 +13,5 @@ type Session @model {
   user: User @belongsTo
   date: String!
   rpe: Int!
-  velocities: [Int]
+  velocities: [Float]
 }

@@ -115,7 +115,7 @@ export const schema = {
                 "velocities": {
                     "name": "velocities",
                     "isArray": true,
-                    "type": "Int",
+                    "type": "Float",
                     "isRequired": false,
                     "attributes": [],
                     "isArrayNullable": true
@@ -157,5 +157,5 @@ export const schema = {
     "enums": {},
     "nonModels": {},
     "codegenVersion": "3.4.4",
-    "version": "3d3934afca70f7f292bd7c4c3b5b3b0f"
+    "version": "329b46b774421f118664e38464a2c7c3"
 };

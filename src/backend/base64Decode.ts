@@ -82,7 +82,7 @@ function base64Decode(base64: string): { velocity: number, timestamp: number } {
         }
         return "";
     });
-    console.log(base64Binary)
+    // console.log(base64Binary)
 
     if (base64Binary) {
         //Convert binary to float
