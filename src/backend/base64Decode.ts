@@ -72,19 +72,9 @@ const base64Map = new Map<string, number>([
 
 
 function base64Decode(base64: string): { velocity: number, timestamp: number } {
-    const timeStamp64 = base64.slice(0, 5);
-    const velocity64 = base64.slice(5, 12);
-    let timeStampBinary = timeStamp64.split("").map((char) => {
-        return base64Map.get(char)?.toString(2).padStart(6, "0");
-    }).reduce((acc, val) => {
-        if (acc && val) {
-            return acc + val;
-        }
-        return "";
-    });
 
     //Convert base64 to binary
-    let velocityBinary = velocity64.slice(0, -1).split("").map((char) => {
+    let base64Binary = base64.slice(0, -1).split("").map((char) => {
         return base64Map.get(char)?.toString(2).padStart(6, "0");
     }).reduce((acc, val) => {
         if (acc && val) {
@@ -92,12 +82,14 @@ function base64Decode(base64: string): { velocity: number, timestamp: number } {
         }
         return "";
     });
+    console.log(base64Binary)
 
-
-    if (velocityBinary && timeStampBinary) {
+    if (base64Binary) {
         //Convert binary to float
         // console.log(velocityBinary);
-        velocityBinary = velocityBinary.slice(0, 32);
+        let timestampBinary = base64Binary.substring(0, 32);
+        let velocityBinary = base64Binary.substring(32);
+
         let sign = velocityBinary[0] === "1" ? -1 : 1;
         let exponent = parseInt(velocityBinary.slice(1, 9), 2) - 127;
 
@@ -110,7 +102,7 @@ function base64Decode(base64: string): { velocity: number, timestamp: number } {
         let mantissa = n + parseInt(mantissaBinary, 2) / Math.pow(2, 23);
         let result = sign * mantissa * Math.pow(2, exponent);
 
-        let timestampNum = parseInt(timeStampBinary, 2);
+        let timestampNum = parseInt(timestampBinary, 2);
 
         // console.log(timestampNum, result)
         return { velocity: result, timestamp: timestampNum };
