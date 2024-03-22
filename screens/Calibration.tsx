@@ -58,8 +58,8 @@ const Calibration: FunctionComponent<Props> = ({ navigation }) => {
         <RegularButton
           onPress={async () => {
             await stopStreamingData();
-            console.log(velocityData);
-            calibrate(velocityData);
+            console.log(velocityData.current);
+            calibrate(velocityData.current);
             navigation.navigate("Display");
           }}
           btnStyles={{
