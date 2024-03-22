@@ -26,8 +26,8 @@ function rpeCalculation(username: string): rpeCalculationApi {
             const rpe0 = user.rpe0Velocity;
             if (rpe10 && rpe0) {
                 const rpeRange = 10;
-                const velocityRange = rpe10 - rpe0;
-                rpe = rpeRange - (rpeRange / velocityRange) * (slowestVelocity - rpe0);
+                const velocityRange = rpe0 - rpe10;
+                rpe = rpeRange - (rpeRange / velocityRange) * (slowestVelocity - rpe10);
                 rpe = Math.round(rpe);
                 if (rpe > 10) {
                     rpe = 10;
