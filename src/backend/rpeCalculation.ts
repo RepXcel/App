@@ -2,16 +2,15 @@ import localStorage from './localStorage';
 
 const { calibrateRPE, addNewSession, retrieveData } = localStorage();
 interface rpeCalculationApi {
-    calibrate(velocityData: number[]): void;
-    calculateRPE(velocityData: number[]): void;
+    calibrate: (velocityData: number[]) => Promise<void>;
+    calculateRPE: (velocityData: number[]) => Promise<void>;
 }
 
 function rpeCalculation(username: string): rpeCalculationApi {
 
     const calibration = async (velocityData: number[]) => {
-        const rpe10 = Math.max(...velocityData);
-        const rpe0 = Math.min(...velocityData);
-        //TODO: Fetch/pass user name here
+        const rpe10 = Math.min(...velocityData);
+        const rpe0 = Math.max(...velocityData);
         await calibrateRPE(username, rpe10, rpe0);
     }
 
@@ -27,8 +26,8 @@ function rpeCalculation(username: string): rpeCalculationApi {
             const rpe0 = user.rpe0Velocity;
             if (rpe10 && rpe0) {
                 const rpeRange = 10;
-                const velocityRange = rpe10 - rpe0;
-                rpe = 0 + (rpeRange / velocityRange) * (slowestVelocity - rpe0);
+                const velocityRange = rpe0 - rpe10;
+                rpe = rpeRange - (rpeRange / velocityRange) * (slowestVelocity - rpe10);
                 rpe = Math.round(rpe);
                 if (rpe > 10) {
                     rpe = 10;

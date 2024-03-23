@@ -20,6 +20,9 @@ import TextInput from "../components/Input/TextInput";
 import { RootStackParamList } from "../navigation/AppStack";
 import { StackScreenProps } from "@react-navigation/stack";
 
+import { signIn, type SignInInput } from "aws-amplify/auth";
+import { useUserContext } from "../src/Contexts";
+
 // background-color: ${colors.white};
 const LoginContainer = styled(Container)`
   background-color: ${colors.white};
@@ -39,6 +42,22 @@ const RegisterContainer = styled(Container)`
 type Props = StackScreenProps<RootStackParamList, "Login">;
 
 const Login: FunctionComponent<Props> = ({ navigation }) => {
+
+  const [usernameInput, setUsernameInput] = React.useState("");
+  const [passwordInput, setPasswordInput] = React.useState("");
+  const { setUsername } = useUserContext();
+
+  async function handleSignIn({ username, password }: SignInInput) {
+    try {
+      const { isSignedIn, nextStep } = await signIn({ username, password });
+
+      setUsername(username.toLowerCase());
+      navigation.navigate("TabNavigator");
+    } catch (error) {
+      console.log('error signing in', error);
+    }
+  }
+
   return (
     <LoginContainer>
       {/* <ImageBackground
@@ -58,14 +77,25 @@ const Login: FunctionComponent<Props> = ({ navigation }) => {
           Login
         </BigText>
 
-        <TextInput iconName='person-outline'>Username</TextInput>
-        <TextInput iconName='lock-closed-outline' secureTextEntry={true}>
+        <TextInput
+          iconName='person-outline'
+          onTextInput={(text) => { setUsernameInput(text); }}
+        >
+          Username
+        </TextInput>
+        <TextInput
+          iconName='lock-closed-outline'
+          secureTextEntry={true}
+          onTextInput={(text) => { setPasswordInput(text) }}
+        >
           Password
         </TextInput>
         <BottomButtonContainer>
           <RegularButton
             onPress={() => {
-              navigation.navigate("TabNavigator");
+              if (usernameInput.length > 0 && passwordInput.length > 0) {
+                handleSignIn({ username: usernameInput, password: passwordInput });
+              }
             }}
           >
             Login

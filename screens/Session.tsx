@@ -16,6 +16,9 @@ import RegularButton, {
 import RegularText from "../components/Texts/RegularText";
 import { TabParamList } from "../navigation/TabNavigator";
 
+import { useBleContext, useUserContext } from "../src/Contexts";
+import rpeCalculation from "../src/backend/rpeCalculation";
+
 const InstructionsContainer = styled(Container)`
   background-color: ${colors.primary};
   width: 100%;
@@ -27,6 +30,9 @@ type Props = StackScreenProps<RootStackParamList, "TabNavigator"> &
 
 const Session: FunctionComponent<Props> = ({ navigation }) => {
   const { width } = Dimensions.get("window");
+  const { username } = useUserContext();
+  const { calculateRPE } = rpeCalculation(username);
+  const { stopStreamingData, velocityData } = useBleContext();
 
   return (
     <InstructionsContainer>
@@ -48,7 +54,10 @@ const Session: FunctionComponent<Props> = ({ navigation }) => {
       />
       <BottomButtonContainer>
         <RegularButton
-          onPress={() => {
+          onPress={async () => {
+            await stopStreamingData();
+            console.log(velocityData.current);
+            await calculateRPE(velocityData.current);
             navigation.navigate("Display");
           }}
           btnStyles={{

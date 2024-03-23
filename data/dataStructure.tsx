@@ -1,12 +1,11 @@
-export interface Velocity {
-  rep: number;
-  velocity: number;
-}
+import { Device } from "react-native-ble-plx";
+
 
 export interface Session {
   startDate: Date;
-  id: number;
-  velocities: Velocity[];
+  id: string;
+  rpe: number;
+  velocities: number[];
 }
 
 export interface User {
@@ -22,8 +21,5 @@ export interface BluetoothDevice {
   id: number;
   name: string;
   connected: boolean;
-  art: {
-    icon: string;
-    background: string;
-  };
+  device: Device;
 }

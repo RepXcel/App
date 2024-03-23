@@ -61,7 +61,6 @@ function localStorage(): LocalStorageApi {
         try {
             const users = await DataStore.query(User, (c) => c.username.eq(name));
             console.log('Users retrieved successfully!');
-            console.log(JSON.stringify(users, null, 2));
             return users[0];
         } catch (error) {
             console.log('Error retrieving Users', error);
@@ -74,7 +73,6 @@ function localStorage(): LocalStorageApi {
             if (user) {
                 const sessions = await DataStore.query(Session, (c) => c.userSessionsId.eq(user.id));
                 console.log('Sessions retrieved successfully!');
-                console.log(JSON.stringify(sessions, null, 2));
                 return sessions;
             }
         } catch (error) {
@@ -86,9 +84,9 @@ function localStorage(): LocalStorageApi {
     const clearData = async () => {
         try {
             await DataStore.clear();
-            console.log('User cleared successfully!');
+            console.log('Local storage cleared successfully!');
         } catch (error) {
-            console.log('Error deleting User', error);
+            console.log('Error clearing data', error);
         }
     }
 

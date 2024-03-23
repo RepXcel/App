@@ -15,6 +15,9 @@ import RegularButton, {
 import RegularText from "../components/Texts/RegularText";
 import { TabParamList } from "../navigation/TabNavigator";
 
+import { useBleContext } from "../src/Contexts";
+import { signOut } from "aws-amplify/auth";
+
 const SettingsContainer = styled(Container)`
   background-color: ${colors.lightgray};
   width: 100%;
@@ -26,6 +29,16 @@ type Props = StackScreenProps<RootStackParamList, "TabNavigator"> &
   StackScreenProps<TabParamList, "Display">;
 
 const Settings: FunctionComponent<Props> = (props: Props) => {
+  const { startStreamingData } = useBleContext();
+
+  async function handleSignOut() {
+    try {
+      await signOut();
+    } catch (error) {
+      console.log('error signing out: ', error);
+    }
+  }
+
   return (
     <SettingsContainer>
       <BottomButtonContainer>
@@ -43,6 +56,7 @@ const Settings: FunctionComponent<Props> = (props: Props) => {
         </RegularButton>
         <RegularButton
           onPress={() => {
+            startStreamingData();
             props.navigation.navigate("Calibration");
           }}
           btnStyles={{
@@ -64,8 +78,9 @@ const Settings: FunctionComponent<Props> = (props: Props) => {
           About Us
         </RegularButton>
         <RegularButton
-          onPress={() => {
-            props.navigation.navigate("Login");
+          onPress={async () => {
+            await handleSignOut();
+            props.navigation.navigate("Welcome");
           }}
           btnStyles={{
             marginTop: 60,

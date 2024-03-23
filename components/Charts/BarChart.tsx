@@ -5,7 +5,6 @@ import styled from "styled-components/native";
 import { colors } from "../colors";
 import { useWindowDimensions } from "react-native";
 import { Canvas, Group } from "@shopify/react-native-skia";
-import { Velocity } from "../../data/dataStructure";
 import * as d3 from "d3";
 import BarPath from "./BarPath";
 import XAxisText from "./XAxisText";
@@ -17,7 +16,7 @@ const StyledView = styled.TouchableOpacity`
 `;
 
 interface BarChartProps {
-  velocities: Velocity[];
+  velocities: number[];
 }
 
 const BarChart: FunctionComponent<BarChartProps> = (props) => {
@@ -35,16 +34,15 @@ const BarChart: FunctionComponent<BarChartProps> = (props) => {
 
   const xRange = [0, graphWidth];
 
-  const xDomain = props.velocities.map((xDataPoint: Velocity) =>
-    xDataPoint.rep.toString()
+  const xDomain: string[] = props.velocities.map((dataPoint, index) =>
+    (index + 1).toString()
   );
-
   const x = d3.scalePoint().domain(xDomain).range(xRange);
 
   const yRange = [0, graphHeight];
   const yDomain = [
     0,
-    d3.max(props.velocities, (yDataPoint: Velocity) => yDataPoint.velocity)!,
+    d3.max(props.velocities, (yDataPoint: number) => yDataPoint)!,
     // || 0,
   ];
 
@@ -66,19 +64,19 @@ const BarChart: FunctionComponent<BarChartProps> = (props) => {
           backgroundColor: `${colors.white}`,
         }}
       >
-        {props.velocities.map((dataPoint: Velocity, index) => (
+        {props.velocities.map((dataPoint: number, index) => (
           <Group key={index}>
             <BarPath
-              x={x(dataPoint.rep.toString())!}
-              y={y(dataPoint.velocity)}
+              x={x((index + 1).toString())!}
+              y={y(dataPoint)}
               barWidth={barWidth}
               graphHeight={graphHeight}
               progress={progress}
             />
             <XAxisText
-              x={x(dataPoint.rep.toString())!}
+              x={x((index + 1).toString())!}
               y={canvasHeight}
-              text={dataPoint.velocity.toString()}
+              text={dataPoint === Math.max(...props.velocities) || dataPoint === Math.min(...props.velocities) ? dataPoint.toFixed(2).toString() : ""}
             />
           </Group>
         ))}

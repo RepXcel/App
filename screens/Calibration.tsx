@@ -16,6 +16,9 @@ import RegularButton, {
 import RegularText from "../components/Texts/RegularText";
 import { TabParamList } from "../navigation/TabNavigator";
 
+import { useBleContext, useUserContext } from "../src/Contexts";
+import rpeCalculation from "../src/backend/rpeCalculation";
+
 const InstructionsContainer = styled(Container)`
   background-color: ${colors.lightgray};
   width: 100%;
@@ -25,11 +28,13 @@ const InstructionsContainer = styled(Container)`
 type Props = StackScreenProps<RootStackParamList, "TabNavigator"> &
   StackScreenProps<TabParamList, "Display">;
 
-//THIS BLURB IS A WORK IN PROGRESS
-const blurb = "CALIBRATION TIME WOOO";
+const blurb = "Squat until you can't squat no more";
 
 const Calibration: FunctionComponent<Props> = ({ navigation }) => {
   const { width } = Dimensions.get("window");
+  const { username } = useUserContext();
+  const { calibrate } = rpeCalculation(username);
+  const { stopStreamingData, velocityData } = useBleContext();
 
   return (
     <InstructionsContainer>
@@ -51,15 +56,18 @@ const Calibration: FunctionComponent<Props> = ({ navigation }) => {
       </ScrollView>
       <BottomButtonContainer>
         <RegularButton
-          onPress={() => {
-            navigation.navigate("Settings");
+          onPress={async () => {
+            await stopStreamingData();
+            console.log(velocityData.current);
+            calibrate(velocityData.current);
+            navigation.navigate("Display");
           }}
           btnStyles={{
             marginBottom: 20,
             backgroundColor: colors.darkgray,
           }}
         >
-          Back
+          Finish Calibration
         </RegularButton>
       </BottomButtonContainer>
     </InstructionsContainer>

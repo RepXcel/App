@@ -1,4 +1,4 @@
-import React from "react";
+import React, { createContext, useContext, useEffect } from "react";
 
 // custom font
 import { useCallback } from "react";
@@ -12,14 +12,37 @@ import RootStack from "./navigation/AppStack";
 import Register from "./screens/Welcome";
 import { View } from "react-native";
 
+import { BleContext, UserContext } from "./src/Contexts";
+
+import useBLE from "./src/backend/useBLE";
+
+import { Amplify } from "aws-amplify";
+import amplifyconfig from './src/amplifyconfiguration.json';
+
+Amplify.configure(amplifyconfig);
+
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
+  const [username, setUsername] = React.useState("");
+
+  const {
+    requestPermissions,
+    scanForPeripherals,
+    allDevices,
+    connectToDevice,
+    connectedDevice,
+    data,
+    disconnectFromDevice,
+    startStreamingData,
+    stopStreamingData,
+    velocityData
+  } = useBLE();
+
   let [fontsLoaded] = useFonts({
     "Lato-Bold": require("./assets/fonts/Lato-Bold.ttf"),
     "Lato-Regular": require("./assets/fonts/Lato-Regular.ttf"),
   });
-
 
   const onLayoutRootView = useCallback(async () => {
     if (fontsLoaded) {
@@ -41,7 +64,25 @@ export default function App() {
       style={{ flex: 1 }}
       onLayout={onLayoutRootView}
     >
-      <RootStack />
+      <UserContext.Provider value={{
+        username,
+        setUsername
+      }}>
+        <BleContext.Provider value={{
+          requestPermissions,
+          scanForPeripherals,
+          allDevices,
+          connectToDevice,
+          connectedDevice,
+          data,
+          disconnectFromDevice,
+          startStreamingData,
+          stopStreamingData,
+          velocityData
+        }}>
+          <RootStack />
+        </BleContext.Provider>
+      </UserContext.Provider>
     </View>
   );
 }

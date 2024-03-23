@@ -39,25 +39,3 @@ export const sessionData: Session[] = [
   },
   // Add more data as needed
 ];
-
-export const deviceData: BluetoothDevice[] = [
-  {
-    id: 1,
-    name: "Device 1",
-    connected: false,
-    art: {
-      icon: "icon1",
-      background: "background1",
-    },
-  },
-  {
-    id: 2,
-    name: "Device 2",
-    connected: true,
-    art: {
-      icon: "icon2",
-      background: "background2",
-    },
-  },
-  // Add more data as needed
-];
