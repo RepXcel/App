@@ -126,12 +126,10 @@ function useBLE(): BluetoothLowEnergyApi {
 			console.log("Connected to Device", deviceConnection.name);
 			bleManager.stopDeviceScan();
 			// Monitor Battery Level
-			setSubscription(
-				deviceConnection.monitorCharacteristicForService(
-					BATTERY_SERVICE_UUID,
-					BATTERY_CHARACTERISTIC_UUID,
-					batteryListener
-				)
+			deviceConnection.monitorCharacteristicForService(
+				BATTERY_SERVICE_UUID,
+				BATTERY_CHARACTERISTIC_UUID,
+				batteryListener
 			);
 		} catch (e) {
 			console.log("FAILED TO CONNECT", e);
@@ -161,7 +159,7 @@ function useBLE(): BluetoothLowEnergyApi {
 		const rawData = characteristic.value;
 		// console.log("Raw Data", rawData);
 		const { velocity, timestamp } = base64Decode(rawData);
-		console.log("Velocity", velocity, "Timestamp", timestamp, "Local Timestamp", localTimestamp);
+		// console.log("Velocity", velocity, "Timestamp", timestamp, "Local Timestamp", localTimestamp);
 
 
 		// Parse the Data into proper velocity values

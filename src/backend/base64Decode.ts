@@ -116,7 +116,6 @@ function base64DecodeBattery(base64: string): number {
 
     //Convert base64 to binary
     let binary = base64.slice(0, -2).split("").map((char) => {
-        console.log(base64Map.get(char)?.toString(2));
         return base64Map.get(char)?.toString(2).padStart(6, "0");
     }).reduce((acc, val) => {
         if (acc && val) {
