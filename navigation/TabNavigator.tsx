@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FunctionComponent } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import { useIsFocused } from "@react-navigation/native";
@@ -116,11 +116,7 @@ const TabNavigator: React.FC = () => {
           //   <IonIcon name='home-outline' color={color} size={size} />
           // ),
           headerTitle: (props) => (
-            <Title
-              mainText={props.children}
-              subText={username}
-              {...props}
-            />
+            <Title mainText={props.children} subText={username} {...props} />
           ),
           headerLeft: () => <></>,
         }}
@@ -133,11 +129,7 @@ const TabNavigator: React.FC = () => {
             color: "red",
           },
           headerTitle: (props) => (
-            <Title
-              mainText={props.children}
-              subText={username}
-              {...props}
-            />
+            <Title mainText={props.children} subText={username} {...props} />
           ),
           // tabBarIcon: ({ color, size }) => (
           //   <IonIcon name='time-outline' color={color} size={size} />
@@ -149,11 +141,7 @@ const TabNavigator: React.FC = () => {
         component={Bluetooth}
         options={{
           headerTitle: (props) => (
-            <Title
-              mainText={props.children}
-              subText={username}
-              {...props}
-            />
+            <Title mainText={props.children} subText={username} {...props} />
           ),
           //   tabBarIcon: ({ color, size }) => (
           //     <IonIcon name='bluetooth-outline' color={color} size={size} />
@@ -162,14 +150,10 @@ const TabNavigator: React.FC = () => {
       />
       <Tab.Screen
         name='Settings'
-        component={Settings}
+        component={Settings as FunctionComponent}
         options={{
           headerTitle: (props) => (
-            <Title
-              mainText={props.children}
-              subText={username}
-              {...props}
-            />
+            <Title mainText={props.children} subText={username} {...props} />
           ),
           //   tabBarIcon: ({ color, size }) => (
           //     <IonIcon name='settings-outline' color={color} size={size} />
@@ -178,18 +162,14 @@ const TabNavigator: React.FC = () => {
       />
       <Tab.Screen
         name='About'
-        component={About}
+        component={About as FunctionComponent}
         options={{
           headerTitle: (props) => (
-            <Title
-              mainText={props.children}
-              subText={username}
-              {...props}
-            />
+            <Title mainText={props.children} subText={username} {...props} />
           ),
           //remove the tab bar icons
           tabBarButton: () => null,
-          tabBarVisible: false,
+          // tabBarVisible: false,
           //   tabBarIcon: ({ color, size }) => (
           //     <IonIcon name='settings-outline' color={color} size={size} />
           //   ),
@@ -197,59 +177,32 @@ const TabNavigator: React.FC = () => {
       />
       <Tab.Screen
         name='Calibration'
-        component={Calibration}
+        component={Calibration as FunctionComponent}
         options={{
           headerTitle: (props) => (
-            <Title
-              mainText={props.children}
-              subText={username}
-              {...props}
-            />
+            <Title mainText={props.children} subText={username} {...props} />
           ),
-          //remove the tab bar icons
           tabBarButton: () => null,
-          tabBarVisible: false,
-          //   tabBarIcon: ({ color, size }) => (
-          //     <IonIcon name='settings-outline' color={color} size={size} />
-          //   ),
         }}
       />
       <Tab.Screen
         name='Instructions'
-        component={Instructions}
+        component={Instructions as FunctionComponent}
         options={{
           headerTitle: (props) => (
-            <Title
-              mainText={props.children}
-              subText={username}
-              {...props}
-            />
+            <Title mainText={props.children} subText={username} {...props} />
           ),
-          //remove the tab bar icons
           tabBarButton: () => null,
-          tabBarVisible: false,
-          //   tabBarIcon: ({ color, size }) => (
-          //     <IonIcon name='settings-outline' color={color} size={size} />
-          //   ),
         }}
       />
       <Tab.Screen
         name='Session'
-        component={Session}
+        component={Session as FunctionComponent}
         options={{
           headerTitle: (props) => (
-            <Title
-              mainText={props.children}
-              subText={username}
-              {...props}
-            />
+            <Title mainText={props.children} subText={username} {...props} />
           ),
-          //remove the tab bar icons
           tabBarButton: () => null,
-          tabBarVisible: false,
-          //   tabBarIcon: ({ color, size }) => (
-          //     <IonIcon name='settings-outline' color={color} size={size} />
-          //   ),
         }}
       />
     </Tab.Navigator>

@@ -9,7 +9,7 @@ import RegularButton, {
   BottomButtonContainer,
 } from "../components/Buttons/RegularButton";
 import { StackScreenProps } from "@react-navigation/stack";
-import { CombinedProps } from "../navigation/TabNavigator";
+import { TabParamList } from "../navigation/TabNavigator";
 import ScreenCard from "../components/Cards/ScreenCard";
 import HorizontalCardList from "../components/Cards/HorizontalCardList";
 import VerticalCardList from "../components/Cards/VerticalCardList";
@@ -28,7 +28,7 @@ const DisplayContainer = styled(Container)`
   justify-content: flex-end;
 `;
 
-type Props = StackScreenProps<CombinedProps, "Display">;
+type Props = StackScreenProps<TabParamList, "Display">;
 
 const Display: FunctionComponent<Props> = ({ navigation }) => {
   const { startStreamingData } = useBleContext();
@@ -76,7 +76,6 @@ const Display: FunctionComponent<Props> = ({ navigation }) => {
     }
   }, [isFocused]);
 
-
   const sortedSession = sessionData.slice().sort((a, b) => {
     return new Date(b.startDate).getTime() - new Date(a.startDate).getTime();
   });
@@ -101,8 +100,7 @@ const Display: FunctionComponent<Props> = ({ navigation }) => {
             startStreamingData();
             if (calibrated) {
               navigation.navigate("Session");
-            }
-            else {
+            } else {
               navigation.navigate("Calibration");
             }
           }}
