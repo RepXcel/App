@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect } from "react";
+import React, { FunctionComponent } from "react";
 import { StatusBar } from "expo-status-bar";
 import styled from "styled-components/native";
 
@@ -6,10 +6,8 @@ import styled from "styled-components/native";
 import { colors } from "../components/colors";
 import { Container } from "../components/shared";
 import BigText from "../components/Texts/BigText";
-import RegularText from "../components/Texts/RegularText";
 import SmallText from "../components/Texts/SmallText";
 import RegularButton from "../components/Buttons/RegularButton";
-import TabNavigator from "../navigation/TabNavigator";
 
 const RegisterContainer = styled(Container)`
   background-color: ${colors.secondary};
@@ -41,7 +39,7 @@ const TopImage = styled.Image`
 `;
 
 //image
-import backgroundWaves from "../assets/backgrounds/backgroundWaves.png";
+import { WaveAnimation } from "../components/Loading/WaveBackground"; // Import WaveAnimation
 
 // types
 import { RootStackParamList } from "../navigation/AppStack";
@@ -52,14 +50,13 @@ import { getCurrentUser } from "aws-amplify/auth";
 import { useUserContext } from "../src/Contexts";
 
 // Storage import for testing purposes
-import { DataStore } from 'aws-amplify/datastore';
+import { DataStore } from "aws-amplify/datastore";
 import localStorage from "../src/backend/localStorage";
 import rpeCalculation from "../src/backend/rpeCalculation";
 
 type Props = StackScreenProps<RootStackParamList, "Welcome">;
 
 const Register: FunctionComponent<Props> = ({ navigation }) => {
-
   const { setUsername } = useUserContext();
 
   // Local storage for testing purposes
@@ -69,11 +66,10 @@ const Register: FunctionComponent<Props> = ({ navigation }) => {
     addNewSession,
     retrieveData,
     clearData,
-    retrieveSessionData
+    retrieveSessionData,
   } = localStorage();
 
   // const { calculateRPE } = rpeCalculation("test");
-
 
   // Things that needs to run once on start up
   // useEffect(() => {
@@ -100,9 +96,8 @@ const Register: FunctionComponent<Props> = ({ navigation }) => {
     <>
       <StatusBar style='light' />
       <RegisterContainer>
-        <TopSection>
-          <TopImage source={backgroundWaves}></TopImage>
-        </TopSection>
+        <WaveAnimation />
+        <TopSection />
         <BottomSection>
           <BigText
             textStyles={{
