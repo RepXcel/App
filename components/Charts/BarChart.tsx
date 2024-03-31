@@ -50,8 +50,11 @@ const BarChart: FunctionComponent<BarChartProps> = (props) => {
 
   useFocusEffect(() => {
     // progress.value = 0; // Reset animation progress when component unmounts or loses focus
-    const animation = withTiming(1, { duration: 1000 });
-    progress.value = animation;
+    setTimeout(() => {
+      // Code to execute after half a second delay
+      const animation = withTiming(1, { duration: 1000 });
+      progress.value = animation;
+    }, 500);
 
     return () => {
       progress.value = 0; // Reset animation progress when component unmounts

@@ -19,7 +19,7 @@ const BarPath = ({ x, y, barWidth, graphHeight, progress }: Props) => {
         x: x + barWidth / 2,
         y: graphHeight,
         width: barWidth,
-        height: y * -1 * progress.value,
+        height: y !== 0 ? y * -1 * progress.value : 0,
       },
       rx: 5,
       ry: 5,

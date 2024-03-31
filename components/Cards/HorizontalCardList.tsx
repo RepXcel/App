@@ -58,7 +58,7 @@ const HorizontalCardList = <T extends unknown>({
         snapToInterval={width - 25} // Adjust this value
         decelerationRate={"fast"} // Adjust the deceleration rate if needed
         onScrollToIndexFailed={(info) => {
-          const wait = new Promise((resolve) => setTimeout(resolve, 500));
+          const wait = new Promise((resolve) => setTimeout(resolve, 200));
           wait.then(() => {
             flatListRef.current?.scrollToOffset({
               offset: info.averageItemLength * info.index,
