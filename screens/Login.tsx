@@ -2,7 +2,7 @@ import React, { FunctionComponent } from "react";
 import styled from "styled-components/native";
 
 //Image Background
-import { ImageBackground } from "react-native";
+import { Alert, ImageBackground } from "react-native";
 import backgroundImage from "../assets/backgrounds/.jpg";
 
 // custom components
@@ -22,6 +22,7 @@ import { StackScreenProps } from "@react-navigation/stack";
 
 import { signIn, type SignInInput } from "aws-amplify/auth";
 import { useUserContext } from "../src/Contexts";
+import { WaveAnimation } from "../components/Loading/WaveBackground";
 
 // background-color: ${colors.white};
 const LoginContainer = styled(Container)`
@@ -42,7 +43,6 @@ const RegisterContainer = styled(Container)`
 type Props = StackScreenProps<RootStackParamList, "Login">;
 
 const Login: FunctionComponent<Props> = ({ navigation }) => {
-
   const [usernameInput, setUsernameInput] = React.useState("");
   const [passwordInput, setPasswordInput] = React.useState("");
   const { setUsername } = useUserContext();
@@ -53,18 +53,20 @@ const Login: FunctionComponent<Props> = ({ navigation }) => {
 
       setUsername(username.toLowerCase());
       navigation.navigate("TabNavigator");
-    } catch (error) {
-      console.log('error signing in', error);
+    } catch (error: unknown) {
+      console.log("error signing in", error);
+
+      if (error instanceof Error) {
+        Alert.alert("Uh oh!", error.message);
+      } else {
+        Alert.alert("An unknown error occurred");
+      }
     }
   }
 
   return (
     <LoginContainer>
-      {/* <ImageBackground
-        source={backgroundImage}
-        style={{ width: "100%", height: "100%", justifyContent: "flex-start" }}
-        resizeMode='contain'
-      > */}
+      {/* <WaveAnimation /> */}
       <ContentContainer>
         <BigText
           textStyles={{
@@ -79,14 +81,18 @@ const Login: FunctionComponent<Props> = ({ navigation }) => {
 
         <TextInput
           iconName='person-outline'
-          onTextInput={(text) => { setUsernameInput(text); }}
+          onTextInput={(text) => {
+            setUsernameInput(text);
+          }}
         >
           Username
         </TextInput>
         <TextInput
           iconName='lock-closed-outline'
           secureTextEntry={true}
-          onTextInput={(text) => { setPasswordInput(text) }}
+          onTextInput={(text) => {
+            setPasswordInput(text);
+          }}
         >
           Password
         </TextInput>
@@ -94,7 +100,10 @@ const Login: FunctionComponent<Props> = ({ navigation }) => {
           <RegularButton
             onPress={() => {
               if (usernameInput.length > 0 && passwordInput.length > 0) {
-                handleSignIn({ username: usernameInput, password: passwordInput });
+                handleSignIn({
+                  username: usernameInput,
+                  password: passwordInput,
+                });
               }
             }}
           >
