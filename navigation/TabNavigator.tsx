@@ -28,7 +28,7 @@ import BigText from "../components/Texts/BigText";
 import { useUserContext } from "../src/Contexts";
 
 export type TabParamList = {
-  Display: undefined;
+  Display: { selectedIndex?: number; timestamp?: number };
   Bluetooth: undefined;
   History: undefined;
   Settings: undefined;
@@ -110,7 +110,7 @@ const TabNavigator: React.FC = () => {
     >
       <Tab.Screen
         name='Display'
-        component={Display}
+        component={Display as FunctionComponent}
         options={{
           // tabBarIcon: ({ color, size }) => (
           //   <IonIcon name='home-outline' color={color} size={size} />
@@ -123,7 +123,7 @@ const TabNavigator: React.FC = () => {
       />
       <Tab.Screen
         name='History'
-        component={History}
+        component={History as FunctionComponent}
         options={{
           headerTitleStyle: {
             color: "red",
@@ -138,7 +138,7 @@ const TabNavigator: React.FC = () => {
       />
       <Tab.Screen
         name='Bluetooth'
-        component={Bluetooth}
+        component={Bluetooth as FunctionComponent}
         options={{
           headerTitle: (props) => (
             <Title mainText={props.children} subText={username} {...props} />

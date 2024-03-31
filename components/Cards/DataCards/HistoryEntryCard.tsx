@@ -13,7 +13,7 @@ const LeftView = styled.View`
   justify-content: flex-start;
   height: 100%;
   align-items: center;
-  flex: 2;
+  flex: 3;
   vertical-align: top;
 `;
 
@@ -60,11 +60,12 @@ const HistoryEntryCard: FunctionComponent<CardProps<Session>> = (props) => {
             }}
           >
             {"average velocity: " +
-              (props.data.velocities.reduce(
-                (acc, velocity) => acc + velocity,
-                0
-              ) /
-                Math.max(1, props.data.velocities.length)).toFixed(2)}
+              (
+                props.data.velocities.reduce(
+                  (acc, velocity) => acc + velocity,
+                  0
+                ) / Math.max(1, props.data.velocities.length)
+              ).toFixed(2)}
           </SmallText>
         </View>
       </LeftView>
@@ -78,9 +79,7 @@ const HistoryEntryCard: FunctionComponent<CardProps<Session>> = (props) => {
           }}
         >
           {/*get RPE*/}
-          {"RPE: " +
-            props.data.rpe
-          }
+          {"RPE: " + props.data.rpe}
         </RegularText>
         <SmallText
           textStyles={{

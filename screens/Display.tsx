@@ -30,7 +30,7 @@ const DisplayContainer = styled(Container)`
 
 type Props = StackScreenProps<TabParamList, "Display">;
 
-const Display: FunctionComponent<Props> = ({ navigation }) => {
+const Display: FunctionComponent<Props> = ({ route, navigation }) => {
   const { startStreamingData } = useBleContext();
   const { retrieveData, retrieveSessionData } = localStorage();
   const { username } = useUserContext();
@@ -76,6 +76,9 @@ const Display: FunctionComponent<Props> = ({ navigation }) => {
     }
   }, [isFocused]);
 
+  // receive the selectedIndex from the route
+  const selectedIndex = route.params?.selectedIndex;
+
   const sortedSession = sessionData.slice().sort((a, b) => {
     return new Date(b.startDate).getTime() - new Date(a.startDate).getTime();
   });
@@ -93,6 +96,7 @@ const Display: FunctionComponent<Props> = ({ navigation }) => {
         )}
         keyExtractor={(item) => item.id.toString()}
         data={sortedSession}
+        selectedIndex={selectedIndex}
       />
       <BottomButtonContainer>
         <RegularButton
