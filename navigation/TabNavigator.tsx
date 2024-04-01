@@ -46,7 +46,14 @@ const TabNavigator: React.FC = () => {
 
   const { username } = useUserContext();
   const isFocused = useIsFocused();
-  // Use useFocusEffect to update isFocused when the focus changes
+
+  const getHeaderTitle = (props: any) => (
+    <Title
+      mainText={props.children}
+      subText={"Welcome " + username}
+      {...props}
+    />
+  );
 
   return (
     <Tab.Navigator
@@ -102,6 +109,9 @@ const TabNavigator: React.FC = () => {
           <Logo
             img={LogoIcon}
             imgContainerStyle={{ backgroundColor: theme.primary }}
+            onPress={() => {
+              navigation.navigate("Welcome");
+            }}
           />
           // <IconButton
           //   iconName='settings-outline'
@@ -118,13 +128,7 @@ const TabNavigator: React.FC = () => {
         name='Display'
         component={Display as FunctionComponent}
         options={{
-          // tabBarIcon: ({ color, size }) => (
-          //   <IonIcon name='home-outline' color={color} size={size} />
-          // ),
-          headerTitle: (props) => (
-            <Title mainText={props.children} subText={username} {...props} />
-          ),
-          headerLeft: () => <></>,
+          headerTitle: getHeaderTitle,
         }}
       />
       <Tab.Screen
@@ -134,60 +138,36 @@ const TabNavigator: React.FC = () => {
           headerTitleStyle: {
             color: "red",
           },
-          headerTitle: (props) => (
-            <Title mainText={props.children} subText={username} {...props} />
-          ),
-          // tabBarIcon: ({ color, size }) => (
-          //   <IonIcon name='time-outline' color={color} size={size} />
-          // ),
+          headerTitle: getHeaderTitle,
         }}
       />
       <Tab.Screen
         name='Bluetooth'
         component={Bluetooth as FunctionComponent}
         options={{
-          headerTitle: (props) => (
-            <Title mainText={props.children} subText={username} {...props} />
-          ),
-          //   tabBarIcon: ({ color, size }) => (
-          //     <IonIcon name='bluetooth-outline' color={color} size={size} />
-          //   ),
+          headerTitle: getHeaderTitle,
         }}
       />
       <Tab.Screen
         name='Settings'
         component={Settings as FunctionComponent}
         options={{
-          headerTitle: (props) => (
-            <Title mainText={props.children} subText={username} {...props} />
-          ),
-          //   tabBarIcon: ({ color, size }) => (
-          //     <IonIcon name='settings-outline' color={color} size={size} />
-          //   ),
+          headerTitle: getHeaderTitle,
         }}
       />
       <Tab.Screen
         name='About'
         component={About as FunctionComponent}
         options={{
-          headerTitle: (props) => (
-            <Title mainText={props.children} subText={username} {...props} />
-          ),
-          //remove the tab bar icons
+          headerTitle: getHeaderTitle,
           tabBarButton: () => null,
-          // tabBarVisible: false,
-          //   tabBarIcon: ({ color, size }) => (
-          //     <IonIcon name='settings-outline' color={color} size={size} />
-          //   ),
         }}
       />
       <Tab.Screen
         name='Calibration'
         component={Calibration as FunctionComponent}
         options={{
-          headerTitle: (props) => (
-            <Title mainText={props.children} subText={username} {...props} />
-          ),
+          headerTitle: getHeaderTitle,
           tabBarButton: () => null,
         }}
       />
@@ -195,9 +175,7 @@ const TabNavigator: React.FC = () => {
         name='Instructions'
         component={Instructions as FunctionComponent}
         options={{
-          headerTitle: (props) => (
-            <Title mainText={props.children} subText={username} {...props} />
-          ),
+          headerTitle: getHeaderTitle,
           tabBarButton: () => null,
         }}
       />
@@ -205,9 +183,7 @@ const TabNavigator: React.FC = () => {
         name='Session'
         component={Session as FunctionComponent}
         options={{
-          headerTitle: (props) => (
-            <Title mainText={props.children} subText={username} {...props} />
-          ),
+          headerTitle: getHeaderTitle,
           tabBarButton: () => null,
         }}
       />
