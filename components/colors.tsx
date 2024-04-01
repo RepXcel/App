@@ -32,6 +32,7 @@ export const light = {
   wavePrimary: colors.tertiary,
   button: colors.primary,
   buttonGray: colors.gray,
+  statusBar: "dark",
 
   ...colors,
 };
@@ -48,6 +49,7 @@ export const dark = {
   wavePrimary: colors.primary,
   button: colors.tertiary,
   buttonGray: colors.darkGray,
+  statusBar: "light",
 
   ...colors,
 };

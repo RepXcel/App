@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect } from "react";
-import { StatusBar } from "expo-status-bar";
+import { StatusBar, StatusBarStyle } from "expo-status-bar";
 import styled from "styled-components/native";
 
 // custom components
@@ -87,7 +87,7 @@ const Display: FunctionComponent<Props> = ({ route, navigation }) => {
 
   return (
     <DisplayContainer theme={theme}>
-      <StatusBar style='dark' />
+      <StatusBar style={theme.statusBar as StatusBarStyle} />
       <HorizontalCardList
         title='Entries'
         subtitle='Newest'
