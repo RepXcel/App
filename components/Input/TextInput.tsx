@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useState } from "react";
 import styled from "styled-components/native";
 import { StyleProp, TextStyle } from "react-native";
 
@@ -15,6 +15,8 @@ const InputContainer = styled.View`
   padding: 10px;
   margin: 10px;
   flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 const IconContainer = styled.View`
@@ -27,9 +29,16 @@ const IconContainer = styled.View`
 const StyledTextInput = styled.TextInput`
   font-size: 17px;
   font-family: Lato-Bold;
-  width: 90%;
+  flex: 1;
   border-radius: 8px;
   color: ${(props) => props.theme.text};
+`;
+
+const VisibilityButton = styled.TouchableOpacity`
+  padding-left: 15px;
+  padding-right: 8px;
+  justify-content: center;
+  top: -1px;
 `;
 
 interface TextInputProps {
@@ -44,6 +53,11 @@ interface TextInputProps {
 
 const TextInput: FunctionComponent<TextInputProps> = (props) => {
   const { theme } = useThemeContext(); // access the theme object
+  const [secureEntry, setSecureEntry] = useState(props.secureTextEntry);
+
+  const toggleVisibility = () => {
+    setSecureEntry(!secureEntry);
+  };
 
   return (
     <InputContainer theme={theme}>
@@ -64,9 +78,18 @@ const TextInput: FunctionComponent<TextInputProps> = (props) => {
             : props.placeholderColor
         }
         style={props.textStyles}
-        secureTextEntry={props.secureTextEntry}
+        secureTextEntry={secureEntry}
         theme={theme}
       ></StyledTextInput>
+      {props.secureTextEntry && (
+        <VisibilityButton onPress={toggleVisibility}>
+          <IonIcon
+            name={secureEntry ? "eye-off-outline" : "eye-outline"}
+            color={secureEntry ? theme.buttonGray : theme.accentText}
+            size={18}
+          />
+        </VisibilityButton>
+      )}
     </InputContainer>
   );
 };
