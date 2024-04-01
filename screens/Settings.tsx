@@ -91,7 +91,7 @@ const Settings: FunctionComponent<Props> = (props: Props) => {
         <RegularButton
           onPress={async () => {
             await handleSignOut();
-            props.navigation.navigate("Welcome");
+            props.navigation.navigate("Login");
           }}
           btnStyles={{
             marginTop: 60,
