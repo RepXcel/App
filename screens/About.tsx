@@ -13,9 +13,9 @@ import { Container } from "../components/shared";
 import RegularButton, {
   BottomButtonContainer,
 } from "../components/Buttons/RegularButton";
-import DeviceCard from "../components/Cards/DataCards/BluetoothDeviceCard";
-import VerticalCardList from "../components/Cards/VerticalCardList";
 import RegularText from "../components/Texts/RegularText";
+import BigText from "../components/Texts/BigText";
+
 
 const AboutContainer = styled(Container)`
   background-color: ${colors.lightgray};
@@ -26,13 +26,17 @@ const AboutContainer = styled(Container)`
 
 type Props = StackScreenProps<RootStackParamList, "TabNavigator">;
 //THIS BLURB IS A WORK IN PROGRESS
-const blurb = "Hello we are the RepXcel team. It's nice to meet you :)"
+const title = "All About Us"
+const blurb = "Hello! We are the RepXcel team :)\n\nOur names are Qian Chen, Dat Lam, Amanda Nguyen, Justin Ross, Tommy Tran, and Tyler Tran.\n\nWe are a group of engineering students that are passionate about fitness and self-improvement.\n\nThis is a project designed for our capstone course at the University of Calgary.\n\nWe hope that you have a good time using the RepXcel velocity tracking system and that it helps you reach your goals faster!"
 
 const About: FunctionComponent<Props> = (props: Props) => {
 
   return <AboutContainer>
     <ScrollView>
-      <RegularText textStyles={{ fontSize: 19, color: colors.secondary, marginTop: 20, marginHorizontal: 15,}}>
+      <BigText textStyles={{ fontSize: 25, color: colors.secondary, marginTop: 20, marginHorizontal: 15,}}>
+          {title}
+        </BigText>
+      <RegularText textStyles={{ fontSize: 19, color: colors.secondary, marginHorizontal: 15,}}>
           {blurb}
         </RegularText>
       </ScrollView>
