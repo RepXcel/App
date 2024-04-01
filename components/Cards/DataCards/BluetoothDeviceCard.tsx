@@ -26,19 +26,24 @@ const RightView = styled.View`
   flex: 1;
 `;
 
-const DeviceCard: FunctionComponent<CardProps<Device>> = (props) => {
+type DeviceTypeProp = {
+  device: Device;
+  battery: number;
+};
+
+const DeviceCard: FunctionComponent<CardProps<DeviceTypeProp>> = (props) => {
   const { connectToDevice, connectedDevice } = useBleContext();
 
   return (
     <WideCard
       onPress={() => {
-        if (props.data !== connectedDevice) {
-          connectToDevice(props.data);
+        if (props.data.device !== connectedDevice) {
+          connectToDevice(props.data.device);
         }
       }}
       data={props.data}
       viewStyles={
-        props.data.id == connectedDevice?.id
+        props.data.device.id == connectedDevice?.id
           ? {
             borderWidth: 2,
             borderColor: colors.primary,
@@ -53,7 +58,7 @@ const DeviceCard: FunctionComponent<CardProps<Device>> = (props) => {
         <View>
           <RegularText
             textStyles={
-              props.data.id == connectedDevice?.id
+              props.data.device.id == connectedDevice?.id
                 ? {
                   color: colors.primary,
                   fontWeight: "bold",
@@ -64,7 +69,7 @@ const DeviceCard: FunctionComponent<CardProps<Device>> = (props) => {
                 }
             }
           >
-            {props.data.name}
+            {props.data.device.name}
           </RegularText>
           <SmallText
             textStyles={{
@@ -72,7 +77,7 @@ const DeviceCard: FunctionComponent<CardProps<Device>> = (props) => {
               color: colors.darkgray,
             }}
           >
-            {props.data.id}
+            {props.data.device.id}
           </SmallText>
         </View>
       </LeftView>
@@ -80,12 +85,11 @@ const DeviceCard: FunctionComponent<CardProps<Device>> = (props) => {
         <SmallText
           textStyles={{
             textAlign: "right",
-            color: props.data.id == connectedDevice?.id ? colors.primary : colors.darkgray,
-            fontWeight: props.data.id == connectedDevice?.id ? "bold" : "normal",
+            color: props.data.device.id == connectedDevice?.id ? colors.primary : colors.darkgray,
+            fontWeight: props.data.device.id == connectedDevice?.id ? "bold" : "normal",
           }}
         >
-          {/*get average*/}
-          {props.data === connectedDevice ? "connected" : "paired"}
+          {props.data.device === connectedDevice ? "connected" : "paired"}
         </SmallText>
         <SmallText
           textStyles={{
@@ -93,7 +97,7 @@ const DeviceCard: FunctionComponent<CardProps<Device>> = (props) => {
             color: colors.darkgray,
           }}
         >
-          {"id: " + props.data.id}
+          {"battery: " + props.data.battery + "%"}
         </SmallText>
       </RightView>
     </WideCard>

@@ -25,12 +25,12 @@ const BluetoothContainer = styled(Container)`
 // Sample data
 
 const Bluetooth: FunctionComponent = () => {
-  const [devices, setDevices] = React.useState<BluetoothDevice[]>([]);
   const isFocused = useIsFocused();
   const {
     requestPermissions,
     scanForPeripherals,
     allDevices,
+    batteryData,
   } = useBleContext();
 
   const scanForDevices = async () => {
@@ -42,7 +42,7 @@ const Bluetooth: FunctionComponent = () => {
 
   React.useEffect(() => {
     scanForDevices();
-  }, []);
+  }, [isFocused]);
 
   // Displaying all devices
   // React.useEffect(() => {
@@ -55,7 +55,7 @@ const Bluetooth: FunctionComponent = () => {
         title='Devices'
         subtitle=''
         renderItemComponent={({ item }: { item: Device }) => (
-          <DeviceCard data={item}>
+          <DeviceCard data={{ device: item, battery: batteryData }}>
             <></>
           </DeviceCard>
         )}

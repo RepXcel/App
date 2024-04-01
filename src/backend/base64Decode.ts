@@ -112,4 +112,25 @@ function base64Decode(base64: string): { velocity: number, timestamp: number } {
     return { velocity: 0, timestamp: 0 };
 }
 
-export default base64Decode;
+function base64DecodeBattery(base64: string): number {
+
+    //Convert base64 to binary
+    let binary = base64.slice(0, -2).split("").map((char) => {
+        return base64Map.get(char)?.toString(2).padStart(6, "0");
+    }).reduce((acc, val) => {
+        if (acc && val) {
+            return acc + val;
+        }
+        return "";
+    });
+
+    if (binary) {
+        //Convert binary to number
+        let batteryLevel = parseInt(binary.substring(0, 8), 2);
+        return batteryLevel;
+    }
+
+    return -1;
+}
+
+export { base64Decode, base64DecodeBattery };
