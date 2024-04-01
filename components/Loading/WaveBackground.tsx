@@ -13,7 +13,7 @@ import {
 } from "@shopify/react-native-skia";
 import { line, curveBasis } from "d3";
 
-import colors from "../colors";
+import colors, { useThemeContext } from "../colors";
 import styled from "styled-components/native";
 
 const dimension = Dimensions.get("window");
@@ -23,17 +23,19 @@ const frequency = 2;
 const initialAmplitude = 30;
 const initialVerticalOffset = 80;
 
-const waveColor = colors.colors.primary;
-const topGradientColor = colors.colors.black + "60";
-const bottomGradientColor = colors.colors.black;
-
 const WaveAnimationContainer = styled.View`
   position: absolute;
   width: 100%;
   height: 100%;
 `;
 
+const waveColor = colors.colors.primary;
+
 export const WaveAnimation: React.FC = () => {
+  const { theme } = useThemeContext();
+  const topGradientColor = theme.waveBackground;
+  const bottomGradientColor = theme.waveAccent + "60";
+
   const verticalOffset = useValue(initialVerticalOffset);
   const amplitude = useValue(initialAmplitude);
   const [clock, setClock] = useState(0);
@@ -85,7 +87,7 @@ export const WaveAnimation: React.FC = () => {
     onActive: ({ y }) => {
       if (y < height - initialVerticalOffset) {
         // Subtract from height
-        verticalOffset.current = Math.max(0, height - y); // Subtract from height
+        verticalOffset.current = Math.min(180, height - y); // Subtract from height
       }
     },
   });
@@ -102,7 +104,7 @@ export const WaveAnimation: React.FC = () => {
             <LinearGradient
               start={gradientStart}
               end={gradientEnd}
-              colors={[topGradientColor, bottomGradientColor]}
+              colors={[bottomGradientColor, topGradientColor]}
             />
           </Path>
           <Path
@@ -113,7 +115,7 @@ export const WaveAnimation: React.FC = () => {
             <LinearGradient
               start={gradientStart}
               end={gradientEnd}
-              colors={[topGradientColor, bottomGradientColor]}
+              colors={[bottomGradientColor, topGradientColor]}
             />
           </Path>
         </Canvas>
@@ -125,7 +127,7 @@ export const WaveAnimation: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: waveColor,
+    backgroundColor: colors.colors.primary,
   },
   canvas: {
     flex: 1,

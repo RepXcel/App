@@ -3,7 +3,7 @@ import { StatusBar } from "expo-status-bar";
 import styled from "styled-components/native";
 
 // custom components
-import { colors } from "../components/colors";
+import { useThemeContext } from "../components/colors";
 import { Container } from "../components/shared";
 import RegularButton, {
   BottomButtonContainer,
@@ -22,7 +22,7 @@ import localStorage from "../src/backend/localStorage";
 import { useIsFocused } from "@react-navigation/native";
 
 const DisplayContainer = styled(Container)`
-  background-color: ${colors.lightgray};
+  background-color: ${(props) => props.theme.accentBackground};
   width: 100%;
   flex: 1;
   justify-content: flex-end;
@@ -31,6 +31,8 @@ const DisplayContainer = styled(Container)`
 type Props = StackScreenProps<TabParamList, "Display">;
 
 const Display: FunctionComponent<Props> = ({ route, navigation }) => {
+  const { theme } = useThemeContext();
+
   const { startStreamingData } = useBleContext();
   const { retrieveData, retrieveSessionData } = localStorage();
   const { username } = useUserContext();
@@ -84,7 +86,7 @@ const Display: FunctionComponent<Props> = ({ route, navigation }) => {
   });
 
   return (
-    <DisplayContainer>
+    <DisplayContainer theme={theme}>
       <StatusBar style='dark' />
       <HorizontalCardList
         title='Entries'
@@ -110,6 +112,7 @@ const Display: FunctionComponent<Props> = ({ route, navigation }) => {
           }}
           btnStyles={{
             marginBottom: 20,
+            backgroundColor: theme.button,
           }}
         >
           {calibrated ? "Start Session" : "Calibrate"}

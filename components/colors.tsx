@@ -1,32 +1,62 @@
+import React, {
+  createContext,
+  FunctionComponent,
+  useContext,
+  useState,
+} from "react";
+
 export const colors = {
   white: "#ffffff",
-  lightgray: "#F7F7F7",
-  gray: "#B4B4B4",
-  darkgray: "#848484",
-  darkdarkgray: "#4A4A4A",
-  black: "#141414",
-  primary: "#6CDFF6",
+  lightGray: "#F3F2F5",
+  gray: "#B1B1B9",
+  darkGray: "#67666C",
+  darkDarkGray: "#434348",
+  lightBlack: "#121213",
+  black: "#000000",
+  primary: "#55DBF6",
   secondary: "#1F152D",
-  tertiary: "#FF7B95",
-  accent: "#fbcd77",
+  tertiary: "#17A8C5",
+  pink: "#ff7b95",
+  accent: "#0E102A",
 };
 
-const light = {
+export const light = {
   background: colors.white,
-  accentBackground: colors.lightgray,
+  accentBackground: colors.lightGray,
   text: colors.black,
-  accentText: colors.darkgray,
+  accentText: colors.darkGray,
+  accentGray: colors.gray,
+  waveTitle: colors.primary,
+  waveAccent: colors.white,
+  waveBackground: colors.white,
+  wavePrimary: colors.tertiary,
+  button: colors.primary,
+  buttonGray: colors.gray,
 
   ...colors,
 };
 
-const dark = {
-  background: colors.darkdarkgray,
+export const dark = {
+  background: colors.lightBlack,
   accentBackground: colors.black,
   text: colors.white,
-  accentText: colors.lightgray,
+  accentText: colors.lightGray,
+  accentGray: colors.darkDarkGray,
+  waveTitle: colors.white,
+  waveAccent: colors.accent,
+  waveBackground: colors.black,
+  wavePrimary: colors.primary,
+  button: colors.tertiary,
+  buttonGray: colors.darkGray,
 
   ...colors,
 };
 
-export default { colors, light, dark };
+export const ThemeContext = createContext<{
+  theme: typeof light | typeof dark;
+  toggleTheme: () => void;
+}>({ theme: light, toggleTheme: () => {} });
+
+export const useThemeContext = () => useContext(ThemeContext);
+
+export default { colors, light, dark, ThemeContext, useThemeContext };

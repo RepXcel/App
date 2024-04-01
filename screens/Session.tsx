@@ -8,7 +8,7 @@ import { StackScreenProps } from "@react-navigation/stack";
 import { RootStackParamList } from "../navigation/AppStack";
 
 // custom components
-import { colors } from "../components/colors";
+import { useThemeContext } from "../components/colors"; // adjust the path according to your project structure
 import { Container } from "../components/shared";
 import RegularButton, {
   BottomButtonContainer,
@@ -20,27 +20,26 @@ import { useBleContext, useUserContext } from "../src/Contexts";
 import rpeCalculation from "../src/backend/rpeCalculation";
 
 const InstructionsContainer = styled(Container)`
-  background-color: ${colors.primary};
+  background-color: ${(props) => props.theme.accentBackground};
   width: 100%;
   flex: 1;
 `;
 
-type Props = StackScreenProps<RootStackParamList, "TabNavigator"> &
-  StackScreenProps<TabParamList, "Display">;
+type Props = StackScreenProps<TabParamList, "Display">;
 
 const Session: FunctionComponent<Props> = ({ navigation }) => {
   const { width } = Dimensions.get("window");
   const { username } = useUserContext();
   const { calculateRPE } = rpeCalculation(username);
   const { stopStreamingData, velocityData } = useBleContext();
+  const { theme } = useThemeContext(); // access the theme object
 
   return (
-    <InstructionsContainer>
+    <InstructionsContainer theme={theme}>
       <ScrollView>
         <RegularText
           textStyles={{
             fontSize: 19,
-            color: colors.secondary,
             marginTop: 20,
             marginHorizontal: 15,
           }}
@@ -58,10 +57,11 @@ const Session: FunctionComponent<Props> = ({ navigation }) => {
             stopStreamingData();
             console.log(velocityData);
             calculateRPE(velocityData);
-            navigation.navigate("Display");
+            navigation.goBack();
           }}
           btnStyles={{
             marginBottom: 20,
+            backgroundColor: theme.tertiary,
           }}
         >
           End Session

@@ -3,7 +3,7 @@ import styled from "styled-components/native";
 import { View, GestureResponderEvent } from "react-native";
 
 // colors
-import { colors } from "../../colors";
+import { useThemeContext } from "../../colors";
 import RegularText from "../../Texts/RegularText";
 import SmallText from "../../Texts/SmallText";
 
@@ -32,6 +32,8 @@ interface CardProps<T> {
 }
 
 const HistoryEntryCard: FunctionComponent<CardProps<Session>> = (props) => {
+  const { theme } = useThemeContext();
+
   return (
     <ScreenCard onPress={props.onPress} data={props.data} activeOpacity={1}>
       <TopView>
@@ -61,34 +63,33 @@ const HistoryEntryCard: FunctionComponent<CardProps<Session>> = (props) => {
       <BottomView>
         <BigText
           textStyles={{
-            color: colors.secondary,
+            color: theme.text,
             textAlign: "center",
             marginBottom: 10,
           }}
         >
           {/*get RPE*/}
-          {"RPE: " +
-            props.data.rpe
-          }
+          {"RPE: " + props.data.rpe}
         </BigText>
         <SmallText
           textStyles={{
             textAlign: "center",
-            color: colors.darkgray,
+            color: theme.accentText,
           }}
         >
           {/*get average*/}
           {"average velocity: " +
-            (props.data.velocities.reduce(
-              (acc, velocity) => acc + velocity,
-              0
-            ) /
-              Math.max(1, props.data.velocities.length)).toFixed(2)}
+            (
+              props.data.velocities.reduce(
+                (acc, velocity) => acc + velocity,
+                0
+              ) / Math.max(1, props.data.velocities.length)
+            ).toFixed(2)}
         </SmallText>
         <SmallText
           textStyles={{
             textAlign: "center",
-            color: colors.darkgray,
+            color: theme.accentText,
           }}
         >
           {"no. reps: " + props.data.velocities.length}

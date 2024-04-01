@@ -2,7 +2,7 @@ import React, { FunctionComponent } from "react";
 import styled from "styled-components/native";
 
 // components
-import { colors } from "../colors";
+import { useThemeContext } from "../colors";
 import RegularText from "../Texts/RegularText";
 import {
   GestureResponderEvent,
@@ -13,7 +13,7 @@ import {
 
 const ButtonView = styled.TouchableOpacity`
   align-items: center;
-  background-color: ${colors.primary};
+  background-color: ${(props) => props.theme.button};
   width: 100%;
   padding: 13px;
   border-radius: 20px;
@@ -34,10 +34,11 @@ export const BottomButtonContainer = styled.View`
 `;
 
 const RegularButton: FunctionComponent<ButtonProps> = (props) => {
+  const { theme } = useThemeContext();
   return (
-    <ButtonView onPress={props.onPress} style={props.btnStyles}>
+    <ButtonView onPress={props.onPress} style={props.btnStyles} theme={theme}>
       <RegularText
-        textStyles={(props.textStyles, { color: colors.white, height: 25 })}
+        textStyles={(props.textStyles, { color: theme.white, height: 25 })}
       >
         {props.children}
       </RegularText>

@@ -1,13 +1,14 @@
 import React, { FunctionComponent } from "react";
 import styled from "styled-components/native";
-import { colors } from "../colors";
 import { StyleProp, TextStyle } from "react-native";
 
 import IonIcon from "@expo/vector-icons/Ionicons";
 
+import { useThemeContext } from "../colors";
+
 const InputContainer = styled.View`
-  background-color: ${colors.white};
-  border: ${colors.darkgray};
+  background-color: transparent;
+  border: ${(props) => props.theme.accentGray};
   border-radius: 20px;
   width: 80%;
   height: 50px;
@@ -28,6 +29,7 @@ const StyledTextInput = styled.TextInput`
   font-family: Lato-Bold;
   width: 90%;
   border-radius: 8px;
+  color: ${(props) => props.theme.text};
 `;
 
 interface TextInputProps {
@@ -41,13 +43,15 @@ interface TextInputProps {
 }
 
 const TextInput: FunctionComponent<TextInputProps> = (props) => {
+  const { theme } = useThemeContext(); // access the theme object
+
   return (
-    <InputContainer>
+    <InputContainer theme={theme}>
       <IconContainer>
         <IonIcon
           name={props.iconName}
           style={{ alignSelf: "center" }}
-          color={colors.darkgray}
+          color={theme.text}
           size={18}
         />
       </IconContainer>
@@ -56,11 +60,12 @@ const TextInput: FunctionComponent<TextInputProps> = (props) => {
         onChangeText={props.onTextInput}
         placeholderTextColor={
           props.placeholderColor === undefined
-            ? colors.darkgray
+            ? theme.buttonGray
             : props.placeholderColor
         }
         style={props.textStyles}
         secureTextEntry={props.secureTextEntry}
+        theme={theme}
       ></StyledTextInput>
     </InputContainer>
   );

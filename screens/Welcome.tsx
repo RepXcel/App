@@ -3,14 +3,14 @@ import { StatusBar } from "expo-status-bar";
 import styled from "styled-components/native";
 
 //custom components
-import { colors } from "../components/colors";
+import colors, { useThemeContext } from "../components/colors";
 import { Container } from "../components/shared";
 import BigText from "../components/Texts/BigText";
 import SmallText from "../components/Texts/SmallText";
 import RegularButton from "../components/Buttons/RegularButton";
 
 const RegisterContainer = styled(Container)`
-  background-color: ${colors.secondary};
+  background-color: transparent;
   justify-content: space-between;
   width: 100%;
   height: 100%;
@@ -39,7 +39,6 @@ const TopImage = styled.Image`
 `;
 
 //image
-import { WaveAnimation } from "../components/Loading/WaveBackground"; // Import WaveAnimation
 
 // types
 import { RootStackParamList } from "../navigation/AppStack";
@@ -53,10 +52,12 @@ import { useUserContext } from "../src/Contexts";
 import { DataStore } from "aws-amplify/datastore";
 import localStorage from "../src/backend/localStorage";
 import rpeCalculation from "../src/backend/rpeCalculation";
+import { ImageBackground } from "react-native";
 
 type Props = StackScreenProps<RootStackParamList, "Welcome">;
 
 const Register: FunctionComponent<Props> = ({ navigation }) => {
+  const { theme } = useThemeContext();
   const { setUsername } = useUserContext();
 
   // Local storage for testing purposes
@@ -95,38 +96,43 @@ const Register: FunctionComponent<Props> = ({ navigation }) => {
   return (
     <>
       <StatusBar style='light' />
-      <RegisterContainer>
-        <WaveAnimation />
-        <TopSection />
-        <BottomSection>
-          <BigText
-            textStyles={{
-              textAlign: "center",
-              color: colors.white,
-              marginBottom: 25,
-            }}
-          >
-            RepXcel
-          </BigText>
-          <SmallText
-            textStyles={{
-              textAlign: "center",
-              color: colors.white,
-              marginBottom: 25,
-            }}
-          >
-            The buddy to your barbell. Track your exercises now.
-          </SmallText>
-          <RegularButton
-            btnStyles={{ backgroundColor: colors.primary }}
-            onPress={async () => {
-              await currentAuthenticatedUser();
-            }}
-          >
-            Get Started
-          </RegularButton>
-        </BottomSection>
-      </RegisterContainer>
+      <ImageBackground
+        source={require("../assets/background.gif")}
+        style={{ flex: 1 }}
+        resizeMode='cover'
+      >
+        <RegisterContainer>
+          <TopSection />
+          <BottomSection>
+            <BigText
+              textStyles={{
+                textAlign: "center",
+                color: theme.white,
+                marginBottom: 25,
+              }}
+            >
+              RepXcel
+            </BigText>
+            <SmallText
+              textStyles={{
+                textAlign: "center",
+                color: theme.white,
+                marginBottom: 25,
+              }}
+            >
+              The buddy to your barbell. Track your exercises now.
+            </SmallText>
+            <RegularButton
+              btnStyles={{ backgroundColor: theme.primary }}
+              onPress={async () => {
+                await currentAuthenticatedUser();
+              }}
+            >
+              Get Started
+            </RegularButton>
+          </BottomSection>
+        </RegisterContainer>
+      </ImageBackground>
     </>
   );
 };

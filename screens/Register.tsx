@@ -2,7 +2,7 @@ import React, { FunctionComponent } from "react";
 import styled from "styled-components/native";
 
 // custom components
-import { colors } from "../components/colors";
+import { useThemeContext } from "../components/colors";
 import { Container } from "../components/shared";
 import BigText from "../components/Texts/BigText";
 import SmallText from "../components/Texts/SmallText";
@@ -12,7 +12,7 @@ import RegularButton, {
 import LinkText from "../components/Buttons/LinkText";
 import TextInput from "../components/Input/TextInput";
 
-// background-color: ${colors.white};
+// background-color: ${(props) => props.theme.white};
 const RegisterContainer = styled(Container)`
   width: 100%;
   justify-content: center;
@@ -40,6 +40,7 @@ type SignUpParameters = {
 };
 
 const Register: FunctionComponent<Props> = ({ navigation }) => {
+  const { theme } = useThemeContext();
   const [usernameInput, setUsernameInput] = React.useState("");
   const [passwordInput, setPasswordInput] = React.useState("");
   const [confirmPasswordInput, setConfirmPasswordInput] = React.useState("");
@@ -74,13 +75,13 @@ const Register: FunctionComponent<Props> = ({ navigation }) => {
 
   return (
     <RegisterContainer>
-      {/* <WaveAnimation /> */}
+      <WaveAnimation />
       <BigText
         textStyles={{
           textAlign: "center",
-          color: colors.primary,
           width: "80%",
           marginBottom: 25,
+          color: theme.waveTitle,
         }}
       >
         Register
@@ -135,7 +136,7 @@ const Register: FunctionComponent<Props> = ({ navigation }) => {
         <SmallText>Already have an account?</SmallText>
         <LinkText
           textStyles={{
-            color: colors.primary,
+            color: theme.wavePrimary,
             textDecorationLine: "underline",
             fontSize: 15,
           }}

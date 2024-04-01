@@ -3,7 +3,7 @@ import styled from "styled-components/native";
 import { View, GestureResponderEvent } from "react-native";
 
 // colors
-import { colors } from "../../colors";
+import { useThemeContext } from "../../colors";
 import RegularText from "../../Texts/RegularText";
 import SmallText from "../../Texts/SmallText";
 import WideCard from "../WideCard";
@@ -31,6 +31,8 @@ interface CardProps<T> {
 }
 
 const HistoryEntryCard: FunctionComponent<CardProps<Session>> = (props) => {
+  const { theme } = useThemeContext();
+
   return (
     <WideCard onPress={props.onPress} data={props.data}>
       <LeftView>
@@ -56,7 +58,7 @@ const HistoryEntryCard: FunctionComponent<CardProps<Session>> = (props) => {
           <SmallText
             textStyles={{
               textAlign: "left",
-              color: colors.darkgray,
+              color: theme.accentText,
             }}
           >
             {"average velocity: " +
@@ -72,22 +74,20 @@ const HistoryEntryCard: FunctionComponent<CardProps<Session>> = (props) => {
       <RightView>
         <RegularText
           textStyles={{
-            color: colors.primary,
+            color: theme.primary,
             fontWeight: "bold",
             textAlign: "right",
             marginBottom: 5,
           }}
         >
-          {/*get RPE*/}
           {"RPE: " + props.data.rpe}
         </RegularText>
         <SmallText
           textStyles={{
             textAlign: "right",
-            color: colors.darkgray,
+            color: theme.accentText,
           }}
         >
-          {/* {"id :" + props.data.id} */}
           {""}
         </SmallText>
       </RightView>

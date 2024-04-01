@@ -8,7 +8,7 @@ import { StackScreenProps } from "@react-navigation/stack";
 import { RootStackParamList } from "../navigation/AppStack";
 
 // custom components
-import { colors } from "../components/colors";
+import { useThemeContext } from "../components/colors";
 import { Container } from "../components/shared";
 import RegularButton, {
   BottomButtonContainer,
@@ -20,7 +20,7 @@ import { useBleContext, useUserContext } from "../src/Contexts";
 import rpeCalculation from "../src/backend/rpeCalculation";
 
 const InstructionsContainer = styled(Container)`
-  background-color: ${colors.lightgray};
+  background-color: ${(props) => props.theme.accentBackground};
   width: 100%;
   flex: 1;
 `;
@@ -31,18 +31,19 @@ type Props = StackScreenProps<RootStackParamList, "TabNavigator"> &
 const blurb = "Squat until you can't squat no more";
 
 const Calibration: FunctionComponent<Props> = ({ navigation }) => {
+  const { theme } = useThemeContext();
+
   const { width } = Dimensions.get("window");
   const { username } = useUserContext();
   const { calibrate } = rpeCalculation(username);
   const { stopStreamingData, velocityData } = useBleContext();
 
   return (
-    <InstructionsContainer>
+    <InstructionsContainer theme={theme}>
       <ScrollView>
         <RegularText
           textStyles={{
             fontSize: 19,
-            color: colors.secondary,
             marginTop: 20,
             marginHorizontal: 15,
           }}
@@ -64,7 +65,7 @@ const Calibration: FunctionComponent<Props> = ({ navigation }) => {
           }}
           btnStyles={{
             marginBottom: 20,
-            backgroundColor: colors.darkgray,
+            backgroundColor: theme.tertiary,
           }}
         >
           Finish Calibration

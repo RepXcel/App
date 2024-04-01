@@ -2,7 +2,7 @@ import React, { FunctionComponent } from "react";
 import styled from "styled-components/native";
 
 // color components
-import { colors } from "../components/colors";
+import { useThemeContext } from "../components/colors";
 import { Container } from "../components/shared";
 
 // custom components
@@ -17,7 +17,7 @@ import localStorage from "../src/backend/localStorage";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 
 const HistoryContainer = styled(Container)`
-  background-color: ${colors.lightgray};
+  background-color: ${(props) => props.theme.accentBackground};
   width: 100%;
   flex: 1;
 `;
@@ -31,6 +31,8 @@ type Props = StackScreenProps<RootStackParamList, "TabNavigator"> &
   StackScreenProps<TabParamList, "History">;
 
 const History: FunctionComponent<Props> = ({ navigation }) => {
+  const { theme } = useThemeContext();
+
   const { retrieveSessionData } = localStorage();
   const { username } = useUserContext();
   const isFocused = useIsFocused();
@@ -77,7 +79,7 @@ const History: FunctionComponent<Props> = ({ navigation }) => {
   };
 
   return (
-    <HistoryContainer>
+    <HistoryContainer theme={theme}>
       <VerticalCardList
         title='Entries'
         subtitle='Newest'
