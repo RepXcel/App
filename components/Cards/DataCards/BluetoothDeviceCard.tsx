@@ -29,26 +29,29 @@ const RightView = styled.View`
 const DeviceCard: FunctionComponent<CardProps<Device>> = (props) => {
   const { theme } = useThemeContext();
 
-  const { connectToDevice, connectedDevice } = useBleContext();
+  const { connectToDevice, disconnectFromDevice, connectedDevice } = useBleContext();
 
   return (
     <WideCard
       onPress={() => {
-        if (props.data !== connectedDevice) {
+        if (props.data.id !== connectedDevice?.id) {
           connectToDevice(props.data);
+        }
+        else {
+          disconnectFromDevice();
         }
       }}
       data={props.data}
       viewStyles={
         props.data.id == connectedDevice?.id
           ? {
-              borderWidth: 2,
-              borderColor: theme.primary,
-            }
+            borderWidth: 2,
+            borderColor: theme.primary,
+          }
           : {
-              borderWidth: 1,
-              borderColor: theme.accentGray,
-            }
+            borderWidth: 1,
+            borderColor: theme.accentGray,
+          }
       }
     >
       <LeftView>
@@ -57,13 +60,13 @@ const DeviceCard: FunctionComponent<CardProps<Device>> = (props) => {
             textStyles={
               props.data.id == connectedDevice?.id
                 ? {
-                    color: theme.primary,
-                    fontWeight: "bold",
-                  }
+                  color: theme.primary,
+                  fontWeight: "bold",
+                }
                 : {
-                    color: theme.accentText,
-                    fontWeight: "normal",
-                  }
+                  color: theme.accentText,
+                  fontWeight: "normal",
+                }
             }
           >
             {props.data.name}
@@ -91,7 +94,7 @@ const DeviceCard: FunctionComponent<CardProps<Device>> = (props) => {
           }}
         >
           {/*get average*/}
-          {props.data === connectedDevice ? "connected" : "paired"}
+          {props.data.id === connectedDevice?.id ? "connected" : "paired"}
         </SmallText>
         <SmallText
           textStyles={{

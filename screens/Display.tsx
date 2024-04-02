@@ -76,8 +76,7 @@ const Display: FunctionComponent<Props> = ({ route, navigation }) => {
         setSessionData(sessions);
       })();
     }
-  }, []);
-  // }, [isFocused]);
+  }, [isFocused]);
 
   // receive the selectedIndex from the route
   const selectedIndex = route.params?.selectedIndex;

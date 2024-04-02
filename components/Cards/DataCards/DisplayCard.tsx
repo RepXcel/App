@@ -24,6 +24,7 @@ import { Session } from "../../../data/dataStructure";
 import ScreenCard from "../ScreenCard";
 import BarChart from "../../Charts/BarChart";
 import BigText from "../../Texts/BigText";
+import localStorage from "../../../src/backend/localStorage";
 
 interface CardProps<T> {
   onPress?: ((event: GestureResponderEvent) => void) | undefined;
@@ -32,6 +33,8 @@ interface CardProps<T> {
 }
 
 const HistoryEntryCard: FunctionComponent<CardProps<Session>> = (props) => {
+  // Pass ID to delete session: deleteSession(props.data.id)
+  const { deleteSession } = localStorage();
   const { theme } = useThemeContext();
 
   return (

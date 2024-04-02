@@ -131,6 +131,7 @@ function useBLE(): BluetoothLowEnergyApi {
 		if (connectedDevice) {
 			bleManager.cancelDeviceConnection(connectedDevice.id);
 			setConnectedDevice(null);
+			velocityData.current = [];
 			setData(0);
 		}
 	};
