@@ -16,4 +16,6 @@ export interface CardListProps<T extends unknown> {
   renderItemComponent: FunctionComponent<{ item: T }>;
   keyExtractor?: (item: T) => string;
   data: T[];
+  selectedIndex?: number;
+  ref?: any;
 }

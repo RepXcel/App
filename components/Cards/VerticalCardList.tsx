@@ -3,7 +3,7 @@ import styled from "styled-components/native";
 import IonIcon from "@expo/vector-icons/Ionicons";
 
 // custom components
-import { colors } from "../colors";
+import { useThemeContext } from "../colors";
 import RegularText from "../Texts/RegularText";
 import SmallText from "../Texts/SmallText";
 
@@ -36,13 +36,15 @@ const VerticalCardList = <T extends unknown>({
   keyExtractor,
   data,
 }: CardListProps<T>) => {
+  const { theme } = useThemeContext();
+
   return (
     <CardItemSectionBackground>
       <CardItemRow>
         <RegularText textStyles={{ fontSize: 19 }}>{title}</RegularText>
         <SmallText>
           {subtitle}
-          <IonIcon name='caret-down' size={13} color={colors.darkgray} />
+          <IonIcon name='caret-down' size={13} color={theme.accentText} />
         </SmallText>
       </CardItemRow>
       <CardItemList

@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import styled from "styled-components/native";
-import { FlatList, useWindowDimensions } from "react-native";
+import { FlatList, useWindowDimensions, FlatListProps } from "react-native";
 
 const CardItemSectionBackground = styled.View`
   width: 100%;
@@ -10,7 +10,12 @@ const CardItemSectionBackground = styled.View`
   align-items: center;
 `;
 
-const CardItemList = styled.FlatList`
+//allow forwarding the ref to flatlist
+const CardItemList = styled(
+  React.forwardRef<FlatList<any>, FlatListProps<any>>((props, ref) => (
+    <FlatList ref={ref} {...props} />
+  ))
+)`
   width: 100%;
   flex: 1;
   padding-left: 25px;
@@ -24,14 +29,23 @@ const HorizontalCardList = <T extends unknown>({
   renderItemComponent: RenderItemComponent,
   keyExtractor,
   data,
+  selectedIndex,
 }: CardListProps<T>) => {
   const { width } = useWindowDimensions();
 
-  const flatListRef = useRef<FlatList<unknown>>(null);
+  const flatListRef = React.useRef<FlatList<unknown>>(null);
+
+  React.useEffect(() => {
+    // console.log("selectedIndex", selectedIndex);
+    if (data.length > 0) {
+      flatListRef.current?.scrollToIndex({ index: selectedIndex ?? 0 });
+    }
+  }, [selectedIndex, data]);
 
   return (
     <CardItemSectionBackground>
       <CardItemList
+        ref={flatListRef}
         data={data}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
@@ -40,10 +54,18 @@ const HorizontalCardList = <T extends unknown>({
           alignItems: "center",
         }}
         keyExtractor={keyExtractor as ((item: unknown) => string) | undefined}
-        // keyExtractor={({ id }: any) => id.toString()}
         renderItem={({ item }) => <RenderItemComponent item={item as T} />}
         snapToInterval={width - 25} // Adjust this value
         decelerationRate={"fast"} // Adjust the deceleration rate if needed
+        onScrollToIndexFailed={(info) => {
+          const wait = new Promise((resolve) => setTimeout(resolve, 200));
+          wait.then(() => {
+            flatListRef.current?.scrollToOffset({
+              offset: info.averageItemLength * info.index,
+              animated: false,
+            });
+          });
+        }}
       />
     </CardItemSectionBackground>
   );

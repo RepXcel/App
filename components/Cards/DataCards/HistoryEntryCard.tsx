@@ -3,7 +3,7 @@ import styled from "styled-components/native";
 import { View, GestureResponderEvent } from "react-native";
 
 // colors
-import { colors } from "../../colors";
+import { useThemeContext } from "../../colors";
 import RegularText from "../../Texts/RegularText";
 import SmallText from "../../Texts/SmallText";
 import WideCard from "../WideCard";
@@ -13,7 +13,7 @@ const LeftView = styled.View`
   justify-content: flex-start;
   height: 100%;
   align-items: center;
-  flex: 2;
+  flex: 3;
   vertical-align: top;
 `;
 
@@ -31,6 +31,8 @@ interface CardProps<T> {
 }
 
 const HistoryEntryCard: FunctionComponent<CardProps<Session>> = (props) => {
+  const { theme } = useThemeContext();
+
   return (
     <WideCard onPress={props.onPress} data={props.data}>
       <LeftView>
@@ -56,39 +58,36 @@ const HistoryEntryCard: FunctionComponent<CardProps<Session>> = (props) => {
           <SmallText
             textStyles={{
               textAlign: "left",
-              color: colors.darkgray,
+              color: theme.accentText,
             }}
           >
             {"average velocity: " +
-              (props.data.velocities.reduce(
-                (acc, velocity) => acc + velocity,
-                0
-              ) /
-                Math.max(1, props.data.velocities.length)).toFixed(2)}
+              (
+                props.data.velocities.reduce(
+                  (acc, velocity) => acc + velocity,
+                  0
+                ) / Math.max(1, props.data.velocities.length)
+              ).toFixed(2)}
           </SmallText>
         </View>
       </LeftView>
       <RightView>
         <RegularText
           textStyles={{
-            color: colors.primary,
+            color: theme.primary,
             fontWeight: "bold",
             textAlign: "right",
             marginBottom: 5,
           }}
         >
-          {/*get RPE*/}
-          {"RPE: " +
-            props.data.rpe
-          }
+          {"RPE: " + props.data.rpe}
         </RegularText>
         <SmallText
           textStyles={{
             textAlign: "right",
-            color: colors.darkgray,
+            color: theme.accentText,
           }}
         >
-          {/* {"id :" + props.data.id} */}
           {""}
         </SmallText>
       </RightView>

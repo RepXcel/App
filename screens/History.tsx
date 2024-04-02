@@ -2,7 +2,7 @@ import React, { FunctionComponent } from "react";
 import styled from "styled-components/native";
 
 // color components
-import { colors } from "../components/colors";
+import { useThemeContext } from "../components/colors";
 import { Container } from "../components/shared";
 
 // custom components
@@ -14,16 +14,25 @@ import { Session } from "../data/dataStructure";
 
 import { useUserContext } from "../src/Contexts";
 import localStorage from "../src/backend/localStorage";
-import { useIsFocused } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 
 const HistoryContainer = styled(Container)`
-  background-color: ${colors.lightgray};
+  background-color: ${(props) => props.theme.accentBackground};
   width: 100%;
   flex: 1;
 `;
 
+//navigation
+import { StackScreenProps } from "@react-navigation/stack";
+import { TabParamList } from "../navigation/TabNavigator";
+import { RootStackParamList } from "../navigation/AppStack";
 
-const History: FunctionComponent = () => {
+type Props = StackScreenProps<RootStackParamList, "TabNavigator"> &
+  StackScreenProps<TabParamList, "History">;
+
+const History: FunctionComponent<Props> = ({ navigation }) => {
+  const { theme } = useThemeContext();
+
   const { retrieveSessionData } = localStorage();
   const { username } = useUserContext();
   const isFocused = useIsFocused();
@@ -63,13 +72,27 @@ const History: FunctionComponent = () => {
   const sortedSessionData = sessionData.slice().sort((a, b) => {
     return new Date(b.startDate).getTime() - new Date(a.startDate).getTime();
   });
+
+  navigation = useNavigation();
+  const navigateToDisplay = (selectedIndex: number) => {
+    navigation.navigate("Display", { selectedIndex });
+  };
+
   return (
-    <HistoryContainer>
+    <HistoryContainer theme={theme}>
       <VerticalCardList
         title='Entries'
         subtitle='Newest'
         renderItemComponent={({ item }: { item: Session }) => (
-          <HistoryEntryCard data={item}>
+          <HistoryEntryCard
+            data={item}
+            onPress={() =>
+              navigateToDisplay(
+                //pass in navigation the current index of the card
+                sortedSessionData.findIndex((session) => session.id === item.id)
+              )
+            }
+          >
             <></>
           </HistoryEntryCard>
         )}

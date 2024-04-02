@@ -1,11 +1,11 @@
 import React, { FunctionComponent } from "react";
 import styled from "styled-components/native";
-import { colors } from "../colors";
+import { useThemeContext } from "../colors";
 
 const StyledText = styled.Text`
   font-size: 36px;
   min-height: 45px;
-  color: ${colors.black};
+  color: ${(props) => props.theme.text};
   text-align: left;
   font-family: Lato-Bold;
 `;
@@ -13,7 +13,13 @@ const StyledText = styled.Text`
 import { TextProps } from "./types";
 
 const BigText: FunctionComponent<TextProps> = (props) => {
-  return <StyledText style={props.textStyles}>{props.children}</StyledText>;
+  const { theme } = useThemeContext();
+
+  return (
+    <StyledText style={props.textStyles} theme={theme}>
+      {props.children}
+    </StyledText>
+  );
 };
 
 export default BigText;

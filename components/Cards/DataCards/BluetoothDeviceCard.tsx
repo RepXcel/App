@@ -5,7 +5,7 @@ import styled from "styled-components/native";
 // custom components
 import WideCard from "../WideCard";
 import RegularText from "../../Texts/RegularText";
-import { colors } from "../../colors";
+import { useThemeContext } from "../../colors";
 import SmallText from "../../Texts/SmallText";
 
 // data structures
@@ -27,6 +27,8 @@ const RightView = styled.View`
 `;
 
 const DeviceCard: FunctionComponent<CardProps<Device>> = (props) => {
+  const { theme } = useThemeContext();
+
   const { connectToDevice, connectedDevice } = useBleContext();
 
   return (
@@ -40,13 +42,13 @@ const DeviceCard: FunctionComponent<CardProps<Device>> = (props) => {
       viewStyles={
         props.data.id == connectedDevice?.id
           ? {
-            borderWidth: 2,
-            borderColor: colors.primary,
-          }
+              borderWidth: 2,
+              borderColor: theme.primary,
+            }
           : {
-            borderWidth: 1,
-            borderColor: colors.gray,
-          }
+              borderWidth: 1,
+              borderColor: theme.accentGray,
+            }
       }
     >
       <LeftView>
@@ -55,13 +57,13 @@ const DeviceCard: FunctionComponent<CardProps<Device>> = (props) => {
             textStyles={
               props.data.id == connectedDevice?.id
                 ? {
-                  color: colors.primary,
-                  fontWeight: "bold",
-                }
+                    color: theme.primary,
+                    fontWeight: "bold",
+                  }
                 : {
-                  color: colors.black,
-                  fontWeight: "normal",
-                }
+                    color: theme.accentText,
+                    fontWeight: "normal",
+                  }
             }
           >
             {props.data.name}
@@ -69,7 +71,7 @@ const DeviceCard: FunctionComponent<CardProps<Device>> = (props) => {
           <SmallText
             textStyles={{
               textAlign: "left",
-              color: colors.darkgray,
+              color: theme.accentText,
             }}
           >
             {props.data.id}
@@ -80,8 +82,12 @@ const DeviceCard: FunctionComponent<CardProps<Device>> = (props) => {
         <SmallText
           textStyles={{
             textAlign: "right",
-            color: props.data.id == connectedDevice?.id ? colors.primary : colors.darkgray,
-            fontWeight: props.data.id == connectedDevice?.id ? "bold" : "normal",
+            color:
+              props.data.id == connectedDevice?.id
+                ? theme.primary
+                : theme.accentText,
+            fontWeight:
+              props.data.id == connectedDevice?.id ? "bold" : "normal",
           }}
         >
           {/*get average*/}
@@ -90,7 +96,7 @@ const DeviceCard: FunctionComponent<CardProps<Device>> = (props) => {
         <SmallText
           textStyles={{
             textAlign: "right",
-            color: colors.darkgray,
+            color: theme.accentText,
           }}
         >
           {"id: " + props.data.id}
