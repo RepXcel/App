@@ -1,6 +1,5 @@
 import { DataStore } from 'aws-amplify/datastore';
 import { LazyUser, Session, User } from "../models";
-import { deleteSession } from '../graphql/mutations';
 
 interface LocalStorageApi {
     createUser(name: string): void;
