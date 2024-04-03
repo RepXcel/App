@@ -1,6 +1,7 @@
 import React, { FunctionComponent, ReactNode } from "react";
 import styled from "styled-components/native";
-import { View, GestureResponderEvent } from "react-native";
+import { View, GestureResponderEvent, TouchableOpacity } from "react-native";
+import IonIcon from "@expo/vector-icons/Ionicons";
 
 // colors
 import { useThemeContext } from "../../colors";
@@ -32,7 +33,7 @@ interface CardProps<T> {
   data: T;
 }
 
-const HistoryEntryCard: FunctionComponent<CardProps<Session>> = (props) => {
+const DisplayCard: FunctionComponent<CardProps<Session>> = (props) => {
   // Pass ID to delete session: deleteSession(props.data.id)
   const { deleteSession } = localStorage();
   const { theme } = useThemeContext();
@@ -41,25 +42,39 @@ const HistoryEntryCard: FunctionComponent<CardProps<Session>> = (props) => {
     <ScreenCard onPress={props.onPress} data={props.data} activeOpacity={1}>
       <TopView>
         <View>
-          <RegularText
-            textStyles={{
-              textAlign: "left",
-              marginBottom: 25,
-            }}
-          >
-            {props.data.startDate.toLocaleDateString("en-US", {
-              month: "short",
-              day: "numeric",
-              year: "numeric",
-            }) +
-              " | " +
-              props.data.startDate.toLocaleTimeString("en-US", {
-                hour: "2-digit",
-                minute: "2-digit",
-                second: "2-digit",
-              })}
-          </RegularText>
-
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <RegularText
+              textStyles={{
+                textAlign: "left",
+                marginBottom: 25,
+              }}
+            >
+              {props.data.startDate.toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+                year: "numeric",
+              }) +
+                " | " +
+                props.data.startDate.toLocaleTimeString("en-US", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  second: "2-digit",
+                })}
+            </RegularText>
+            <TouchableOpacity
+              onPress={() => {
+                console.log("Delete session: " + props.data.id);
+                deleteSession(props.data.id);
+              }}
+              style={{ alignSelf: "flex-start", marginLeft: "auto" }}
+            >
+              <IonIcon
+                name='trash-outline'
+                size={20}
+                color={theme.accentText}
+              />
+            </TouchableOpacity>
+          </View>
           <BarChart velocities={props.data.velocities}></BarChart>
         </View>
       </TopView>
@@ -102,4 +117,4 @@ const HistoryEntryCard: FunctionComponent<CardProps<Session>> = (props) => {
   );
 };
 
-export default HistoryEntryCard;
+export default DisplayCard;

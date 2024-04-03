@@ -1,6 +1,8 @@
 import React, { FunctionComponent, ReactNode } from "react";
 import styled from "styled-components/native";
-import { View, GestureResponderEvent } from "react-native";
+import { View, GestureResponderEvent, TouchableOpacity } from "react-native";
+import IonIcon from "@expo/vector-icons/Ionicons";
+import localStorage from "../../../src/backend/localStorage";
 
 // colors
 import { useThemeContext } from "../../colors";
@@ -32,6 +34,7 @@ interface CardProps<T> {
 
 const HistoryEntryCard: FunctionComponent<CardProps<Session>> = (props) => {
   const { theme } = useThemeContext();
+  const { deleteSession } = localStorage();
 
   return (
     <WideCard onPress={props.onPress} data={props.data}>
@@ -82,14 +85,15 @@ const HistoryEntryCard: FunctionComponent<CardProps<Session>> = (props) => {
         >
           {"RPE: " + props.data.rpe}
         </RegularText>
-        <SmallText
-          textStyles={{
-            textAlign: "right",
-            color: theme.accentText,
+        <TouchableOpacity
+          onPress={() => {
+            console.log("Delete session: " + props.data.id);
+            deleteSession(props.data.id);
           }}
+          style={{ alignSelf: "flex-start", marginLeft: "auto" }}
         >
-          {""}
-        </SmallText>
+          <IonIcon name='trash-outline' size={20} color={theme.accentText} />
+        </TouchableOpacity>
       </RightView>
     </WideCard>
   );
