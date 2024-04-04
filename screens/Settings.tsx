@@ -7,19 +7,18 @@ import { StackScreenProps } from "@react-navigation/stack";
 import { RootStackParamList } from "../navigation/AppStack";
 
 // custom components
-import { colors } from "../components/colors";
+import { useThemeContext } from "../components/colors";
 import { Container } from "../components/shared";
 import RegularButton, {
   BottomButtonContainer,
 } from "../components/Buttons/RegularButton";
-import RegularText from "../components/Texts/RegularText";
 import { TabParamList } from "../navigation/TabNavigator";
 
 import { useBleContext } from "../src/Contexts";
 import { signOut } from "aws-amplify/auth";
 
 const SettingsContainer = styled(Container)`
-  background-color: ${colors.lightgray};
+  background-color: ${(props) => props.theme.accentBackground};
   width: 100%;
   flex: 1;
   justify-content: flex-start;
@@ -29,18 +28,19 @@ type Props = StackScreenProps<RootStackParamList, "TabNavigator"> &
   StackScreenProps<TabParamList, "Display">;
 
 const Settings: FunctionComponent<Props> = (props: Props) => {
+  const { theme, toggleTheme } = useThemeContext();
   const { startStreamingData } = useBleContext();
 
   async function handleSignOut() {
     try {
       await signOut();
     } catch (error) {
-      console.log('error signing out: ', error);
+      console.log("error signing out: ", error);
     }
   }
 
   return (
-    <SettingsContainer>
+    <SettingsContainer theme={theme}>
       <BottomButtonContainer>
         <RegularButton
           onPress={() => {
@@ -49,7 +49,7 @@ const Settings: FunctionComponent<Props> = (props: Props) => {
           btnStyles={{
             marginTop: 20,
             marginBottom: 20,
-            backgroundColor: colors.tertiary,
+            backgroundColor: theme.tertiary,
           }}
         >
           Manual
@@ -61,7 +61,7 @@ const Settings: FunctionComponent<Props> = (props: Props) => {
           }}
           btnStyles={{
             marginBottom: 20,
-            backgroundColor: colors.tertiary,
+            backgroundColor: theme.tertiary,
           }}
         >
           Recalibrate
@@ -72,20 +72,31 @@ const Settings: FunctionComponent<Props> = (props: Props) => {
           }}
           btnStyles={{
             marginBottom: 20,
-            backgroundColor: colors.tertiary,
+            backgroundColor: theme.tertiary,
           }}
         >
           About Us
         </RegularButton>
         <RegularButton
+          onPress={() => {
+            toggleTheme();
+          }}
+          btnStyles={{
+            marginBottom: 20,
+            backgroundColor: theme.primary,
+          }}
+        >
+          Change Theme
+        </RegularButton>
+        <RegularButton
           onPress={async () => {
             await handleSignOut();
-            props.navigation.navigate("Welcome");
+            props.navigation.navigate("Login");
           }}
           btnStyles={{
             marginTop: 60,
             marginBottom: 20,
-            backgroundColor: colors.darkgray,
+            backgroundColor: theme.buttonGray,
           }}
         >
           Logout

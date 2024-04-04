@@ -1,15 +1,15 @@
 import React, { FunctionComponent, useEffect } from "react";
-import { StatusBar } from "expo-status-bar";
+import { StatusBar, StatusBarStyle } from "expo-status-bar";
 import styled from "styled-components/native";
 
 // custom components
-import { colors } from "../components/colors";
+import { useThemeContext } from "../components/colors";
 import { Container } from "../components/shared";
 import RegularButton, {
   BottomButtonContainer,
 } from "../components/Buttons/RegularButton";
 import { StackScreenProps } from "@react-navigation/stack";
-import { CombinedProps } from "../navigation/TabNavigator";
+import { TabParamList } from "../navigation/TabNavigator";
 import ScreenCard from "../components/Cards/ScreenCard";
 import HorizontalCardList from "../components/Cards/HorizontalCardList";
 import VerticalCardList from "../components/Cards/VerticalCardList";
@@ -22,15 +22,17 @@ import localStorage from "../src/backend/localStorage";
 import { useIsFocused } from "@react-navigation/native";
 
 const DisplayContainer = styled(Container)`
-  background-color: ${colors.lightgray};
+  background-color: ${(props) => props.theme.accentBackground};
   width: 100%;
   flex: 1;
   justify-content: flex-end;
 `;
 
-type Props = StackScreenProps<CombinedProps, "Display">;
+type Props = StackScreenProps<TabParamList, "Display">;
 
-const Display: FunctionComponent<Props> = ({ navigation }) => {
+const Display: FunctionComponent<Props> = ({ route, navigation }) => {
+  const { theme } = useThemeContext();
+
   const { startStreamingData } = useBleContext();
   const { retrieveData, retrieveSessionData } = localStorage();
   const { username } = useUserContext();
@@ -76,24 +78,31 @@ const Display: FunctionComponent<Props> = ({ navigation }) => {
     }
   }, [isFocused]);
 
+  const removeSession = (id: string) => {
+    setSessionData(sessionData.filter((session) => session.id !== id));
+  };
+
+  // receive the selectedIndex from the route
+  const selectedIndex = route.params?.selectedIndex;
 
   const sortedSession = sessionData.slice().sort((a, b) => {
     return new Date(b.startDate).getTime() - new Date(a.startDate).getTime();
   });
 
   return (
-    <DisplayContainer>
-      <StatusBar style='dark' />
+    <DisplayContainer theme={theme}>
+      <StatusBar style={theme.statusBar as StatusBarStyle} />
       <HorizontalCardList
         title='Entries'
         subtitle='Newest'
         renderItemComponent={({ item }: { item: Session }) => (
-          <DisplayCard data={item}>
+          <DisplayCard data={item} removeSession={() => {removeSession(item.id)}}>
             <></>
           </DisplayCard>
         )}
         keyExtractor={(item) => item.id.toString()}
         data={sortedSession}
+        selectedIndex={selectedIndex}
       />
       <BottomButtonContainer>
         <RegularButton
@@ -101,13 +110,13 @@ const Display: FunctionComponent<Props> = ({ navigation }) => {
             startStreamingData();
             if (calibrated) {
               navigation.navigate("Session");
-            }
-            else {
+            } else {
               navigation.navigate("Calibration");
             }
           }}
           btnStyles={{
             marginBottom: 20,
+            backgroundColor: theme.button,
           }}
         >
           {calibrated ? "Start Session" : "Calibrate"}

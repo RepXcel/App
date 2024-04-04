@@ -8,7 +8,7 @@ import { StackScreenProps } from "@react-navigation/stack";
 import { RootStackParamList } from "../navigation/AppStack";
 
 // custom components
-import { colors } from "../components/colors";
+import { useThemeContext } from "../components/colors"; // adjust the path according to your project structure
 import { Container } from "../components/shared";
 import RegularButton, {
   BottomButtonContainer,
@@ -18,50 +18,50 @@ import { TabParamList } from "../navigation/TabNavigator";
 
 import { useBleContext, useUserContext } from "../src/Contexts";
 import rpeCalculation from "../src/backend/rpeCalculation";
+import LoadingAnimation from "../components/Loading/LoadingAnimation";
 
 const InstructionsContainer = styled(Container)`
-  background-color: ${colors.primary};
+  background-color: ${(props) => props.theme.accentBackground};
   width: 100%;
   flex: 1;
 `;
 
-type Props = StackScreenProps<RootStackParamList, "TabNavigator"> &
-  StackScreenProps<TabParamList, "Display">;
+type Props = StackScreenProps<TabParamList, "Display">;
 
 const Session: FunctionComponent<Props> = ({ navigation }) => {
   const { width } = Dimensions.get("window");
   const { username } = useUserContext();
   const { calculateRPE } = rpeCalculation(username);
   const { stopStreamingData, velocityData } = useBleContext();
+  const { theme } = useThemeContext(); // access the theme object
 
   return (
-    <InstructionsContainer>
+    <InstructionsContainer theme={theme}>
       <ScrollView>
         <RegularText
           textStyles={{
             fontSize: 19,
-            color: colors.secondary,
             marginTop: 20,
             marginHorizontal: 15,
           }}
         >
-          {"Session in progress. Please wait for the session to end."}
+          {
+            "Session started! Begin your exercise set now to assess your perceived exertion."
+          }
         </RegularText>
       </ScrollView>
-      <Image
-        source={require("../assets/loading.gif")}
-        style={{ width: width - 90, height: width - 90 }}
-      />
+      <LoadingAnimation />
       <BottomButtonContainer>
         <RegularButton
           onPress={async () => {
             await stopStreamingData();
             console.log(velocityData.current);
             await calculateRPE(velocityData.current);
-            navigation.navigate("Display");
+            navigation.goBack();
           }}
           btnStyles={{
             marginBottom: 20,
+            backgroundColor: theme.tertiary,
           }}
         >
           End Session

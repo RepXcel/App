@@ -8,19 +8,20 @@ import { StackScreenProps } from "@react-navigation/stack";
 import { RootStackParamList } from "../navigation/AppStack";
 
 // custom components
-import { colors } from "../components/colors";
+import { useThemeContext } from "../components/colors";
 import { Container } from "../components/shared";
 import RegularButton, {
   BottomButtonContainer,
 } from "../components/Buttons/RegularButton";
 import RegularText from "../components/Texts/RegularText";
 import { TabParamList } from "../navigation/TabNavigator";
+import LoadingAnimation from "../components/Loading/LoadingAnimation";
 
 import { useBleContext, useUserContext } from "../src/Contexts";
 import rpeCalculation from "../src/backend/rpeCalculation";
 
 const InstructionsContainer = styled(Container)`
-  background-color: ${colors.lightgray};
+  background-color: ${(props) => props.theme.accentBackground};
   width: 100%;
   flex: 1;
 `;
@@ -28,31 +29,31 @@ const InstructionsContainer = styled(Container)`
 type Props = StackScreenProps<RootStackParamList, "TabNavigator"> &
   StackScreenProps<TabParamList, "Display">;
 
-const blurb = "Squat until you can't squat no more";
-
 const Calibration: FunctionComponent<Props> = ({ navigation }) => {
+  const { theme } = useThemeContext();
+
   const { width } = Dimensions.get("window");
   const { username } = useUserContext();
   const { calibrate } = rpeCalculation(username);
   const { stopStreamingData, velocityData } = useBleContext();
 
   return (
-    <InstructionsContainer>
+    <InstructionsContainer theme={theme}>
       <ScrollView>
         <RegularText
           textStyles={{
             fontSize: 19,
-            color: colors.secondary,
             marginTop: 20,
             marginHorizontal: 15,
+            marginBottom: 50,
+            textAlign: "center",
           }}
         >
-          {blurb}
+          {
+            "Perform a set at your highest effort level to establish a baseline for measuring perceived exertion."
+          }
         </RegularText>
-        <Image
-          source={require("../assets/loading.gif")}
-          style={{ width: width - 90, height: width - 90 }}
-        />
+        <LoadingAnimation />
       </ScrollView>
       <BottomButtonContainer>
         <RegularButton
@@ -60,11 +61,11 @@ const Calibration: FunctionComponent<Props> = ({ navigation }) => {
             await stopStreamingData();
             console.log(velocityData.current);
             calibrate(velocityData.current);
-            navigation.navigate("Display");
+            navigation.goBack();
           }}
           btnStyles={{
             marginBottom: 20,
-            backgroundColor: colors.darkgray,
+            backgroundColor: theme.tertiary,
           }}
         >
           Finish Calibration

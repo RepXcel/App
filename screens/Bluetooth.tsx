@@ -3,7 +3,7 @@ import { useIsFocused } from "@react-navigation/native";
 import styled from "styled-components/native";
 
 // color components
-import { colors } from "../components/colors";
+import { useThemeContext } from "../components/colors";
 import { Container } from "../components/shared";
 
 // custom components
@@ -17,7 +17,7 @@ import { useBleContext } from "../src/Contexts";
 import { Device } from "react-native-ble-plx";
 
 const BluetoothContainer = styled(Container)`
-  background-color: ${colors.lightgray};
+  background-color: ${(props) => props.theme.accentBackground};
   width: 100%;
   flex: 1;
 `;
@@ -25,13 +25,12 @@ const BluetoothContainer = styled(Container)`
 // Sample data
 
 const Bluetooth: FunctionComponent = () => {
+  const { theme } = useThemeContext();
+
+  const [devices, setDevices] = React.useState<BluetoothDevice[]>([]);
   const isFocused = useIsFocused();
-  const {
-    requestPermissions,
-    scanForPeripherals,
-    allDevices,
-    batteryData,
-  } = useBleContext();
+  const { requestPermissions, scanForPeripherals, allDevices, batteryData } =
+    useBleContext();
 
   const scanForDevices = async () => {
     const isPermissionsEnabled = await requestPermissions();
@@ -42,7 +41,7 @@ const Bluetooth: FunctionComponent = () => {
 
   React.useEffect(() => {
     scanForDevices();
-  }, [isFocused]);
+  }, []);
 
   // Displaying all devices
   // React.useEffect(() => {
@@ -50,7 +49,7 @@ const Bluetooth: FunctionComponent = () => {
   // }, [allDevices]);
 
   return (
-    <BluetoothContainer>
+    <BluetoothContainer theme={theme}>
       <VerticalCardList
         title='Devices'
         subtitle=''

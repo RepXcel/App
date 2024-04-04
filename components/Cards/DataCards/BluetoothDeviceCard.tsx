@@ -5,7 +5,7 @@ import styled from "styled-components/native";
 // custom components
 import WideCard from "../WideCard";
 import RegularText from "../../Texts/RegularText";
-import { colors } from "../../colors";
+import { useThemeContext } from "../../colors";
 import SmallText from "../../Texts/SmallText";
 
 // data structures
@@ -32,13 +32,18 @@ type DeviceTypeProp = {
 };
 
 const DeviceCard: FunctionComponent<CardProps<DeviceTypeProp>> = (props) => {
-  const { connectToDevice, connectedDevice } = useBleContext();
+  const { theme } = useThemeContext();
+  const { connectToDevice, disconnectFromDevice, connectedDevice } = useBleContext();
 
   return (
     <WideCard
       onPress={() => {
-        if (props.data.device !== connectedDevice) {
+        if (props.data.device.id !== connectedDevice?.id) {
           connectToDevice(props.data.device);
+        }
+        else {
+          console.log("disconnecting from device");
+          disconnectFromDevice();
         }
       }}
       data={props.data}
@@ -46,11 +51,11 @@ const DeviceCard: FunctionComponent<CardProps<DeviceTypeProp>> = (props) => {
         props.data.device.id == connectedDevice?.id
           ? {
             borderWidth: 2,
-            borderColor: colors.primary,
+            borderColor: theme.primary,
           }
           : {
             borderWidth: 1,
-            borderColor: colors.gray,
+            borderColor: theme.accentGray,
           }
       }
     >
@@ -60,11 +65,11 @@ const DeviceCard: FunctionComponent<CardProps<DeviceTypeProp>> = (props) => {
             textStyles={
               props.data.device.id == connectedDevice?.id
                 ? {
-                  color: colors.primary,
+                  color: theme.primary,
                   fontWeight: "bold",
                 }
                 : {
-                  color: colors.black,
+                  color: theme.accentText,
                   fontWeight: "normal",
                 }
             }
@@ -74,7 +79,7 @@ const DeviceCard: FunctionComponent<CardProps<DeviceTypeProp>> = (props) => {
           <SmallText
             textStyles={{
               textAlign: "left",
-              color: colors.darkgray,
+              color: theme.accentText,
             }}
           >
             {props.data.device.id}
@@ -85,16 +90,21 @@ const DeviceCard: FunctionComponent<CardProps<DeviceTypeProp>> = (props) => {
         <SmallText
           textStyles={{
             textAlign: "right",
-            color: props.data.device.id == connectedDevice?.id ? colors.primary : colors.darkgray,
-            fontWeight: props.data.device.id == connectedDevice?.id ? "bold" : "normal",
+            color:
+              props.data.device.id == connectedDevice?.id
+                ? theme.primary
+                : theme.accentText,
+            fontWeight:
+              props.data.device.id == connectedDevice?.id ? "bold" : "normal",
           }}
         >
-          {props.data.device === connectedDevice ? "connected" : "paired"}
+          {/*get average*/}
+          {props.data.device.id === connectedDevice?.id ? "connected" : "paired"}
         </SmallText>
         <SmallText
           textStyles={{
             textAlign: "right",
-            color: colors.darkgray,
+            color: theme.accentText,
           }}
         >
           {"battery: " + props.data.battery + "%"}

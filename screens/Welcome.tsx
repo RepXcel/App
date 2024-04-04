@@ -3,16 +3,14 @@ import { StatusBar } from "expo-status-bar";
 import styled from "styled-components/native";
 
 //custom components
-import { colors } from "../components/colors";
+import colors, { useThemeContext } from "../components/colors";
 import { Container } from "../components/shared";
 import BigText from "../components/Texts/BigText";
-import RegularText from "../components/Texts/RegularText";
 import SmallText from "../components/Texts/SmallText";
 import RegularButton from "../components/Buttons/RegularButton";
-import TabNavigator from "../navigation/TabNavigator";
 
 const RegisterContainer = styled(Container)`
-  background-color: ${colors.secondary};
+  background-color: transparent;
   justify-content: space-between;
   width: 100%;
   height: 100%;
@@ -41,7 +39,6 @@ const TopImage = styled.Image`
 `;
 
 //image
-import backgroundWaves from "../assets/backgrounds/backgroundWaves.png";
 
 // types
 import { RootStackParamList } from "../navigation/AppStack";
@@ -52,14 +49,15 @@ import { getCurrentUser } from "aws-amplify/auth";
 import { useUserContext } from "../src/Contexts";
 
 // Storage import for testing purposes
-import { DataStore } from 'aws-amplify/datastore';
+import { DataStore } from "aws-amplify/datastore";
 import localStorage from "../src/backend/localStorage";
 import rpeCalculation from "../src/backend/rpeCalculation";
+import { ImageBackground } from "react-native";
 
 type Props = StackScreenProps<RootStackParamList, "Welcome">;
 
 const Register: FunctionComponent<Props> = ({ navigation }) => {
-
+  const { theme } = useThemeContext();
   const { setUsername } = useUserContext();
 
   // Local storage for testing purposes
@@ -69,11 +67,10 @@ const Register: FunctionComponent<Props> = ({ navigation }) => {
     addNewSession,
     retrieveData,
     clearData,
-    retrieveSessionData
+    retrieveSessionData,
   } = localStorage();
 
   // const { calculateRPE } = rpeCalculation("test");
-
 
   // Things that needs to run once on start up
   // useEffect(() => {
@@ -99,39 +96,43 @@ const Register: FunctionComponent<Props> = ({ navigation }) => {
   return (
     <>
       <StatusBar style='light' />
-      <RegisterContainer>
-        <TopSection>
-          <TopImage source={backgroundWaves}></TopImage>
-        </TopSection>
-        <BottomSection>
-          <BigText
-            textStyles={{
-              textAlign: "center",
-              color: colors.white,
-              marginBottom: 25,
-            }}
-          >
-            RepXcel
-          </BigText>
-          <SmallText
-            textStyles={{
-              textAlign: "center",
-              color: colors.white,
-              marginBottom: 25,
-            }}
-          >
-            The buddy to your barbell. Track your exercises now.
-          </SmallText>
-          <RegularButton
-            btnStyles={{ backgroundColor: colors.primary }}
-            onPress={async () => {
-              await currentAuthenticatedUser();
-            }}
-          >
-            Get Started
-          </RegularButton>
-        </BottomSection>
-      </RegisterContainer>
+      <ImageBackground
+        source={require("../assets/background.gif")}
+        style={{ flex: 1 }}
+        resizeMode='cover'
+      >
+        <RegisterContainer>
+          <TopSection />
+          <BottomSection>
+            <BigText
+              textStyles={{
+                textAlign: "center",
+                color: theme.white,
+                marginBottom: 25,
+              }}
+            >
+              RepXcel
+            </BigText>
+            <SmallText
+              textStyles={{
+                textAlign: "center",
+                color: theme.white,
+                marginBottom: 25,
+              }}
+            >
+              The buddy to your barbell. Track your exercises now.
+            </SmallText>
+            <RegularButton
+              btnStyles={{ backgroundColor: theme.primary }}
+              onPress={async () => {
+                await currentAuthenticatedUser();
+              }}
+            >
+              Get Started
+            </RegularButton>
+          </BottomSection>
+        </RegisterContainer>
+      </ImageBackground>
     </>
   );
 };

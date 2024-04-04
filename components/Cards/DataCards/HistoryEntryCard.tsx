@@ -1,9 +1,11 @@
 import React, { FunctionComponent, ReactNode } from "react";
 import styled from "styled-components/native";
-import { View, GestureResponderEvent } from "react-native";
+import { View, GestureResponderEvent, TouchableOpacity } from "react-native";
+import IonIcon from "@expo/vector-icons/Ionicons";
+import localStorage from "../../../src/backend/localStorage";
 
 // colors
-import { colors } from "../../colors";
+import { useThemeContext } from "../../colors";
 import RegularText from "../../Texts/RegularText";
 import SmallText from "../../Texts/SmallText";
 import WideCard from "../WideCard";
@@ -13,7 +15,7 @@ const LeftView = styled.View`
   justify-content: flex-start;
   height: 100%;
   align-items: center;
-  flex: 2;
+  flex: 3;
   vertical-align: top;
 `;
 
@@ -28,9 +30,13 @@ interface CardProps<T> {
   onPress?: ((event: GestureResponderEvent) => void) | undefined;
   children: ReactNode;
   data: T;
+  removeSession: () => void;
 }
 
 const HistoryEntryCard: FunctionComponent<CardProps<Session>> = (props) => {
+  const { theme } = useThemeContext();
+  const { deleteSession } = localStorage();
+
   return (
     <WideCard onPress={props.onPress} data={props.data}>
       <LeftView>
@@ -56,41 +62,40 @@ const HistoryEntryCard: FunctionComponent<CardProps<Session>> = (props) => {
           <SmallText
             textStyles={{
               textAlign: "left",
-              color: colors.darkgray,
+              color: theme.accentText,
             }}
           >
             {"average velocity: " +
-              (props.data.velocities.reduce(
-                (acc, velocity) => acc + velocity,
-                0
-              ) /
-                Math.max(1, props.data.velocities.length)).toFixed(2)}
+              (
+                props.data.velocities.reduce(
+                  (acc, velocity) => acc + velocity,
+                  0
+                ) / Math.max(1, props.data.velocities.length)
+              ).toFixed(2)}
           </SmallText>
         </View>
       </LeftView>
       <RightView>
         <RegularText
           textStyles={{
-            color: colors.primary,
+            color: theme.primary,
             fontWeight: "bold",
             textAlign: "right",
             marginBottom: 5,
           }}
         >
-          {/*get RPE*/}
-          {"RPE: " +
-            props.data.rpe
-          }
+          {"RPE: " + props.data.rpe}
         </RegularText>
-        <SmallText
-          textStyles={{
-            textAlign: "right",
-            color: colors.darkgray,
+        <TouchableOpacity
+          onPress={() => {
+            console.log("Delete session: " + props.data.id);
+            props.removeSession();
+            deleteSession(props.data.id);
           }}
+          style={{ alignSelf: "flex-start", marginLeft: "auto" }}
         >
-          {/* {"id :" + props.data.id} */}
-          {""}
-        </SmallText>
+          <IonIcon name='trash-outline' size={20} color={theme.accentText} />
+        </TouchableOpacity>
       </RightView>
     </WideCard>
   );

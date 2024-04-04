@@ -7,6 +7,7 @@ interface LocalStorageApi {
     retrieveData(name: string): Promise<LazyUser | undefined>;
     addNewSession(name: string, velocities: number[], rpe: number): void;
     retrieveSessionData(name: string): Promise<Session[]>;
+    deleteSession(id: string): void;
     clearData(): void;
 }
 
@@ -81,6 +82,15 @@ function localStorage(): LocalStorageApi {
         return [];
     }
 
+    const deleteSession = async (id: string) => {
+        try {
+            await DataStore.delete(Session, (c) => c.id.eq(id));
+            console.log('Session deleted successfully!');
+        } catch (error) {
+            console.log('Error deleting Session', error);
+        }
+    }
+
     const clearData = async () => {
         try {
             await DataStore.clear();
@@ -95,6 +105,7 @@ function localStorage(): LocalStorageApi {
         calibrateRPE,
         addNewSession,
         retrieveData,
+        deleteSession,
         clearData,
         retrieveSessionData
     }

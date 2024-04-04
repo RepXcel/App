@@ -2,7 +2,7 @@ import React, { FunctionComponent, useEffect } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 
 import styled from "styled-components/native";
-import { colors } from "../colors";
+import { useThemeContext } from "../colors";
 import { useWindowDimensions } from "react-native";
 import { Canvas, Group } from "@shopify/react-native-skia";
 import * as d3 from "d3";
@@ -12,7 +12,7 @@ import { useSharedValue, withTiming } from "react-native-reanimated";
 
 const StyledView = styled.TouchableOpacity`
   flex: 1;
-  background-color: ${colors.white};
+  background-color: ${(props) => props.theme.background};
 `;
 
 interface BarChartProps {
@@ -20,6 +20,8 @@ interface BarChartProps {
 }
 
 const BarChart: FunctionComponent<BarChartProps> = (props) => {
+  const { theme } = useThemeContext();
+
   const { width, height } = useWindowDimensions();
   const progress = useSharedValue<number>(0);
 
@@ -49,19 +51,25 @@ const BarChart: FunctionComponent<BarChartProps> = (props) => {
   const y = d3.scaleLinear().domain(yDomain).range(yRange);
 
   useFocusEffect(() => {
-    progress.value = 0; // Reset animation progress when component unmounts or loses focus
-    const animation = withTiming(1, { duration: 1000 });
-    progress.value = animation;
-    // progress.value = 1; // Reset animation progress when component unmounts or loses focus
+    // progress.value = 0; // Reset animation progress when component unmounts or loses focus
+    setTimeout(() => {
+      // Code to execute after half a second delay
+      const animation = withTiming(1, { duration: 1000 });
+      progress.value = animation;
+    }, 800);
+
+    return () => {
+      progress.value = 0; // Reset animation progress when component unmounts
+    };
   });
 
   return (
-    <StyledView activeOpacity={1}>
+    <StyledView activeOpacity={1} theme={theme}>
       <Canvas
         style={{
           width: canvasWidth,
           height: canvasHeight,
-          backgroundColor: `${colors.white}`,
+          backgroundColor: theme.background,
         }}
       >
         {props.velocities.map((dataPoint: number, index) => (

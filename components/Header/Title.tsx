@@ -3,7 +3,7 @@ import styled from "styled-components/native";
 import { StyleProp, TextStyle } from "react-native";
 
 // custom components
-import { colors } from "../colors";
+import { useThemeContext } from "../colors";
 import RegularText from "../Texts/RegularText";
 import SmallText from "../Texts/SmallText";
 
@@ -21,6 +21,8 @@ interface GreetingProps {
 }
 
 const Greeting: FunctionComponent<GreetingProps> = (props) => {
+  const { theme } = useThemeContext();
+
   return (
     <StyledView>
       <RegularText
@@ -38,7 +40,7 @@ const Greeting: FunctionComponent<GreetingProps> = (props) => {
       <SmallText
         textStyles={[
           {
-            color: colors.darkgray,
+            color: theme.accentText,
             fontSize: 17,
             minHeight: 25,
           },

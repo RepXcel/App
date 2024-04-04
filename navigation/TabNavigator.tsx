@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FunctionComponent } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import { useIsFocused } from "@react-navigation/native";
@@ -17,7 +17,7 @@ import Calibration from "../screens/Calibration";
 import Session from "../screens/Session";
 
 // custom components
-import { colors } from "../components/colors";
+import { useThemeContext } from "../components/colors";
 import Title from "../components/Header/Title";
 import Logo from "../components/Header/Logo";
 
@@ -26,9 +26,10 @@ import LogoIcon from "../assets/icons/Logo.png";
 import BigText from "../components/Texts/BigText";
 
 import { useUserContext } from "../src/Contexts";
+import { style } from "d3";
 
 export type TabParamList = {
-  Display: undefined;
+  Display: { selectedIndex?: number; timestamp?: number };
   Bluetooth: undefined;
   History: undefined;
   Settings: undefined;
@@ -41,9 +42,18 @@ export type TabParamList = {
 const Tab = createBottomTabNavigator<TabParamList>();
 
 const TabNavigator: React.FC = () => {
+  const { theme } = useThemeContext();
+
   const { username } = useUserContext();
   const isFocused = useIsFocused();
-  // Use useFocusEffect to update isFocused when the focus changes
+
+  const getHeaderTitle = (props: any) => (
+    <Title
+      mainText={props.children}
+      subText={"Welcome " + username}
+      {...props}
+    />
+  );
 
   return (
     <Tab.Navigator
@@ -53,11 +63,13 @@ const TabNavigator: React.FC = () => {
         // tabBarShowLabel: navigation.isFocused  (),
         tabBarShowLabel: false,
         tabBarStyle: {
-          //backgroundColor: colors.primary,
+          backgroundColor: theme.background,
           height: 60,
+          borderTopWidth: 1,
+          borderTopColor: theme.accentGray,
         },
-        tabBarInactiveTintColor: colors.darkgray,
-        tabBarActiveTintColor: colors.primary,
+        tabBarInactiveTintColor: theme.accentText,
+        tabBarActiveTintColor: theme.primary,
         // Use non-outline icon when focused
         tabBarIcon: ({ color, size }) => {
           let iconName = "home-outline";
@@ -83,8 +95,9 @@ const TabNavigator: React.FC = () => {
         // HEADER ------------------------
         // headerShown: false,
         headerStyle: {
-          backgroundColor: colors.white,
-          borderBottomWidth: 0,
+          backgroundColor: theme.background,
+          borderBottomWidth: 1,
+          borderBottomColor: theme.accentGray,
           shadowColor: "transparent",
           shadowOpacity: 0,
           elevation: 0,
@@ -95,11 +108,14 @@ const TabNavigator: React.FC = () => {
         headerRight: () => (
           <Logo
             img={LogoIcon}
-            imgContainerStyle={{ backgroundColor: colors.tertiary }}
+            // imgContainerStyle={{ backgroundColor: theme.primary }}
+            onPress={() => {
+              navigation.navigate("Welcome");
+            }}
           />
           // <IconButton
           //   iconName='settings-outline'
-          //   color={colors.darkgray}
+          //   color={theme.accentText}
           //   size={30}
           //   onPress={() => {
           //     navigation.navigate("Settings");
@@ -110,146 +126,65 @@ const TabNavigator: React.FC = () => {
     >
       <Tab.Screen
         name='Display'
-        component={Display}
+        component={Display as FunctionComponent}
         options={{
-          // tabBarIcon: ({ color, size }) => (
-          //   <IonIcon name='home-outline' color={color} size={size} />
-          // ),
-          headerTitle: (props) => (
-            <Title
-              mainText={props.children}
-              subText={username}
-              {...props}
-            />
-          ),
-          headerLeft: () => <></>,
+          headerTitle: getHeaderTitle,
         }}
       />
       <Tab.Screen
         name='History'
-        component={History}
+        component={History as FunctionComponent}
         options={{
           headerTitleStyle: {
             color: "red",
           },
-          headerTitle: (props) => (
-            <Title
-              mainText={props.children}
-              subText={username}
-              {...props}
-            />
-          ),
-          // tabBarIcon: ({ color, size }) => (
-          //   <IonIcon name='time-outline' color={color} size={size} />
-          // ),
+          headerTitle: getHeaderTitle,
         }}
       />
       <Tab.Screen
         name='Bluetooth'
-        component={Bluetooth}
+        component={Bluetooth as FunctionComponent}
         options={{
-          headerTitle: (props) => (
-            <Title
-              mainText={props.children}
-              subText={username}
-              {...props}
-            />
-          ),
-          //   tabBarIcon: ({ color, size }) => (
-          //     <IonIcon name='bluetooth-outline' color={color} size={size} />
-          //   ),
+          headerTitle: getHeaderTitle,
         }}
       />
       <Tab.Screen
         name='Settings'
-        component={Settings}
+        component={Settings as FunctionComponent}
         options={{
-          headerTitle: (props) => (
-            <Title
-              mainText={props.children}
-              subText={username}
-              {...props}
-            />
-          ),
-          //   tabBarIcon: ({ color, size }) => (
-          //     <IonIcon name='settings-outline' color={color} size={size} />
-          //   ),
+          headerTitle: getHeaderTitle,
         }}
       />
       <Tab.Screen
         name='About'
-        component={About}
+        component={About as FunctionComponent}
         options={{
-          headerTitle: (props) => (
-            <Title
-              mainText={props.children}
-              subText={username}
-              {...props}
-            />
-          ),
-          //remove the tab bar icons
+          headerTitle: getHeaderTitle,
           tabBarButton: () => null,
-          tabBarVisible: false,
-          //   tabBarIcon: ({ color, size }) => (
-          //     <IonIcon name='settings-outline' color={color} size={size} />
-          //   ),
         }}
       />
       <Tab.Screen
         name='Calibration'
-        component={Calibration}
+        component={Calibration as FunctionComponent}
         options={{
-          headerTitle: (props) => (
-            <Title
-              mainText={props.children}
-              subText={username}
-              {...props}
-            />
-          ),
-          //remove the tab bar icons
+          headerTitle: getHeaderTitle,
           tabBarButton: () => null,
-          tabBarVisible: false,
-          //   tabBarIcon: ({ color, size }) => (
-          //     <IonIcon name='settings-outline' color={color} size={size} />
-          //   ),
         }}
       />
       <Tab.Screen
         name='Instructions'
-        component={Instructions}
+        component={Instructions as FunctionComponent}
         options={{
-          headerTitle: (props) => (
-            <Title
-              mainText={props.children}
-              subText={username}
-              {...props}
-            />
-          ),
-          //remove the tab bar icons
+          headerTitle: getHeaderTitle,
           tabBarButton: () => null,
-          tabBarVisible: false,
-          //   tabBarIcon: ({ color, size }) => (
-          //     <IonIcon name='settings-outline' color={color} size={size} />
-          //   ),
         }}
       />
       <Tab.Screen
         name='Session'
-        component={Session}
+        component={Session as FunctionComponent}
         options={{
-          headerTitle: (props) => (
-            <Title
-              mainText={props.children}
-              subText={username}
-              {...props}
-            />
-          ),
-          //remove the tab bar icons
+          headerTitle: getHeaderTitle,
           tabBarButton: () => null,
-          tabBarVisible: false,
-          //   tabBarIcon: ({ color, size }) => (
-          //     <IonIcon name='settings-outline' color={color} size={size} />
-          //   ),
         }}
       />
     </Tab.Navigator>
