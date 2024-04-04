@@ -18,6 +18,7 @@ import { TabParamList } from "../navigation/TabNavigator";
 
 import { useBleContext, useUserContext } from "../src/Contexts";
 import rpeCalculation from "../src/backend/rpeCalculation";
+import LoadingAnimation from "../components/Loading/LoadingAnimation";
 
 const InstructionsContainer = styled(Container)`
   background-color: ${(props) => props.theme.accentBackground};
@@ -44,13 +45,12 @@ const Session: FunctionComponent<Props> = ({ navigation }) => {
             marginHorizontal: 15,
           }}
         >
-          {"Session in progress. Please wait for the session to end."}
+          {
+            "Session started! Begin your exercise set now to assess your perceived exertion."
+          }
         </RegularText>
       </ScrollView>
-      <Image
-        source={require("../assets/loading.gif")}
-        style={{ width: width - 90, height: width - 90 }}
-      />
+      <LoadingAnimation />
       <BottomButtonContainer>
         <RegularButton
           onPress={async () => {

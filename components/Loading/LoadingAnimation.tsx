@@ -1,18 +1,64 @@
-import React, { FunctionComponent, useEffect } from "react";
-import { useFocusEffect } from "@react-navigation/native";
-
-import styled from "styled-components/native";
+import React, { useEffect, useRef } from "react";
+import { Animated, View, StyleSheet } from "react-native";
 import { useThemeContext } from "../colors";
-import { useWindowDimensions } from "react-native";
-import { Canvas, Group } from "@shopify/react-native-skia";
-import * as d3 from "d3";
-import { useSharedValue, withTiming } from "react-native-reanimated";
 
-const StyledView = styled.TouchableOpacity`
-  flex: 1;
-  background-color: ${(props) => props.theme.black};
-`;
+const verticalDimension = 250;
+const BarbellAnimation: React.FC = () => {
+  const { theme } = useThemeContext(); // Use the theme context
+  const moveAnim = useRef(new Animated.Value(0)).current;
 
-const LoadingComponent: FunctionComponent = () => {};
+  useEffect(() => {
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(moveAnim, {
+          toValue: verticalDimension,
+          duration: 1200,
+          useNativeDriver: true,
+        }),
+        Animated.timing(moveAnim, {
+          toValue: 0,
+          duration: 1600,
+          useNativeDriver: true,
+        }),
+      ])
+    ).start();
+  }, []);
 
-export default LoadingComponent;
+  return (
+    <View style={styles.container}>
+      <Animated.View
+        style={[styles.barbell, { transform: [{ translateY: moveAnim }] }]}
+      >
+        <View style={[styles.weight, { backgroundColor: theme.tertiary }]} />
+        <View style={[styles.bar, { backgroundColor: theme.tertiary }]} />
+        <View style={[styles.weight, { backgroundColor: theme.tertiary }]} />
+      </Animated.View>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingBottom: verticalDimension, // Add padding to prevent cut off
+  },
+  barbell: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  weight: {
+    width: 20,
+    height: 60,
+    borderRadius: 25,
+    backgroundColor: "black",
+  },
+  bar: {
+    height: 10,
+    width: 150,
+    backgroundColor: "black",
+  },
+});
+
+export default BarbellAnimation;

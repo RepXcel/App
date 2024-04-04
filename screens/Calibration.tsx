@@ -15,6 +15,7 @@ import RegularButton, {
 } from "../components/Buttons/RegularButton";
 import RegularText from "../components/Texts/RegularText";
 import { TabParamList } from "../navigation/TabNavigator";
+import LoadingAnimation from "../components/Loading/LoadingAnimation";
 
 import { useBleContext, useUserContext } from "../src/Contexts";
 import rpeCalculation from "../src/backend/rpeCalculation";
@@ -27,8 +28,6 @@ const InstructionsContainer = styled(Container)`
 
 type Props = StackScreenProps<RootStackParamList, "TabNavigator"> &
   StackScreenProps<TabParamList, "Display">;
-
-const blurb = "Squat until you can't squat no more";
 
 const Calibration: FunctionComponent<Props> = ({ navigation }) => {
   const { theme } = useThemeContext();
@@ -46,14 +45,15 @@ const Calibration: FunctionComponent<Props> = ({ navigation }) => {
             fontSize: 19,
             marginTop: 20,
             marginHorizontal: 15,
+            marginBottom: 50,
+            textAlign: "center",
           }}
         >
-          {blurb}
+          {
+            "Perform a set at your highest effort level to establish a baseline for measuring perceived exertion."
+          }
         </RegularText>
-        <Image
-          source={require("../assets/loading.gif")}
-          style={{ width: width - 90, height: width - 90 }}
-        />
+        <LoadingAnimation />
       </ScrollView>
       <BottomButtonContainer>
         <RegularButton
@@ -61,7 +61,7 @@ const Calibration: FunctionComponent<Props> = ({ navigation }) => {
             await stopStreamingData();
             console.log(velocityData.current);
             calibrate(velocityData.current);
-            navigation.navigate("Display");
+            navigation.goBack();
           }}
           btnStyles={{
             marginBottom: 20,
