@@ -73,6 +73,10 @@ const History: FunctionComponent<Props> = ({ navigation }) => {
     return new Date(b.startDate).getTime() - new Date(a.startDate).getTime();
   });
 
+  const removeSession = (id: string) => {
+    setSessionData(sessionData.filter((session) => session.id !== id));
+  };
+
   navigation = useNavigation();
   const navigateToDisplay = (selectedIndex: number) => {
     navigation.navigate("Display", { selectedIndex });
@@ -86,6 +90,7 @@ const History: FunctionComponent<Props> = ({ navigation }) => {
         renderItemComponent={({ item }: { item: Session }) => (
           <HistoryEntryCard
             data={item}
+            removeSession={() => {removeSession(item.id)}}
             onPress={() =>
               navigateToDisplay(
                 //pass in navigation the current index of the card

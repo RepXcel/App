@@ -40,6 +40,7 @@ const Display: FunctionComponent<Props> = ({ route, navigation }) => {
 
   const [calibrated, setCalibrated] = React.useState(false);
   const [sessionData, setSessionData] = React.useState<Session[]>([]);
+  const [render, setRender] = React.useState(false);
 
   useEffect(() => {
     if (isFocused) {
@@ -78,6 +79,10 @@ const Display: FunctionComponent<Props> = ({ route, navigation }) => {
     }
   }, [isFocused]);
 
+  const removeSession = (id: string) => {
+    setSessionData(sessionData.filter((session) => session.id !== id));
+  };
+
   // receive the selectedIndex from the route
   const selectedIndex = route.params?.selectedIndex;
 
@@ -92,7 +97,7 @@ const Display: FunctionComponent<Props> = ({ route, navigation }) => {
         title='Entries'
         subtitle='Newest'
         renderItemComponent={({ item }: { item: Session }) => (
-          <DisplayCard data={item}>
+          <DisplayCard data={item} removeSession={() => {removeSession(item.id)}}>
             <></>
           </DisplayCard>
         )}

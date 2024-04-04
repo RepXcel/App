@@ -30,6 +30,7 @@ interface CardProps<T> {
   onPress?: ((event: GestureResponderEvent) => void) | undefined;
   children: ReactNode;
   data: T;
+  removeSession: () => void;
 }
 
 const HistoryEntryCard: FunctionComponent<CardProps<Session>> = (props) => {
@@ -88,6 +89,7 @@ const HistoryEntryCard: FunctionComponent<CardProps<Session>> = (props) => {
         <TouchableOpacity
           onPress={() => {
             console.log("Delete session: " + props.data.id);
+            props.removeSession();
             deleteSession(props.data.id);
           }}
           style={{ alignSelf: "flex-start", marginLeft: "auto" }}
