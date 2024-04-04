@@ -108,7 +108,7 @@ const TabNavigator: React.FC = () => {
         headerRight: () => (
           <Logo
             img={LogoIcon}
-            imgContainerStyle={{ backgroundColor: theme.primary }}
+            // imgContainerStyle={{ backgroundColor: theme.primary }}
             onPress={() => {
               navigation.navigate("Welcome");
             }}
