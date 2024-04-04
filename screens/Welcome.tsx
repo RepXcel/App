@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import styled from "styled-components/native";
 

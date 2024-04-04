@@ -40,7 +40,6 @@ const Display: FunctionComponent<Props> = ({ route, navigation }) => {
 
   const [calibrated, setCalibrated] = React.useState(false);
   const [sessionData, setSessionData] = React.useState<Session[]>([]);
-  const [render, setRender] = React.useState(false);
 
   useEffect(() => {
     if (isFocused) {

@@ -11,11 +11,14 @@ import {
 
 import * as ExpoDevice from "expo-device";
 
-import base64Decode from "./base64Decode";
+import { base64Decode, base64DecodeBattery } from "./base64Decode";
 
 //CHANGE THESE TO CORRECT UUIDS
 const SERVICE_UUID = "f3641400-00b0-4240-ba50-05ca45bf8abc";
 const CHARACTERISTIC_UUID = "f3641401-00b0-4240-ba50-05ca45bf8abc";
+
+const BATTERY_SERVICE_UUID = "180F";
+const BATTERY_CHARACTERISTIC_UUID = "2A19";
 
 
 export interface BluetoothLowEnergyApi {
@@ -27,7 +30,7 @@ export interface BluetoothLowEnergyApi {
 	disconnectFromDevice: () => void;
 	connectedDevice: Device | null;
 	allDevices: Device[];
-	data: number;
+	batteryData: number;
 	velocityData: React.MutableRefObject<number[]>;
 }
 
@@ -35,7 +38,7 @@ function useBLE(): BluetoothLowEnergyApi {
 	const bleManager = useMemo(() => new BleManager(), []);
 	const [allDevices, setAllDevices] = useState<Device[]>([]);
 	const [connectedDevice, setConnectedDevice] = useState<Device | null>(null);
-	const [data, setData] = useState<number>(0);
+	const [batteryData, setBatteryData] = useState<number>(0);
 	const [subscription, setSubscription] = useState<Subscription>();
 	const velocityData = useRef<number[]>([]);
 	let localTimestamp = 0;
@@ -122,6 +125,12 @@ function useBLE(): BluetoothLowEnergyApi {
 			await deviceConnection.discoverAllServicesAndCharacteristics();
 			console.log("Connected to Device", deviceConnection.name);
 			bleManager.stopDeviceScan();
+			// Monitor Battery Level
+			deviceConnection.monitorCharacteristicForService(
+				BATTERY_SERVICE_UUID,
+				BATTERY_CHARACTERISTIC_UUID,
+				batteryListener
+			);
 		} catch (e) {
 			console.log("FAILED TO CONNECT", e);
 		}
@@ -132,7 +141,7 @@ function useBLE(): BluetoothLowEnergyApi {
 			bleManager.cancelDeviceConnection(connectedDevice.id);
 			setConnectedDevice(null);
 			velocityData.current = [];
-			setData(0);
+			setBatteryData(0);
 		}
 	};
 
@@ -151,7 +160,7 @@ function useBLE(): BluetoothLowEnergyApi {
 		const rawData = characteristic.value;
 		// console.log("Raw Data", rawData);
 		const { velocity, timestamp } = base64Decode(rawData);
-		console.log("Velocity", velocity, "Timestamp", timestamp, "Local Timestamp", localTimestamp);
+		// console.log("Velocity", velocity, "Timestamp", timestamp, "Local Timestamp", localTimestamp);
 
 
 		// Parse the Data into proper velocity values
@@ -172,6 +181,23 @@ function useBLE(): BluetoothLowEnergyApi {
 		}
 		console.log(velocityData.current);
 	};
+
+	const batteryListener = (
+		error: BleError | null,
+		characteristic: Characteristic | null
+	) => {
+		if (error) {
+			console.log(error);
+			return -1;
+		} else if (!characteristic?.value) {
+			console.log("No Data was received");
+			return -1;
+		}
+
+		const rawData = characteristic.value;
+		const batteryLevel = base64DecodeBattery(rawData);
+		setBatteryData(batteryLevel);
+	}
 
 	const startStreamingData = () => {
 		localTimestamp = 0;
@@ -209,7 +235,7 @@ function useBLE(): BluetoothLowEnergyApi {
 		allDevices,
 		connectedDevice,
 		disconnectFromDevice,
-		data,
+		batteryData,
 		velocityData,
 	};
 }
