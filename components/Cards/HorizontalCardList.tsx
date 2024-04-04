@@ -40,7 +40,7 @@ const HorizontalCardList = <T extends unknown>({
     if (data.length > 0) {
       flatListRef.current?.scrollToIndex({ index: selectedIndex ?? 0 });
     }
-  }, [selectedIndex, data]);
+  }, [data]);
 
   return (
     <CardItemSectionBackground>

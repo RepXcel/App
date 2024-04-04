@@ -42,6 +42,7 @@ const Display: FunctionComponent<Props> = ({ route, navigation }) => {
   const [sessionData, setSessionData] = React.useState<Session[]>([]);
 
   useEffect(() => {
+    console.log("UseEffect Happening")
     if (isFocused) {
       (async () => {
         const user = await retrieveData(username);
@@ -96,7 +97,7 @@ const Display: FunctionComponent<Props> = ({ route, navigation }) => {
         title='Entries'
         subtitle='Newest'
         renderItemComponent={({ item }: { item: Session }) => (
-          <DisplayCard data={item} removeSession={() => {removeSession(item.id)}}>
+          <DisplayCard data={item} removeSession={() => { removeSession(item.id) }}>
             <></>
           </DisplayCard>
         )}

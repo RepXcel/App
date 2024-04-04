@@ -29,8 +29,9 @@ const Bluetooth: FunctionComponent = () => {
 
   const [devices, setDevices] = React.useState<BluetoothDevice[]>([]);
   const isFocused = useIsFocused();
-  const { requestPermissions, scanForPeripherals, allDevices, batteryData } =
-    useBleContext();
+  const { requestPermissions, scanForPeripherals, allDevices, batteryData } = useBleContext();
+
+  const [batteryDataState, setBatteryDataState] = React.useState<number>(0);
 
   const scanForDevices = async () => {
     const isPermissionsEnabled = await requestPermissions();
@@ -43,6 +44,17 @@ const Bluetooth: FunctionComponent = () => {
     scanForDevices();
   }, []);
 
+  React.useEffect(() => {
+    if (isFocused) { setBatteryDataState(batteryData.current); }
+  }, [isFocused]);
+
+  const changeBatteryData = async () => {
+    while (batteryData.current == 0) {
+      await new Promise(r => setTimeout(r, 500));
+    }
+    setBatteryDataState(batteryData.current);
+  };
+
   // Displaying all devices
   // React.useEffect(() => {
   //   console.log(allDevices);
@@ -54,7 +66,7 @@ const Bluetooth: FunctionComponent = () => {
         title='Devices'
         subtitle=''
         renderItemComponent={({ item }: { item: Device }) => (
-          <DeviceCard data={{ device: item, battery: batteryData }}>
+          <DeviceCard data={{ device: item, battery: batteryDataState, changeBattery: changeBatteryData }}>
             <></>
           </DeviceCard>
         )}

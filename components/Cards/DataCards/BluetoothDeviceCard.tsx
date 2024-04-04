@@ -29,6 +29,7 @@ const RightView = styled.View`
 type DeviceTypeProp = {
   device: Device;
   battery: number;
+  changeBattery: () => void;
 };
 
 const DeviceCard: FunctionComponent<CardProps<DeviceTypeProp>> = (props) => {
@@ -40,6 +41,7 @@ const DeviceCard: FunctionComponent<CardProps<DeviceTypeProp>> = (props) => {
       onPress={() => {
         if (props.data.device.id !== connectedDevice?.id) {
           connectToDevice(props.data.device);
+          props.data.changeBattery();
         }
         else {
           console.log("disconnecting from device");

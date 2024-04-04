@@ -1,5 +1,5 @@
 /* eslint-disable no-bitwise */
-import { useMemo, useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import { PermissionsAndroid, Platform } from "react-native";
 import {
 	BleError,
@@ -30,7 +30,7 @@ export interface BluetoothLowEnergyApi {
 	disconnectFromDevice: () => void;
 	connectedDevice: Device | null;
 	allDevices: Device[];
-	batteryData: number;
+	batteryData: React.MutableRefObject<number>;
 	velocityData: React.MutableRefObject<number[]>;
 }
 
@@ -38,7 +38,7 @@ function useBLE(): BluetoothLowEnergyApi {
 	const bleManager = useMemo(() => new BleManager(), []);
 	const [allDevices, setAllDevices] = useState<Device[]>([]);
 	const [connectedDevice, setConnectedDevice] = useState<Device | null>(null);
-	const [batteryData, setBatteryData] = useState<number>(0);
+	const batteryData = useRef<number>(0);
 	const [subscription, setSubscription] = useState<Subscription>();
 	const velocityData = useRef<number[]>([]);
 	let localTimestamp = 0;
@@ -141,7 +141,7 @@ function useBLE(): BluetoothLowEnergyApi {
 			bleManager.cancelDeviceConnection(connectedDevice.id);
 			setConnectedDevice(null);
 			velocityData.current = [];
-			setBatteryData(0);
+			batteryData.current = 0;
 		}
 	};
 
@@ -196,7 +196,7 @@ function useBLE(): BluetoothLowEnergyApi {
 
 		const rawData = characteristic.value;
 		const batteryLevel = base64DecodeBattery(rawData);
-		setBatteryData(batteryLevel);
+		batteryData.current = batteryLevel;
 	}
 
 	const startStreamingData = () => {

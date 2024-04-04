@@ -58,9 +58,9 @@ const BarChart: FunctionComponent<BarChartProps> = (props) => {
       progress.value = animation;
     }, 800);
 
-    return () => {
-      progress.value = 0; // Reset animation progress when component unmounts
-    };
+    // return () => {
+    //   progress.value = 0; // Reset animation progress when component unmounts
+    // };
   });
 
   return (
